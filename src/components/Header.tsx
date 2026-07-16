@@ -53,12 +53,7 @@ export default function Header() {
             href="/" 
             className="flex items-center gap-2 font-black text-xl tracking-tight text-emerald-500 hover:text-emerald-400 transition"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-950 border border-emerald-500/30 text-emerald-400 shadow-md shadow-emerald-900/10">
-              <Tv className="h-5 w-5" />
-            </div>
-            <span className="bg-gradient-to-r from-white via-zinc-100 to-emerald-400 bg-clip-text text-transparent">
-              يلا شوت لايف
-            </span>
+            <img src="/logo.svg" alt="يلا شوت لايف" className="h-9 w-auto object-contain" />
           </Link>
 
           {/* Navigation Links */}

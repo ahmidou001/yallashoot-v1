@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   description: "موقع يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات والتشكيلة الحية.",
   keywords: ["يلا شوت", "مباريات اليوم", "بث مباشر", "نتائج حية", "كرة القدم", "الدوري الإنجليزي", "الدوري الإسباني"],
   authors: [{ name: "Kora Live Team" }],
+  icons: {
+    icon: "/fav-icon.svg",
+  },
 };
 
 export const viewport = {
