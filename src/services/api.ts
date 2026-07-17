@@ -93,10 +93,14 @@ export async function getGameStats(gameId: string | number): Promise<StatsRespon
  * @param gameId current match ID
  * @param matchupId formatted as homeTeamId-awayTeamId-competitionId
  */
-export async function getHeadToHead(gameId: string | number, matchupId: string): Promise<H2HResponse> {
+export async function getHeadToHead(gameId: string | number, matchupId?: string | null): Promise<H2HResponse> {
+  const params: Record<string, any> = { gameId };
+  if (matchupId) {
+    params.matchupId = matchupId;
+  }
   return fetchFrom365Scores<H2HResponse>(
     "/games/h2h/",
-    { gameId, matchupId },
+    params,
     { next: { revalidate: 3600 } } // H2H historical listings can be cached for 1 hour
   );
 }

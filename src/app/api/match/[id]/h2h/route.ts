@@ -15,8 +15,8 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const matchupId = searchParams.get("matchupId");
 
-    if (!id || !matchupId) {
-      return NextResponse.json({ success: false, error: "Missing game ID or matchup ID" }, { status: 400 });
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Missing game ID" }, { status: 400 });
     }
 
     const data = await getHeadToHead(id, matchupId);
