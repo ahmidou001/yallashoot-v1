@@ -1065,7 +1065,7 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
         setIsMoreThan24h(true);
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         if (days === 1) {
-          setTimeLeft("يوم واحد");
+          setTimeLeft("غداً");
         } else if (days === 2) {
           setTimeLeft("يومين");
         } else if (days >= 3 && days <= 10) {
@@ -1139,102 +1139,109 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
         </button>
       )}
 
-      <div className="p-6 sm:p-8 flex flex-col items-center">
-        {/* Stage Header */}
-        <div className="flex items-center gap-1.5 mb-2">
-          <img
-            src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${match.competitionId}`}
-            alt=""
-            className="h-4.5 w-4.5 object-contain"
-          />
-          <span className="rounded-full bg-zinc-850 border border-zinc-800 px-4 py-1 text-xs font-black text-zinc-300">
-            {match.competitionDisplayName || match.competitionName}
-          </span>
-        </div>
-
-        {/* Slide date relative label */}
-        <span className="text-zinc-450 font-bold text-xs mb-4">{getDateLabel()}</span>
-
-        {/* Teams and Score/Time info */}
-        <div className="w-full flex items-center justify-between gap-4 sm:gap-8 max-w-lg">
-          
-          {/* Home Competitor */}
-          <div className="flex-1 flex flex-col items-center text-center">
-            <img
-              src={`https://imagecache.365scores.com/image/upload/f_auto,w_100,h_100,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${match.homeCompetitor.id}`}
-              alt={match.homeCompetitor.name}
-              className="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-2xl bg-zinc-850 p-2 border border-zinc-800 shadow-inner mb-3"
-              loading="lazy"
-            />
-            <h3 className="font-black text-xs sm:text-sm text-zinc-150 leading-tight">
-              {match.homeCompetitor.name}
-            </h3>
-          </div>
-
-          {/* Central clock or score */}
-          <div className="flex flex-col items-center justify-center text-center min-w-[120px] shrink-0">
-            {isNotStarted ? (
-              <div className="flex flex-col items-center">
-                <span className={`text-[28px] sm:text-[34px] font-black leading-none ${
-                  isMoreThan24h ? "text-zinc-100" : "font-mono tracking-wider text-emerald-450"
-                }`}>
-                  {timeLeft}
-                </span>
-                <span className="text-[10px] text-zinc-550 font-bold mt-2">يبدأ خلال</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-4.5 my-1">
-                <span className="text-3xl sm:text-4xl font-black font-mono text-zinc-100">
-                  {match.homeCompetitor.score !== -1 ? match.homeCompetitor.score : 0}
-                </span>
-                <span className="text-zinc-650 font-bold text-xl">:</span>
-                <span className="text-3xl sm:text-4xl font-black font-mono text-zinc-100">
-                  {match.awayCompetitor.score !== -1 ? match.awayCompetitor.score : 0}
+      {(() => {
+        const matchSlug = generateMatchSlug(match.homeCompetitor, match.awayCompetitor, match.id);
+        return (
+          <div className="p-6 sm:p-8 flex flex-col items-center w-full">
+            
+            {/* Clickable Card Body */}
+            <Link href={`/match/${matchSlug}`} className="w-full flex flex-col items-center group/card-content">
+              {/* Stage Header */}
+              <div className="flex items-center gap-1.5 mb-2 group-hover/card-content:scale-[1.01] transition-transform">
+                <img
+                  src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${match.competitionId}`}
+                  alt=""
+                  className="h-4.5 w-4.5 object-contain"
+                />
+                <span className="rounded-full bg-zinc-850 border border-zinc-800 px-4 py-1 text-xs font-black text-zinc-300">
+                  {match.competitionDisplayName || match.competitionName}
                 </span>
               </div>
-            )}
-            
-            {!isNotStarted && (
-              <span className="text-[10px] font-black text-zinc-400 bg-zinc-850 px-2 py-0.5 rounded-full mt-2">
-                {isLive ? `${match.gameTime}'` : isFinished ? "منتهية" : "لم تبدأ"}
-              </span>
-            )}
-          </div>
 
-          {/* Away Competitor */}
-          <div className="flex-1 flex flex-col items-center text-center">
-            <img
-              src={`https://imagecache.365scores.com/image/upload/f_auto,w_100,h_100,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${match.awayCompetitor.id}`}
-              alt={match.awayCompetitor.name}
-              className="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-2xl bg-zinc-850 p-2 border border-zinc-800 shadow-inner mb-3"
-              loading="lazy"
-            />
-            <h3 className="font-black text-xs sm:text-sm text-zinc-150 leading-tight">
-              {match.awayCompetitor.name}
-            </h3>
-          </div>
+              {/* Slide date relative label */}
+              <span className="text-zinc-450 font-bold text-xs mb-4">{getDateLabel()}</span>
 
-        </div>
+              {/* Teams and Score/Time info */}
+              <div className="w-full flex items-center justify-between gap-4 sm:gap-8 max-w-lg">
+                
+                {/* Home Competitor */}
+                <div className="flex-1 flex flex-col items-center text-center">
+                  <img
+                    src={`https://imagecache.365scores.com/image/upload/f_auto,w_100,h_100,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${match.homeCompetitor.id}`}
+                    alt={match.homeCompetitor.name}
+                    className="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-2xl bg-zinc-850 p-2 border border-zinc-800 shadow-inner mb-3 group-hover/card-content:border-emerald-500/30 transition-colors"
+                    loading="lazy"
+                  />
+                  <h3 className="font-black text-xs sm:text-sm text-zinc-150 leading-tight group-hover/card-content:text-emerald-455 transition-colors">
+                    {match.homeCompetitor.name}
+                  </h3>
+                </div>
 
-        {/* Match Info Details (Date, Time, Venue) */}
-        <div className="text-zinc-400 text-[10px] sm:text-xs font-semibold mt-5 text-center select-text max-w-lg leading-relaxed bg-zinc-850/40 px-4 py-1.5 rounded-xl border border-zinc-800/40">
-          {(() => {
-            const matchDate = new Date(match.startTime);
-            const dateStr = matchDate.toLocaleDateString("ar-EG-u-nu-latn", {
-              weekday: "long",
-              day: "numeric",
-              month: "long"
-            });
-            const timeStr = formatTime(match.startTime);
-            const venueStr = match.venue?.name;
-            
-            const parts = [dateStr, timeStr];
-            if (venueStr) {
-              parts.push(venueStr);
-            }
-            return parts.join(" | ");
-          })()}
-        </div>
+                {/* Central clock or score */}
+                <div className="flex flex-col items-center justify-center text-center min-w-[120px] shrink-0">
+                  {isNotStarted ? (
+                    <div className="flex flex-col items-center">
+                      <span className={`text-[28px] sm:text-[34px] font-black leading-none ${
+                        isMoreThan24h ? "text-zinc-100" : "font-mono tracking-wider text-emerald-450"
+                      }`}>
+                        {timeLeft}
+                      </span>
+                      <span className="text-[10px] text-zinc-550 font-bold mt-2">يبدأ خلال</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-4.5 my-1">
+                      <span className="text-3xl sm:text-4xl font-black font-mono text-zinc-100">
+                        {match.homeCompetitor.score !== -1 ? match.homeCompetitor.score : 0}
+                      </span>
+                      <span className="text-zinc-650 font-bold text-xl">:</span>
+                      <span className="text-3xl sm:text-4xl font-black font-mono text-zinc-100">
+                        {match.awayCompetitor.score !== -1 ? match.awayCompetitor.score : 0}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {!isNotStarted && (
+                    <span className="text-[10px] font-black text-zinc-400 bg-zinc-850 px-2 py-0.5 rounded-full mt-2">
+                      {isLive ? `${match.gameTime}'` : isFinished ? "منتهية" : "لم تبدأ"}
+                    </span>
+                  )}
+                </div>
+
+                {/* Away Competitor */}
+                <div className="flex-1 flex flex-col items-center text-center">
+                  <img
+                    src={`https://imagecache.365scores.com/image/upload/f_auto,w_100,h_100,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${match.awayCompetitor.id}`}
+                    alt={match.awayCompetitor.name}
+                    className="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-2xl bg-zinc-850 p-2 border border-zinc-800 shadow-inner mb-3 group-hover/card-content:border-emerald-500/30 transition-colors"
+                    loading="lazy"
+                  />
+                  <h3 className="font-black text-xs sm:text-sm text-zinc-150 leading-tight group-hover/card-content:text-emerald-455 transition-colors">
+                    {match.awayCompetitor.name}
+                  </h3>
+                </div>
+
+              </div>
+
+              {/* Match Info Details (Date, Time, Venue) */}
+              <div className="text-zinc-400 text-[10px] sm:text-xs font-semibold mt-5 text-center select-text max-w-lg leading-relaxed bg-zinc-850/40 px-4 py-1.5 rounded-xl border border-zinc-800/40 group-hover/card-content:border-zinc-700 transition-colors">
+                {(() => {
+                  const matchDate = new Date(match.startTime);
+                  const dateStr = matchDate.toLocaleDateString("ar-EG-u-nu-latn", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long"
+                  });
+                  const timeStr = formatTime(match.startTime);
+                  const venueStr = match.venue?.name;
+                  
+                  const parts = [dateStr, timeStr];
+                  if (venueStr) {
+                    parts.push(venueStr);
+                  }
+                  return parts.join(" | ");
+                })()}
+              </div>
+            </Link>
 
         {/* Lower Toolbar */}
         {(() => {
@@ -1287,7 +1294,9 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
           </div>
         )}
 
-      </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
