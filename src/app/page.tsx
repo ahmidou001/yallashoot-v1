@@ -1063,7 +1063,11 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
       const hours = Math.floor(diff / (1000 * 60 * 60));
       if (hours >= 24) {
         setIsMoreThan24h(true);
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const matchDate = new Date(match.startTime);
+        matchDate.setHours(0, 0, 0, 0);
+        const todayDate = new Date();
+        todayDate.setHours(0, 0, 0, 0);
+        const days = Math.round((matchDate.getTime() - todayDate.getTime()) / (1000 * 60 * 60 * 24));
         if (days === 1) {
           setTimeLeft("غداً");
         } else if (days === 2) {
