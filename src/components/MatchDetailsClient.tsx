@@ -47,6 +47,10 @@ export default function MatchDetailsClient({
   const isStarted = initialDetails.game.homeCompetitor.score !== -1;
   const defaultTab = isFinished && highlightUrl ? "summary" : isStarted ? "overview" : "details";
 
+  // Expand states for team performance logs
+  const [showMoreHome, setShowMoreHome] = useState(false);
+  const [showMoreAway, setShowMoreAway] = useState(false);
+
   // Set tab state synchronized with query param or local fallback, enforcing availability rules
   const activeTabRaw = searchParams.get("tab") || defaultTab;
   const isTabAllowed = (tab: string) => {
@@ -528,42 +532,92 @@ export default function MatchDetailsClient({
         {/* Tab 4: Head to Head & Standings */}
         {activeTab === "h2h" && (
           <div className="space-y-8">
-            
-            {/* Historical Meetings */}
+            {/* ─── SUMMARY STATS (wins, draws, losses) ─── */}
+            <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 shadow-md text-center space-y-4">
+              <h3 className="text-xs sm:text-sm font-extrabold text-zinc-300 flex items-center justify-center gap-2 mb-2">
+                <History className="h-4 w-4 text-emerald-450" />
+                مواجهات سابقة
+              </h3>
+
+              {h2hLoading ? (
+                <div className="h-16 bg-zinc-900 rounded-xl animate-pulse" />
+              ) : h2hData && h2hData.game?.h2hGames ? (
+                (() => {
+                  const games = h2hData.game.h2hGames;
+                  const homeWins = games.filter((g) => g.winnerId === homeId).length;
+                  const awayWins = games.filter((g) => g.winnerId === awayId).length;
+                  const draws = games.filter((g) => g.winnerId === 0 || !g.winnerId).length;
+
+                  return (
+                    <div className="flex items-center justify-center gap-8 sm:gap-12 max-w-lg mx-auto py-2">
+                      {/* Home Team */}
+                      <div className="flex flex-col items-center gap-1.5 shrink-0 w-24 sm:w-32">
+                        <span className="text-xs sm:text-sm font-black text-zinc-150 text-center truncate w-full">
+                          {game.homeCompetitor.name}
+                        </span>
+                      </div>
+
+                      {/* Stat Numbers */}
+                      <div className="flex items-center gap-5 sm:gap-8 border-x border-zinc-800/80 px-6 sm:px-10 py-1">
+                        <div className="text-center">
+                          <div className="text-xl sm:text-2xl font-black text-emerald-450 font-mono">{homeWins}</div>
+                          <div className="text-[10px] text-zinc-500 font-bold mt-1">الانتصارات</div>
+                        </div>
+                        <div className="w-px h-8 bg-zinc-800" />
+                        <div className="text-center">
+                          <div className="text-xl sm:text-2xl font-black text-zinc-300 font-mono">{draws}</div>
+                          <div className="text-[10px] text-zinc-500 font-bold mt-1">تعادلات</div>
+                        </div>
+                        <div className="w-px h-8 bg-zinc-800" />
+                        <div className="text-center">
+                          <div className="text-xl sm:text-2xl font-black text-red-400 font-mono">{awayWins}</div>
+                          <div className="text-[10px] text-zinc-500 font-bold mt-1">الانتصارات</div>
+                        </div>
+                      </div>
+
+                      {/* Away Team */}
+                      <div className="flex flex-col items-center gap-1.5 shrink-0 w-24 sm:w-32">
+                        <span className="text-xs sm:text-sm font-black text-zinc-150 text-center truncate w-full">
+                          {game.awayCompetitor.name}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()
+              ) : (
+                <div className="text-zinc-500 text-xs py-2">لا تتوفر إحصائيات مواجهات حالياً.</div>
+              )}
+            </div>
+
+            {/* ─── HISTORICAL MEETINGS LIST ─── */}
             <div className="space-y-4">
-              <h3 className="text-sm font-extrabold text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <History className="h-4 w-4 text-emerald-400" />
+              <h3 className="text-sm font-extrabold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                <History className="h-4 w-4 text-emerald-455" />
                 المواجهات التاريخية الأخيرة
               </h3>
 
               {h2hLoading ? (
                 <div className="h-28 bg-zinc-900 rounded-xl animate-pulse" />
-              ) : h2hData && h2hData.game?.h2hGames ? (
+              ) : h2hData && h2hData.game?.h2hGames && h2hData.game.h2hGames.length > 0 ? (
                 <div className="space-y-3">
                   {h2hData.game.h2hGames.map((historyGame) => {
-                    
-                    const histDate = new Date(historyGame.startTime).toLocaleDateString("ar-EG-u-nu-latn", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    });
-
                     return (
                       <div 
                         key={historyGame.id}
-                        className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850"
+                        className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-900/60 transition-all"
                       >
-                        <div className="flex flex-col">
-                          <span className="text-[10px] text-zinc-500 font-semibold mb-0.5">{historyGame.competitionName}</span>
-                          <span className="text-xs text-zinc-400 font-medium font-mono">{histDate}</span>
+                        <div className="flex flex-col text-right">
+                          <span className="text-[10px] text-zinc-500 font-bold mb-1">{historyGame.competitionName}</span>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.homeCompetitor.name}</span>
+                            <span className="font-mono text-xs sm:text-sm font-extrabold text-zinc-200 bg-zinc-950/60 px-2 py-0.5 rounded border border-zinc-850">
+                              {historyGame.homeCompetitor.score} - {historyGame.awayCompetitor.score}
+                            </span>
+                            <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.awayCompetitor.name}</span>
+                          </div>
                         </div>
-                        
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.homeCompetitor.name}</span>
-                          <span className="font-black text-sm bg-zinc-850 px-2 py-0.5 rounded font-mono text-zinc-100">
-                            {historyGame.homeCompetitor.score} - {historyGame.awayCompetitor.score}
-                          </span>
-                          <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.awayCompetitor.name}</span>
+                        <div className="text-left font-mono text-[10px] sm:text-xs text-zinc-500">
+                          {formatHistoryDate(historyGame.startTime)}
                         </div>
                       </div>
                     );
@@ -576,97 +630,169 @@ export default function MatchDetailsClient({
               )}
             </div>
 
-            {/* Standings Table summary */}
+            {/* ─── HOME TEAM RECENT GAMES (أداء فرنسا) ─── */}
             <div className="space-y-4">
-              <h3 className="text-sm font-extrabold text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-emerald-400" />
-                ترتيب الفريقين في الدوري
+              <h3 className="text-sm font-extrabold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                <Activity className="h-4 w-4 text-emerald-450" />
+                أداء {game.homeCompetitor.name}
               </h3>
 
-              {standingsLoading ? (
-                <div className="h-48 bg-zinc-900 rounded-xl animate-pulse" />
-              ) : standingsData && standingsData.standings && standingsData.standings.length > 0 ? (
-                <div className="space-y-6">
-                  {standingsData.standings.map((table, tIdx) => {
-                    
-                    // Filter row items to highlight our home & away teams for speed comparison
-                    const filteredRows = table.rows.filter(
-                      (row) => row.competitor.id === homeId || row.competitor.id === awayId
-                    );
+              {h2hLoading ? (
+                <div className="h-28 bg-zinc-900 rounded-xl animate-pulse" />
+              ) : h2hData && h2hData.game?.homeCompetitor?.recentGames && h2hData.game.homeCompetitor.recentGames.length > 0 ? (
+                (() => {
+                  const recent = h2hData.game.homeCompetitor.recentGames;
+                  const visibleGames = showMoreHome ? recent.slice(0, 10) : recent.slice(0, 5);
 
-                    // Sort them by position
-                    filteredRows.sort((a, b) => a.position - b.position);
+                  return (
+                    <div className="space-y-3">
+                      <div className="space-y-3">
+                        {visibleGames.map((historyGame) => {
+                          const res = (() => {
+                            const isHome = historyGame.homeCompetitor.id === homeId;
+                            const score = isHome ? historyGame.homeCompetitor.score : historyGame.awayCompetitor.score;
+                            const opp = isHome ? historyGame.awayCompetitor.score : historyGame.homeCompetitor.score;
+                            if (historyGame.winnerId === homeId) return "win";
+                            if (historyGame.winnerId > 0 && historyGame.winnerId !== homeId) return "loss";
+                            if (score > opp) return "win";
+                            if (score < opp) return "loss";
+                            return "draw";
+                          })();
 
-                    return (
-                      <div key={tIdx} className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl overflow-hidden">
-                        <div className="bg-zinc-900/60 px-4 py-3 border-b border-zinc-800">
-                          <span className="text-xs font-extrabold text-zinc-200">{table.displayName || "جدول الترتيب"}</span>
-                        </div>
-                        
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-right border-collapse text-xs sm:text-sm">
-                            <thead>
-                              <tr className="border-b border-zinc-800 text-zinc-400 font-semibold">
-                                <th className="p-3 text-center w-12">#</th>
-                                <th className="p-3">الفريق</th>
-                                <th className="p-3 text-center">لعب</th>
-                                <th className="p-3 text-center">فاز</th>
-                                <th className="p-3 text-center">تعادل</th>
-                                <th className="p-3 text-center">خسر</th>
-                                <th className="p-3 text-center font-mono">له/عليه</th>
-                                <th className="p-3 text-center">النقاط</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-zinc-850/40">
-                              {table.rows.map((row) => {
-                                const isTarget = row.competitor.id === homeId || row.competitor.id === awayId;
-                                const destColor = table.destinations?.find((d) => d.num === row.destinationNum)?.color;
+                          return (
+                            <div 
+                              key={historyGame.id}
+                              className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-900/60 transition-all"
+                            >
+                              {/* Left Badge */}
+                              <div className="flex items-center gap-3">
+                                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-black text-white shrink-0 ${
+                                  res === "win" ? "bg-emerald-500 shadow-sm shadow-emerald-950/20" :
+                                  res === "loss" ? "bg-red-500 shadow-sm shadow-red-950/20" :
+                                  "bg-zinc-600"
+                                }`}>
+                                  {res === "win" ? "ف" : res === "loss" ? "خ" : "ت"}
+                                </span>
+                                <div className="flex flex-col text-right">
+                                  <span className="text-[10px] text-zinc-500 font-bold mb-1">{historyGame.competitionName}</span>
+                                  <div className="flex items-center gap-2.5">
+                                    <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.homeCompetitor.name}</span>
+                                    <span className="font-mono text-xs text-zinc-400 bg-zinc-950/40 px-1.5 py-0.5 rounded border border-zinc-850">
+                                      {historyGame.homeCompetitor.score} - {historyGame.awayCompetitor.score}
+                                    </span>
+                                    <span className="text-xs sm:text-sm font-bold text-zinc-300">{historyGame.awayCompetitor.name}</span>
+                                  </div>
+                                </div>
+                              </div>
 
-                                return (
-                                  <tr 
-                                    key={row.competitor.id}
-                                    className={`transition-colors ${
-                                      isTarget ? "bg-emerald-950/30 font-bold" : "text-zinc-400"
-                                    }`}
-                                  >
-                                    <td className="p-3 text-center font-black">
-                                      <span 
-                                        style={{ borderRightColor: destColor }}
-                                        className={`inline-block w-full border-r-3 pr-1 ${destColor ? "" : "border-r-transparent"}`}
-                                      >
-                                        {row.position}
-                                      </span>
-                                    </td>
-                                    <td className="p-3 font-semibold text-zinc-200">
-                                      {row.competitor.name}
-                                    </td>
-                                    <td className="p-3 text-center font-mono">{row.gamePlayed}</td>
-                                    <td className="p-3 text-center font-mono">{row.gamesWon}</td>
-                                    <td className="p-3 text-center font-mono">{row.gamesEven}</td>
-                                    <td className="p-3 text-center font-mono">{row.gamesLost}</td>
-                                    <td className="p-3 text-center font-mono text-zinc-500">
-                                      {row.for}/{row.against}
-                                    </td>
-                                    <td className={`p-3 text-center font-black ${isTarget ? "text-emerald-400" : "text-zinc-200"}`}>
-                                      {row.points}
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
-                        </div>
+                              {/* Right Date */}
+                              <div className="text-left font-mono text-[10px] sm:text-xs text-zinc-500">
+                                {formatHistoryDate(historyGame.startTime)}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                    );
-                  })}
-                </div>
+
+                      {recent.length > 5 && (
+                        <button
+                          onClick={() => setShowMoreHome(!showMoreHome)}
+                          className="w-full py-2.5 rounded-xl border border-zinc-800 bg-zinc-900/10 hover:bg-zinc-900/30 hover:border-zinc-700 text-xs font-bold text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center gap-1.5"
+                        >
+                          {showMoreHome ? "شاهد أقل" : "شاهد المزيد"}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()
               ) : (
                 <div className="text-center py-8 bg-zinc-900/40 border border-zinc-800 rounded-2xl">
-                  <p className="text-xs text-zinc-500">لا يتوفر ترتيب الدوري لهذه البطولة حالياً.</p>
+                  <p className="text-xs text-zinc-500">لا تتوفر نتائج مباريات أخيرة لهذا الفريق حالياً.</p>
                 </div>
               )}
             </div>
 
+            {/* ─── AWAY TEAM RECENT GAMES (أداء إنجلترا) ─── */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-extrabold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                <Activity className="h-4 w-4 text-emerald-450" />
+                أداء {game.awayCompetitor.name}
+              </h3>
+
+              {h2hLoading ? (
+                <div className="h-28 bg-zinc-900 rounded-xl animate-pulse" />
+              ) : h2hData && h2hData.game?.awayCompetitor?.recentGames && h2hData.game.awayCompetitor.recentGames.length > 0 ? (
+                (() => {
+                  const recent = h2hData.game.awayCompetitor.recentGames;
+                  const visibleGames = showMoreAway ? recent.slice(0, 10) : recent.slice(0, 5);
+
+                  return (
+                    <div className="space-y-3">
+                      <div className="space-y-3">
+                        {visibleGames.map((historyGame) => {
+                          const res = (() => {
+                            const isHome = historyGame.homeCompetitor.id === awayId;
+                            const score = isHome ? historyGame.homeCompetitor.score : historyGame.awayCompetitor.score;
+                            const opp = isHome ? historyGame.awayCompetitor.score : historyGame.homeCompetitor.score;
+                            if (historyGame.winnerId === awayId) return "win";
+                            if (historyGame.winnerId > 0 && historyGame.winnerId !== awayId) return "loss";
+                            if (score > opp) return "win";
+                            if (score < opp) return "loss";
+                            return "draw";
+                          })();
+
+                          return (
+                            <div 
+                              key={historyGame.id}
+                              className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-900/60 transition-all"
+                            >
+                              {/* Left Badge */}
+                              <div className="flex items-center gap-3">
+                                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-black text-white shrink-0 ${
+                                  res === "win" ? "bg-emerald-500 shadow-sm shadow-emerald-950/20" :
+                                  res === "loss" ? "bg-red-500 shadow-sm shadow-red-950/20" :
+                                  "bg-zinc-600"
+                                }`}>
+                                  {res === "win" ? "ف" : res === "loss" ? "خ" : "ت"}
+                                </span>
+                                <div className="flex flex-col text-right">
+                                  <span className="text-[10px] text-zinc-500 font-bold mb-1">{historyGame.competitionName}</span>
+                                  <div className="flex items-center gap-2.5">
+                                    <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.homeCompetitor.name}</span>
+                                    <span className="font-mono text-xs text-zinc-400 bg-zinc-950/40 px-1.5 py-0.5 rounded border border-zinc-850">
+                                      {historyGame.homeCompetitor.score} - {historyGame.awayCompetitor.score}
+                                    </span>
+                                    <span className="text-xs sm:text-sm font-bold text-zinc-350">{historyGame.awayCompetitor.name}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Right Date */}
+                              <div className="text-left font-mono text-[10px] sm:text-xs text-zinc-500">
+                                {formatHistoryDate(historyGame.startTime)}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {recent.length > 5 && (
+                        <button
+                          onClick={() => setShowMoreAway(!showMoreAway)}
+                          className="w-full py-2.5 rounded-xl border border-zinc-800 bg-zinc-900/10 hover:bg-zinc-900/30 hover:border-zinc-700 text-xs font-bold text-zinc-400 hover:text-zinc-200 transition-all flex items-center justify-center gap-1.5"
+                        >
+                          {showMoreAway ? "شاهد أقل" : "شاهد المزيد"}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()
+              ) : (
+                <div className="text-center py-8 bg-zinc-900/40 border border-zinc-800 rounded-2xl">
+                  <p className="text-xs text-zinc-500">لا تتوفر نتائج مباريات أخيرة لهذا الفريق حالياً.</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 

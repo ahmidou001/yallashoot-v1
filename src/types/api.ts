@@ -159,8 +159,11 @@ export interface HistoricalGame {
 
 export interface H2HResponse {
   game: {
-    homeCompetitor: {
-      recentGames: HistoricalGame[];
+    homeCompetitor?: {
+      recentGames?: HistoricalGame[];
+    };
+    awayCompetitor?: {
+      recentGames?: HistoricalGame[];
     };
     h2hGames?: HistoricalGame[];
   };
