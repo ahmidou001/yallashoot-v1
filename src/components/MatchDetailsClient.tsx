@@ -544,9 +544,15 @@ export default function MatchDetailsClient({
               ) : h2hData && h2hData.game?.h2hGames ? (
                 (() => {
                   const games = h2hData.game.h2hGames;
-                  const homeWins = games.filter((g) => g.homeCompetitor?.isWinner === true || g.winner === 1).length;
-                  const awayWins = games.filter((g) => g.awayCompetitor?.isWinner === true || g.winner === 2).length;
-                  const draws = games.filter((g) => g.homeCompetitor?.isWinner !== true && g.awayCompetitor?.isWinner !== true && g.winner !== 1 && g.winner !== 2).length;
+                  const homeWins = games.filter((g) => 
+                    (g.homeCompetitor?.id === homeId && (g.homeCompetitor?.isWinner === true || g.winner === 1)) ||
+                    (g.awayCompetitor?.id === homeId && (g.awayCompetitor?.isWinner === true || g.winner === 2))
+                  ).length;
+                  const awayWins = games.filter((g) => 
+                    (g.homeCompetitor?.id === awayId && (g.homeCompetitor?.isWinner === true || g.winner === 1)) ||
+                    (g.awayCompetitor?.id === awayId && (g.awayCompetitor?.isWinner === true || g.winner === 2))
+                  ).length;
+                  const draws = games.length - homeWins - awayWins;
 
                   return (
                     <div className="flex items-center justify-center gap-8 sm:gap-12 max-w-lg mx-auto py-2">
