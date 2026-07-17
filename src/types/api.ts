@@ -147,14 +147,16 @@ export interface HistoricalGame {
     id: number;
     name: string;
     score: number;
+    isWinner?: boolean;
   };
   awayCompetitor: {
     id: number;
     name: string;
     score: number;
+    isWinner?: boolean;
   };
   competitionName: string;
-  winnerId: number;
+  winner?: number;
 }
 
 export interface H2HResponse {

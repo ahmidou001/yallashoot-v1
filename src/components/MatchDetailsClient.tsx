@@ -544,9 +544,9 @@ export default function MatchDetailsClient({
               ) : h2hData && h2hData.game?.h2hGames ? (
                 (() => {
                   const games = h2hData.game.h2hGames;
-                  const homeWins = games.filter((g) => g.winnerId === homeId).length;
-                  const awayWins = games.filter((g) => g.winnerId === awayId).length;
-                  const draws = games.filter((g) => g.winnerId === 0 || !g.winnerId).length;
+                  const homeWins = games.filter((g) => g.homeCompetitor?.isWinner === true || g.winner === 1).length;
+                  const awayWins = games.filter((g) => g.awayCompetitor?.isWinner === true || g.winner === 2).length;
+                  const draws = games.filter((g) => g.homeCompetitor?.isWinner !== true && g.awayCompetitor?.isWinner !== true && g.winner !== 1 && g.winner !== 2).length;
 
                   return (
                     <div className="flex items-center justify-center gap-8 sm:gap-12 max-w-lg mx-auto py-2">
@@ -650,12 +650,10 @@ export default function MatchDetailsClient({
                         {visibleGames.map((historyGame) => {
                           const res = (() => {
                             const isHome = historyGame.homeCompetitor.id === homeId;
-                            const score = isHome ? historyGame.homeCompetitor.score : historyGame.awayCompetitor.score;
-                            const opp = isHome ? historyGame.awayCompetitor.score : historyGame.homeCompetitor.score;
-                            if (historyGame.winnerId === homeId) return "win";
-                            if (historyGame.winnerId > 0 && historyGame.winnerId !== homeId) return "loss";
-                            if (score > opp) return "win";
-                            if (score < opp) return "loss";
+                            const teamWon = isHome ? (historyGame.homeCompetitor.isWinner === true || historyGame.winner === 1) : (historyGame.awayCompetitor.isWinner === true || historyGame.winner === 2);
+                            const teamLost = isHome ? (historyGame.awayCompetitor.isWinner === true || historyGame.winner === 2) : (historyGame.homeCompetitor.isWinner === true || historyGame.winner === 1);
+                            if (teamWon) return "win";
+                            if (teamLost) return "loss";
                             return "draw";
                           })();
 
@@ -732,12 +730,10 @@ export default function MatchDetailsClient({
                         {visibleGames.map((historyGame) => {
                           const res = (() => {
                             const isHome = historyGame.homeCompetitor.id === awayId;
-                            const score = isHome ? historyGame.homeCompetitor.score : historyGame.awayCompetitor.score;
-                            const opp = isHome ? historyGame.awayCompetitor.score : historyGame.homeCompetitor.score;
-                            if (historyGame.winnerId === awayId) return "win";
-                            if (historyGame.winnerId > 0 && historyGame.winnerId !== awayId) return "loss";
-                            if (score > opp) return "win";
-                            if (score < opp) return "loss";
+                            const teamWon = isHome ? (historyGame.homeCompetitor.isWinner === true || historyGame.winner === 1) : (historyGame.awayCompetitor.isWinner === true || historyGame.winner === 2);
+                            const teamLost = isHome ? (historyGame.awayCompetitor.isWinner === true || historyGame.winner === 2) : (historyGame.homeCompetitor.isWinner === true || historyGame.winner === 1);
+                            if (teamWon) return "win";
+                            if (teamLost) return "loss";
                             return "draw";
                           })();
 
