@@ -213,3 +213,143 @@ export async function getCompetitionScorers(competitionId: string | number): Pro
   }
 }
 
+/**
+ * 9. Competitor Profile (/competitors/)
+ */
+export async function getCompetitorProfile(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/competitors/",
+    { competitors: String(teamId) },
+    { next: { revalidate: 3600 } }
+  );
+}
+
+/**
+ * 10. Competitor Squad (/squads/)
+ */
+export async function getCompetitorSquad(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/squads/",
+    { competitors: String(teamId) },
+    { next: { revalidate: 3600 } }
+  );
+}
+
+/**
+ * 11. Competitor Transfers (/transfers/)
+ */
+export async function getCompetitorTransfers(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/transfers/",
+    { competitors: String(teamId) },
+    { next: { revalidate: 3600 } }
+  );
+}
+
+/**
+ * 12. Competitor Fixtures/Matches List (/games/fixtures/)
+ */
+export async function getCompetitorFixtures(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/games/fixtures/",
+    {
+      competitors: String(teamId),
+      showOdds: "true",
+      includeTopBettingOpportunity: "1",
+    },
+    { next: { revalidate: 300 } }
+  );
+}
+
+/**
+ * 12b. Competitor Past Results (/games/)
+ */
+export async function getCompetitorResults(teamId: string | number, afterGameId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/games/",
+    {
+      competitors: String(teamId),
+      games: "1",
+      aftergame: String(afterGameId),
+      direction: "-1",
+      withmainodds: "true",
+    },
+    { next: { revalidate: 300 } }
+  );
+}
+
+/**
+ * 13. Competitor Standings Table (/standings/)
+ */
+export async function getCompetitorStandingsTable(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/standings/",
+    {
+      competitor: String(teamId),
+      live: "false",
+      competitions: "",
+    },
+    { next: { revalidate: 1800 } }
+  );
+}
+
+/**
+ * 14. Competitor Statistics (/stats/)
+ */
+export async function getCompetitorStats(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/stats/",
+    {
+      competitors: String(teamId),
+      withSeasons: "true",
+    },
+    { next: { revalidate: 3600 } }
+  );
+}
+
+/**
+ * 15. Competitor Related Entities (/relatedEntities/)
+ */
+export async function getCompetitorRelatedEntities(teamId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/relatedEntities/",
+    { competitors: String(teamId) },
+    { next: { revalidate: 86400 } }
+  );
+}
+
+/**
+ * 16. Competitor SEO Description & FAQs
+ */
+export async function getCompetitorSEO(teamId: string | number): Promise<any> {
+  const url = `https://seo-management.365scores.com/sections/?appTypeId=5&langId=27&timezoneName=Africa%2FCasablanca&userCountryId=127&apiType=webws&sportType=1&entityType=2&entityId=${teamId}&sectionNames=ENTITY_DESCRIPTION,FAQ&activateLinks=true`;
+  try {
+    const res = await fetch(url, { 
+      next: { revalidate: 86400 },
+      headers: {
+        "Accept": "application/json",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      }
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (err) {
+    console.error("Error in getCompetitorSEO:", err);
+    return null;
+  }
+}
+
+/**
+ * 17. Competition Brackets (/brackets/)
+ */
+export async function getCompetitionBrackets(competitionId: string | number): Promise<any> {
+  return fetchFrom365Scores<any>(
+    "/brackets/",
+    {
+      competitions: String(competitionId),
+      live: "false",
+    },
+    { next: { revalidate: 3600 } }
+  );
+}
+

@@ -978,8 +978,20 @@ export default function HomePage() {
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">كل البطولات أ-ي</h5>
                 <ul className="grid grid-cols-2 gap-1.5 text-xs text-zinc-450">
-                  {["ألمانيا", "الأرجنتين", "البرازيل", "إنجلترا", "إسبانيا", "إيطاليا", "المغرب", "فرنسا", "السعودية"].map((item, i) => (
-                    <li key={i} className="hover:text-zinc-200 transition cursor-pointer select-none">{item}</li>
+                  {[
+                    { name: "ألمانيا", id: 25 },
+                    { name: "الأرجنتين", id: 651 },
+                    { name: "البرازيل", id: 300 },
+                    { name: "إنجلترا", id: 7 },
+                    { name: "إسبانيا", id: 11 },
+                    { name: "إيطاليا", id: 17 },
+                    { name: "المغرب", id: 557 },
+                    { name: "فرنسا", id: 35 },
+                    { name: "السعودية", id: 649 }
+                  ].map((item, i) => (
+                    <li key={i} className="hover:text-zinc-200 transition select-none">
+                      <Link href={`/standings/${item.id}`}>{item.name}</Link>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -988,8 +1000,17 @@ export default function HomePage() {
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">بطولات شائعة</h5>
                 <ul className="space-y-1.5 text-xs text-zinc-450">
-                  {["كأس العالم 2026", "دوري أبطال أوروبا", "الدوري الإسباني الممتاز", "الدوري الإنجليزي", "البطولة الاحترافية المغربية", "الدوري السعودي"].map((item, i) => (
-                    <li key={i} className="hover:text-zinc-200 transition cursor-pointer select-none">{item}</li>
+                  {[
+                    { name: "كأس العالم 2026", id: 5930 },
+                    { name: "دوري أبطال أوروبا", id: 572 },
+                    { name: "الدوري الإسباني الممتاز", id: 11 },
+                    { name: "الدوري الإنجليزي", id: 7 },
+                    { name: "البطولة الاحترافية المغربية", id: 557 },
+                    { name: "الدوري السعودي", id: 649 }
+                  ].map((item, i) => (
+                    <li key={i} className="hover:text-zinc-200 transition select-none">
+                      <Link href={`/standings/${item.id}`}>{item.name}</Link>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -999,14 +1020,14 @@ export default function HomePage() {
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">الفرق الأكثر شعبية</h5>
                 <div className="space-y-1.5">
                   {[
-                    { id: 101, name: "ريال مدريد" },
-                    { id: 102, name: "برشلونة" },
-                    { id: 103, name: "مانشستر سيتي" },
-                    { id: 104, name: "الهلال" },
-                    { id: 105, name: "النصر" }
+                    { id: 131, name: "ريال مدريد" },
+                    { id: 132, name: "برشلونة" },
+                    { id: 110, name: "مانشستر سيتي" },
+                    { id: 3252, name: "الهلال" },
+                    { id: 3928, name: "النصر" }
                   ].map((team) => (
                     <div key={team.id} className="flex items-center justify-between text-xs text-zinc-450 hover:text-zinc-200 transition select-none">
-                      <span className="cursor-pointer">{team.name}</span>
+                      <Link href={`/team/${team.id}`} className="hover:text-emerald-400 transition cursor-pointer">{team.name}</Link>
                       <button 
                         onClick={() => toggleFavorite(team.id)} 
                         className="cursor-pointer focus:outline-none"

@@ -196,17 +196,17 @@ export default function MatchDetailsClient({
         <div className="flex items-center justify-between gap-6">
           
           {/* Home Competitor */}
-          <div className="flex-1 flex flex-col items-center text-center">
+          <Link href={`/team/${game.homeCompetitor.id}`} className="flex-1 flex flex-col items-center text-center cursor-pointer group">
             <img
               src={`https://imagecache.365scores.com/image/upload/f_auto,w_120,h_120,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
               alt={game.homeCompetitor.name}
-              className="h-16 w-16 object-contain rounded-2xl bg-zinc-800 border border-zinc-700/50 p-2 shadow-inner mb-3"
+              className="h-16 w-16 object-contain rounded-2xl bg-zinc-800 border border-zinc-700/50 p-2 shadow-inner mb-3 transition-transform group-hover:scale-105"
               loading="lazy"
             />
-            <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 leading-tight">
+            <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 leading-tight group-hover:text-emerald-400 transition-colors">
               {game.homeCompetitor.name}
             </h3>
-          </div>
+          </Link>
 
           {/* Scores and Status */}
           <div className="flex flex-col items-center justify-center text-center shrink-0">
@@ -232,17 +232,17 @@ export default function MatchDetailsClient({
           </div>
 
           {/* Away Competitor */}
-          <div className="flex-1 flex flex-col items-center text-center">
+          <Link href={`/team/${game.awayCompetitor.id}`} className="flex-1 flex flex-col items-center text-center cursor-pointer group">
             <img
               src={`https://imagecache.365scores.com/image/upload/f_auto,w_120,h_120,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
               alt={game.awayCompetitor.name}
-              className="h-16 w-16 object-contain rounded-2xl bg-zinc-800 border border-zinc-700/50 p-2 shadow-inner mb-3"
+              className="h-16 w-16 object-contain rounded-2xl bg-zinc-800 border border-zinc-700/50 p-2 shadow-inner mb-3 transition-transform group-hover:scale-105"
               loading="lazy"
             />
-            <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 leading-tight">
+            <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 leading-tight group-hover:text-emerald-400 transition-colors">
               {game.awayCompetitor.name}
             </h3>
-          </div>
+          </Link>
 
         </div>
       </div>
