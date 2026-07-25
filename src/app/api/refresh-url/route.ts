@@ -1,0 +1,94 @@
+import { NextRequest, NextResponse } from "next/server";
+import { signSecureStreamUrl } from "@/lib/crypto";
+import { dbConnect } from "@/lib/db";
+import LiveMatch from "@/models/LiveMatch";
+
+export const dynamic = "force-dynamic";
+
+/**
+ * POST /api/refresh-url
+ * Body: { slug: string, serverIndex?: number }
+ *
+ * Signs the stream URL with the actual client User-Agent (from the browser request),
+ * ensuring the MD5 hash matches what Nginx expects.
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { slug, serverIndex = 0 } = body || {};
+
+    if (!slug || typeof slug !== "string") {
+      return NextResponse.json({ error: "Missing slug" }, { status: 400 });
+    }
+
+    // Extract real User-Agent from browser request (critical for Nginx MD5 match)
+    const userAgent = request.headers.get("user-agent") || "";
+    const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
+    const secret = process.env.STREAM_SECRET_KEY;
+
+    await dbConnect();
+    const liveMatchDoc = await LiveMatch.findOne({
+      $or: [{ "matches.slug": slug }, { "matches.id": slug }, { "matches.id": Number(slug) || 0 }]
+    })
+      .sort({ _id: -1 })
+      .lean();
+
+    if (!liveMatchDoc) {
+      return NextResponse.json({ error: "Match not found" }, { status: 404 });
+    }
+
+    const match = (liveMatchDoc as any).matches.find(
+      (m: any) => m.slug === slug || String(m.id) === String(slug)
+    );
+    if (!match) {
+      return NextResponse.json({ error: "Match not found" }, { status: 404 });
+    }
+
+    // Get all available stream URLs (primary + alternates)
+    const allUrls: string[] = [];
+    if (match.streamUrl && match.streamUrl.trim() !== "" && match.streamUrl !== "غير محدد") {
+      allUrls.push(match.streamUrl);
+    }
+    if (Array.isArray(match.alternateStreamUrls)) {
+      match.alternateStreamUrls.forEach((u: string) => {
+        if (u && u.trim() !== "") allUrls.push(u);
+      });
+    }
+
+    const rawUrl = allUrls[serverIndex] || allUrls[0];
+    if (!rawUrl) {
+      return NextResponse.json({ error: "Stream not available" }, { status: 404 });
+    }
+
+    // Replace legacy domain and strip old params
+    let cleanUrl = rawUrl.replace("stream.chofmatch.live", streamDomain);
+    try {
+      const urlObj = new URL(cleanUrl);
+      urlObj.searchParams.delete("md5");
+      urlObj.searchParams.delete("expires");
+      cleanUrl = urlObj.toString();
+    } catch {
+      // keep as-is
+    }
+
+    // Sign with the browser's actual User-Agent
+    const isHls = cleanUrl.includes(".m3u8");
+    let signedUrl = cleanUrl;
+    if (isHls && secret && cleanUrl.includes(streamDomain)) {
+      signedUrl = signSecureStreamUrl(cleanUrl, secret, userAgent);
+    }
+
+    return NextResponse.json(
+      { url: signedUrl },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          Pragma: "no-cache",
+        },
+      }
+    );
+  } catch (error: any) {
+    console.error("POST /api/refresh-url error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

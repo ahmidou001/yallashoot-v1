@@ -1,11 +1,9 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import { getGameDetails } from "@/services/api";
 import { dbConnect } from "@/lib/db";
 import LiveMatch from "@/models/LiveMatch";
-import { signSecureStreamUrl, generateStreamToken } from "@/lib/crypto";
 import MatchDetailsClient from "@/components/MatchDetailsClient";
 import { extractIdFromSlug } from "@/lib/matchSlug";
 
@@ -96,40 +94,42 @@ export default async function MatchPage({ params }: RouteParams) {
     notFound();
   }
 
-  // 2. Query stream config from LiveMatch collection
-  let streamData = null;
+  // 2. Check if stream exists in DB — URL is signed client-side on activation
+  let streamData: {
+    hasStream: boolean;
+    streamType: "hls" | "youtube" | "iframe" | "other";
+    iframeHtml?: string | null;
+    channel?: string | null;
+    commentator?: string | null;
+    serverCount: number;
+  } | null = null;
+
   try {
     await dbConnect();
-    const doc = await LiveMatch.findOne({ "matches.id": id });
-    
+    const doc = await LiveMatch.findOne({ "matches.slug": slug });
+
     if (doc && Array.isArray(doc.matches)) {
-      const match = doc.matches.find((m: any) => String(m.id) === String(id));
+      const match = doc.matches.find((m: any) => m.slug === slug || String(m.id) === String(id));
       const streamUrlRaw = match?.streamUrl;
-      
+
       if (streamUrlRaw && streamUrlRaw !== "غير محدد" && streamUrlRaw.trim() !== "") {
-        const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
-        const secret = process.env.STREAM_SECRET_KEY;
-        const headersList = await headers();
-        const userAgent = headersList.get("user-agent") || "";
-        
-        let signedStreamUrl = streamUrlRaw;
-        const isSecureDomain = signedStreamUrl.includes("stream.chofmatch.live") || signedStreamUrl.includes(streamDomain);
+        const isIframe = streamUrlRaw.trim().startsWith("<") || streamUrlRaw.includes("iframe");
+        const isYoutube = streamUrlRaw.includes("youtube.com") || streamUrlRaw.includes("youtu.be");
+        const isHls = streamUrlRaw.includes(".m3u8");
 
-        if (isSecureDomain && secret) {
-          signedStreamUrl = signedStreamUrl.replace("stream.chofmatch.live", streamDomain);
-          signedStreamUrl = signSecureStreamUrl(signedStreamUrl, secret, userAgent);
-        }
-
-        const { token, expires } = generateStreamToken(id);
+        // Count alternate servers
+        const alternateUrls = Array.isArray((match as any)?.alternateStreamUrls)
+          ? (match as any).alternateStreamUrls.filter((u: string) => u && u.trim() !== "")
+          : [];
+        const serverCount = isIframe ? 0 : 1 + alternateUrls.length;
 
         streamData = {
-          streamType: (signedStreamUrl.includes(".m3u8") ? "hls" : signedStreamUrl.includes("youtube.com") || signedStreamUrl.includes("youtu.be") ? "youtube" : "iframe") as "hls" | "youtube" | "iframe" | "other",
-          streamUrl: signedStreamUrl,
-          tokenRequired: true,
-          token,
-          expires,
+          hasStream: true,
+          streamType: isHls ? "hls" : isYoutube ? "youtube" : isIframe ? "iframe" : "other",
+          iframeHtml: isIframe ? streamUrlRaw : null,
           channel: match?.channel || null,
           commentator: match?.commentator || null,
+          serverCount,
         };
       }
     }
@@ -137,21 +137,13 @@ export default async function MatchPage({ params }: RouteParams) {
     console.error("Failed to connect to Mongo or query stream slots:", error);
   }
 
-  // 3. If finished, fetch or build match summary iframe URL
+  // 3. If finished, fetch highlight
   let highlightUrl = null;
   if (detailsData.game.statusGroup === 4) {
-    // Check if the streamUrl was entered in the dashboard (might be the highlight embed code or url)
-    if (streamData && streamData.streamUrl) {
-      highlightUrl = streamData.streamUrl;
-    } else {
-      // Scrape from Dailymotion
-      highlightUrl = await getMatchHighlightIframe(
-        detailsData.game.homeCompetitor.name,
-        detailsData.game.awayCompetitor.name
-      );
-    }
-    
-    // Default fallback
+    highlightUrl = await getMatchHighlightIframe(
+      detailsData.game.homeCompetitor.name,
+      detailsData.game.awayCompetitor.name
+    );
     if (!highlightUrl) {
       highlightUrl = `https://geo.dailymotion.com/player/xakml.html?video=k1ARtcE08LXlXBHI2Ge&customConfig%5Bpremium%5D=false`;
     }
@@ -162,9 +154,12 @@ export default async function MatchPage({ params }: RouteParams) {
       <MatchDetailsClient
         initialDetails={detailsData}
         gameId={id}
+        matchSlug={slug}
         streamData={streamData}
         highlightUrl={highlightUrl}
       />
     </div>
   );
 }
+
+

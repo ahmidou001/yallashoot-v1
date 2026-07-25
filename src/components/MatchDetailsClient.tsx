@@ -20,14 +20,18 @@ import {
 interface MatchDetailsClientProps {
   initialDetails: GameDetailsResponse;
   gameId: string;
+  matchSlug?: string;
   streamData?: {
+    hasStream?: boolean;
     streamType: "iframe" | "hls" | "youtube" | "other";
-    streamUrl: string;
-    tokenRequired: boolean;
+    streamUrl?: string;
+    tokenRequired?: boolean;
     token?: string;
     expires?: number;
     channel?: string | null;
     commentator?: string | null;
+    serverCount?: number;
+    iframeHtml?: string | null;
   } | null;
   highlightUrl?: string | null;
 }
@@ -35,6 +39,7 @@ interface MatchDetailsClientProps {
 export default function MatchDetailsClient({
   initialDetails,
   gameId,
+  matchSlug,
   streamData,
   highlightUrl,
 }: MatchDetailsClientProps) {
@@ -172,6 +177,7 @@ export default function MatchDetailsClient({
         <div className="mb-8">
           <SecurePlayer
             gameId={gameId}
+            matchSlug={matchSlug}
             streamType={streamData?.streamType || "iframe"}
             streamUrl={streamData?.streamUrl || ""}
             tokenRequired={streamData?.tokenRequired}
@@ -181,6 +187,8 @@ export default function MatchDetailsClient({
             isFinished={isFinished}
             highlightUrl={highlightUrl}
             matchTime={formatTime(game.startTime)}
+            serverCount={streamData?.serverCount || 1}
+            iframeHtml={streamData?.iframeHtml}
           />
         </div>
       )}
