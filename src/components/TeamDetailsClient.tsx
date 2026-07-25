@@ -49,6 +49,30 @@ export default function TeamDetailsClient({
     }
   };
   
+  // Process standings into separate tables for group stages (e.g. World Cup group stages)
+  const processedTables = React.useMemo(() => {
+    const list: Array<{ displayName: string; rows: any[]; destinations?: any[] }> = [];
+    if (!standings) return list;
+
+    if (standings.groups && standings.groups.length > 1) {
+      standings.groups.forEach((g: any) => {
+        const groupRows = (standings.rows || []).filter((row: any) => row.groupNum === g.num);
+        list.push({
+          displayName: g.name,
+          rows: groupRows,
+          destinations: standings.destinations
+        });
+      });
+    } else {
+      list.push({
+        displayName: standings.displayName || "جدول الترتيب",
+        rows: standings.rows || [],
+        destinations: standings.destinations
+      });
+    }
+    return list;
+  }, [standings]);
+
   // Stats view category filter
   const [selectedStatTypeId, setSelectedStatTypeId] = useState<number>(1); // Default to Goals (typeId: 1)
 
@@ -799,72 +823,78 @@ export default function TeamDetailsClient({
 
         {activeTab === "standings" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Standings Table */}
-            <div className="lg:col-span-2 bg-[#131722]/90 border border-gray-800/60 rounded-2xl overflow-hidden shadow-xl shadow-black/20">
-              <div className="p-4 bg-gradient-to-l from-gray-800/30 to-transparent border-b border-gray-800/40">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-yellow-500" />
-                  جدول الترتيب
-                </h3>
-              </div>
+            {/* Standings Tables */}
+            <div className="lg:col-span-2 space-y-6">
+              {processedTables.length > 0 ? (
+                processedTables.map((table, tableIdx) => (
+                  <div key={tableIdx} className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl overflow-hidden shadow-xl shadow-black/20">
+                    <div className="p-4 bg-gradient-to-l from-gray-800/30 to-transparent border-b border-gray-800/40">
+                      <h3 className="text-base font-bold text-white flex items-center gap-2">
+                        <Trophy className="w-5 h-5 text-yellow-500" />
+                        {table.displayName || "جدول الترتيب"}
+                      </h3>
+                    </div>
 
-              {standings && Array.isArray(standings.rows) ? (
-                <div className="overflow-x-auto scrollbar-none">
-                  <table className="w-full text-right border-collapse text-sm sm:text-base">
-                    <thead>
-                      <tr className="bg-gray-800/30 text-gray-400 text-xs sm:text-sm font-semibold border-b border-gray-800">
-                        <th className="py-3 px-4 text-center w-12">#</th>
-                        <th className="py-3 px-4">الفريق</th>
-                        <th className="py-3 px-2 text-center">لعب</th>
-                        <th className="py-3 px-2 text-center">فوز</th>
-                        <th className="py-3 px-2 text-center">تعادل</th>
-                        <th className="py-3 px-2 text-center">خسارة</th>
-                        <th className="py-3 px-2 text-center">له/عليه</th>
-                        <th className="py-3 px-4 text-center font-bold text-white">النقاط</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-800/40">
-                      {standings.rows.map((row: any, i: number) => {
-                        const isCurrentTeam = row.competitor.id === team.id;
-                        return (
-                          <tr 
-                            key={i} 
-                            className={`hover:bg-gray-800/20 transition-all ${
-                              isCurrentTeam ? "bg-green-500/10 font-bold" : ""
-                            }`}
-                          >
-                            <td className="py-4 px-4 text-center text-xs sm:text-sm text-gray-400">
-                              {row.position}
-                            </td>
-                            <td className="py-4 px-4">
-                              <Link 
-                                href={`/team/${row.competitor.id}`}
-                                className="flex items-center gap-3"
-                              >
-                                <img
-                                  src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${row.competitor.id}`}
-                                  alt=""
-                                  className="w-6 h-6 object-contain"
-                                />
-                                <span className={isCurrentTeam ? "text-green-400 animate-pulse" : "text-white"}>
-                                  {row.competitor.name}
-                                </span>
-                              </Link>
-                            </td>
-                            <td className="py-4 px-2 text-center text-gray-300 font-semibold">{row.gamePlayed}</td>
-                            <td className="py-4 px-2 text-center text-gray-400">{row.gamesWon}</td>
-                            <td className="py-4 px-2 text-center text-gray-400">{row.gamesDrawn}</td>
-                            <td className="py-4 px-2 text-center text-gray-400">{row.gamesLost}</td>
-                            <td className="py-4 px-2 text-center text-gray-400 text-xs">{row.goalsFor}-{row.goalsAgainst}</td>
-                            <td className="py-4 px-4 text-center font-black text-green-400">{row.points}</td>
+                    <div className="overflow-x-auto scrollbar-none">
+                      <table className="w-full text-right border-collapse text-sm sm:text-base">
+                        <thead>
+                          <tr className="bg-gray-800/30 text-gray-400 text-xs sm:text-sm font-semibold border-b border-gray-800">
+                            <th className="py-3 px-4 text-center w-12">#</th>
+                            <th className="py-3 px-4">الفريق</th>
+                            <th className="py-3 px-2 text-center">لعب</th>
+                            <th className="py-3 px-2 text-center">فوز</th>
+                            <th className="py-3 px-2 text-center">تعادل</th>
+                            <th className="py-3 px-2 text-center">خسارة</th>
+                            <th className="py-3 px-2 text-center">له/عليه</th>
+                            <th className="py-3 px-4 text-center font-bold text-white">النقاط</th>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                        </thead>
+                        <tbody className="divide-y divide-gray-800/40">
+                          {table.rows.map((row: any, i: number) => {
+                            const isCurrentTeam = row.competitor.id === team.id;
+                            return (
+                              <tr 
+                                key={i} 
+                                className={`hover:bg-gray-800/20 transition-all ${
+                                  isCurrentTeam ? "bg-green-500/10 font-bold border-r-4 border-r-emerald-500" : ""
+                                }`}
+                              >
+                                <td className="py-4 px-4 text-center text-xs sm:text-sm text-gray-400">
+                                  {row.position}
+                                </td>
+                                <td className="py-4 px-4">
+                                  <Link 
+                                    href={`/team/${row.competitor.id}`}
+                                    className="flex items-center gap-3"
+                                  >
+                                    <img
+                                      src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${row.competitor.id}`}
+                                      alt=""
+                                      className="w-6 h-6 object-contain"
+                                    />
+                                    <span className={isCurrentTeam ? "text-green-450 font-black animate-pulse" : "text-white"}>
+                                      {row.competitor.name}
+                                    </span>
+                                  </Link>
+                                </td>
+                                <td className="py-4 px-2 text-center text-gray-300 font-semibold">{row.gamePlayed}</td>
+                                <td className="py-4 px-2 text-center text-gray-400">{row.gamesWon}</td>
+                                <td className="py-4 px-2 text-center text-gray-400">{row.gamesDrawn || row.gamesEven}</td>
+                                <td className="py-4 px-2 text-center text-gray-400">{row.gamesLost}</td>
+                                <td className="py-4 px-2 text-center text-gray-400 text-xs">
+                                  {row.goalsFor !== undefined ? `${row.goalsFor}-${row.goalsAgainst}` : `${row.for}-${row.against}`}
+                                </td>
+                                <td className="py-4 px-4 text-center font-black text-green-400">{row.points}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))
               ) : (
-                <div className="p-8 text-center text-gray-400 text-sm">
+                <div className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl p-8 text-center text-gray-400 text-sm">
                   لا يتوفر جدول ترتيب حالياً لهذا الفريق.
                 </div>
               )}

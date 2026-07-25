@@ -3,8 +3,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Award, ChevronLeft, Trophy, Star, Clock, Play } from "lucide-react";
-import { getCompetitionStandings, getCompetitionGames, getCompetitionScorers } from "@/services/api";
+import { getCompetitionStandings, getCompetitionGames, getCompetitionScorers, getCompetitionBrackets } from "@/services/api";
 import SidebarLeagues from "@/components/SidebarLeagues";
+import StandingsBrackets from "@/components/StandingsBrackets";
 
 type RouteParams = {
   params: Promise<{ leagueId: string }>;
@@ -46,22 +47,97 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
   const { leagueId } = await params;
   const { live, tab } = await searchParams;
   const isLive = live === "true";
-  const activeTab = tab || "standings"; // standings, scorers, results, fixtures
 
   const numLeagueId = parseInt(leagueId, 10);
 
-  // Parallel fetch: standings table, games/results, and scorers stats
-  const [standingsData, currentGames, scorers] = await Promise.all([
+  // Parallel fetch: standings table, games/results, scorers stats, and brackets data
+  const [standingsData, currentGames, scorers, bracketsRes] = await Promise.all([
     getCompetitionStandings(leagueId, isLive),
     getCompetitionGames(leagueId),
-    getCompetitionScorers(leagueId)
+    getCompetitionScorers(leagueId),
+    getCompetitionBrackets(leagueId).catch(() => null)
   ]);
 
-  if (!standingsData || !standingsData.standings || standingsData.standings.length === 0) {
+  let brackets = null;
+  if (bracketsRes && bracketsRes.brackets) {
+    brackets = Array.isArray(bracketsRes.brackets)
+      ? bracketsRes.brackets[0]
+      : bracketsRes.brackets;
+  }
+  const hasBrackets = !!(brackets && Array.isArray(brackets.stages) && brackets.stages.length > 0);
+  const hasStandings = !!(standingsData && standingsData.standings && standingsData.standings.length > 0);
+  const hasGames = !!(currentGames && currentGames.length > 0);
+  const hasScorers = !!(scorers && scorers.length > 0);
+
+  // 404 only if all sources are empty
+  if (!hasStandings && !hasGames && !hasBrackets && !hasScorers) {
     notFound();
   }
 
-  const leagueName = standingsData.standings[0].displayName || "جدول ترتيب الدوري";
+  // Dynamic default tab depending on what data exists
+  let defaultTab = "standings";
+  if (!hasStandings) {
+    if (hasBrackets) {
+      defaultTab = "knockout";
+    } else if (hasGames) {
+      const completedGames = currentGames.filter((g: any) => g.statusGroup === 4);
+      if (completedGames.length > 0) {
+        defaultTab = "results";
+      } else {
+        defaultTab = "fixtures";
+      }
+    } else {
+      defaultTab = "scorers";
+    }
+  }
+
+  const activeTab = tab || defaultTab;
+
+  const getLeagueNameFallback = (id: number) => {
+    const map: Record<number, string> = {
+      5930: "كأس العالم",
+      572: "دوري أبطال أوروبا",
+      7: "الدوري الإنجليزي الممتاز",
+      11: "الدوري الإسباني",
+      649: "الدوري السعودي",
+      624: "دوري أبطال أفريقيا",
+      557: "البطولة المغربية الاحترافية",
+      8935: "الدوري المصري الممتاز",
+      623: "دوري أبطال آسيا",
+      329: "الدوري الأوروبي",
+      167: "كأس أمم أفريقيا",
+      17: "الدوري الإيطالي",
+      25: "الدوري الألماني",
+      35: "الدوري الفرنسي",
+      573: "كأس أمم أوروبا",
+    };
+    return map[id] || "جدول ترتيب الدوري";
+  };
+
+  let leagueName = "";
+  if (hasStandings) {
+    leagueName = standingsData.standings[0].displayName || "جدول ترتيب الدوري";
+  } else if (hasGames) {
+    const firstGame = currentGames[0];
+    if (firstGame.competition && firstGame.competition.name) {
+      leagueName = firstGame.competition.name;
+    }
+  }
+  if (!leagueName) {
+    leagueName = getLeagueNameFallback(numLeagueId);
+  }
+
+  const visibleTabs = [];
+  if (hasStandings) visibleTabs.push("standings");
+  visibleTabs.push("scorers");
+  visibleTabs.push("results");
+  visibleTabs.push("fixtures");
+  if (hasBrackets) visibleTabs.push("knockout");
+
+  const tabColsClass = 
+    visibleTabs.length === 5 ? "grid-cols-3 sm:grid-cols-5" :
+    visibleTabs.length === 4 ? "grid-cols-2 sm:grid-cols-4" :
+    "grid-cols-3";
 
   const getLeagueCountry = (id: number) => {
     const map: Record<number, string> = {
@@ -88,30 +164,32 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
   // split them into distinct tables dynamically for a proper layout.
   let processedTables: Array<{ displayName: string; rows: any[]; destinations?: any[] }> = [];
 
-  standingsData.standings.forEach((table) => {
-    if (table.groups && table.groups.length > 1) {
-      table.groups.forEach((g: any) => {
-        const groupRows = table.rows.filter((row: any) => row.groupNum === g.num);
+  if (hasStandings) {
+    standingsData.standings.forEach((table) => {
+      if (table.groups && table.groups.length > 1) {
+        table.groups.forEach((g: any) => {
+          const groupRows = table.rows.filter((row: any) => row.groupNum === g.num);
+          processedTables.push({
+            displayName: g.name,
+            rows: groupRows,
+            destinations: table.destinations
+          });
+        });
+      } else {
         processedTables.push({
-          displayName: g.name,
-          rows: groupRows,
+          displayName: table.displayName || "الترتيب",
+          rows: table.rows,
           destinations: table.destinations
         });
-      });
-    } else {
-      processedTables.push({
-        displayName: table.displayName || "الترتيب",
-        rows: table.rows,
-        destinations: table.destinations
-      });
-    }
-  });
+      }
+    });
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" dir="rtl">
-      
+
       {/* Back Button */}
-      <Link 
+      <Link
         href="/"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-emerald-400 mb-6 transition"
       >
@@ -120,13 +198,13 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
       </Link>
 
       <div className="flex flex-col lg:flex-row gap-8">
-        
+
         {/* Sidebar leagues */}
         <SidebarLeagues activeLeagueId={numLeagueId} />
 
         {/* Standings Grid Area */}
         <div className="flex-1 space-y-6">
-          
+
           {/* Header Card (League Banner) */}
           <div className="relative overflow-hidden bg-gradient-to-l from-zinc-900 to-zinc-950 border border-zinc-800/80 rounded-2xl p-6 sm:p-8 flex flex-row items-center justify-between shadow-xl">
             <div className="z-10 text-right">
@@ -137,7 +215,7 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                 {getLeagueCountry(numLeagueId)}
               </span>
             </div>
-            
+
             <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-zinc-900 border border-zinc-800 p-2.5 flex items-center justify-center shadow-inner shrink-0 z-10">
               <img
                 src={`https://imagecache.365scores.com/image/upload/f_auto,w_120,h_120,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${leagueId}`}
@@ -146,53 +224,64 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                 loading="lazy"
               />
             </div>
-            
+
             {/* Subtle background glow */}
             <div className="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
           </div>
 
           {/* Tabs Navigation */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 bg-zinc-900/20 p-1.5 rounded-2xl border border-zinc-900">
-            <Link
-              href={`/standings/${leagueId}?tab=standings`}
-              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${
-                activeTab === "standings"
-                  ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
-                  : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
-              }`}
-            >
-              ترتيب الفرق
-            </Link>
+          <div className={`grid ${tabColsClass} gap-2 sm:gap-3 bg-zinc-900/20 p-1.5 rounded-2xl border border-zinc-900`}>
+            {hasStandings && (
+              <Link
+                href={`/standings/${leagueId}?tab=standings`}
+                className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${activeTab === "standings"
+                    ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
+                    : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
+                  }`}
+              >
+                ترتيب الفرق
+              </Link>
+            )}
             <Link
               href={`/standings/${leagueId}?tab=scorers`}
-              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${
-                activeTab === "scorers"
+              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${activeTab === "scorers"
                   ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
                   : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
-              }`}
+                }`}
             >
               ترتيب الهدافين
             </Link>
             <Link
               href={`/standings/${leagueId}?tab=results`}
-              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${
-                activeTab === "results"
+              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${activeTab === "results"
                   ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
                   : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
-              }`}
+                }`}
             >
               نتائج المباريات
             </Link>
             <Link
               href={`/standings/${leagueId}?tab=fixtures`}
-              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${
-                activeTab === "fixtures"
+              className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${activeTab === "fixtures"
                   ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
                   : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
-              }`}
+                }`}
             >
               المباريات القادمة
             </Link>
+            {hasBrackets && (
+              <Link
+                href={`/standings/${leagueId}?tab=knockout`}
+                className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${
+                  visibleTabs.length === 5 ? "col-span-2 sm:col-span-1" : ""
+                } ${activeTab === "knockout"
+                    ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
+                    : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
+                  }`}
+              >
+                خروج المغلوب
+              </Link>
+            )}
           </div>
 
           {/* Active Tab Content Area */}
@@ -203,21 +292,20 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                 <div className="flex justify-end bg-zinc-900/30 border border-zinc-800/60 rounded-2xl p-4 shadow-md">
                   <Link
                     href={`/standings/${leagueId}?live=${!isLive}`}
-                    className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-[10px] sm:text-xs font-bold transition-all ${
-                      isLive
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-[10px] sm:text-xs font-bold transition-all ${isLive
                         ? "bg-emerald-950/60 text-emerald-400 border-emerald-500/40"
                         : "bg-zinc-900 border-zinc-850 text-zinc-350 hover:bg-zinc-800"
-                    }`}
+                      }`}
                   >
                     <span className={`h-2 w-2 rounded-full ${isLive ? "bg-emerald-400 live-glow-badge" : "bg-zinc-500"}`} />
                     الترتيب المباشر (أثناء المباريات)
                   </Link>
                 </div>
-                
+
                 {/* Loop tables */}
                 {processedTables.map((table, tableIdx) => {
                   return (
-                    <div 
+                    <div
                       key={tableIdx}
                       className="bg-zinc-900/30 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-lg backdrop-blur-sm"
                     >
@@ -247,33 +335,32 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                           <tbody className="divide-y divide-zinc-850/40">
                             {table.rows.map((row) => {
                               const destColor = table.destinations?.find((d) => d.num === row.destinationNum)?.color;
-                              
+
                               return (
-                                <tr 
+                                <tr
                                   key={row.competitor.id}
                                   className="hover:bg-zinc-900/20 transition-colors"
                                 >
                                   <td className="p-3 text-center font-black">
-                                    <span 
+                                    <span
                                       style={{ borderRightColor: destColor }}
-                                      className={`inline-flex items-center justify-center w-full border-r-3 pr-1 text-zinc-300 ${
-                                        destColor ? "" : "border-r-transparent"
-                                      }`}
+                                      className={`inline-flex items-center justify-center w-full border-r-3 pr-1 text-zinc-300 ${destColor ? "" : "border-r-transparent"
+                                        }`}
                                     >
                                       {row.position}
                                     </span>
                                   </td>
 
                                   <td className="p-3 font-extrabold text-zinc-150">
-                                    <div className="flex items-center gap-2">
+                                    <Link href={`/team/${row.competitor.id}`} className="flex items-center gap-2 group hover:text-emerald-400 transition-colors">
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_50,h_50,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${row.competitor.id}`}
                                         alt={row.competitor.name}
-                                        className="h-6 w-6 object-contain"
+                                        className="h-6 w-6 object-contain transition-transform group-hover:scale-105"
                                         loading="lazy"
                                       />
                                       <span className="truncate">{row.competitor.name}</span>
-                                    </div>
+                                    </Link>
                                   </td>
 
                                   <td className="p-3 text-center font-semibold font-mono text-zinc-300">{row.gamePlayed}</td>
@@ -282,9 +369,8 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                                   <td className="p-3 text-center font-semibold font-mono text-zinc-300">{row.gamesLost}</td>
                                   <td className="p-3 text-center font-mono text-zinc-400">{row.for}</td>
                                   <td className="p-3 text-center font-mono text-zinc-400">{row.against}</td>
-                                  <td className={`p-3 text-center font-black font-mono ${
-                                    row.ratio > 0 ? "text-emerald-450" : row.ratio < 0 ? "text-red-400" : "text-zinc-500"
-                                  }`}>
+                                  <td className={`p-3 text-center font-black font-mono ${row.ratio > 0 ? "text-emerald-450" : row.ratio < 0 ? "text-red-400" : "text-zinc-500"
+                                    }`}>
                                     {row.ratio > 0 ? `+${row.ratio}` : row.ratio}
                                   </td>
                                   <td className="p-3 text-center font-black text-emerald-400 text-sm">{row.points}</td>
@@ -300,9 +386,9 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                         <div className="bg-zinc-950/40 p-4 border-t border-zinc-850 border-dashed grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {table.destinations.map((dest) => (
                             <div key={dest.num} className="flex items-center gap-2 text-xs">
-                              <span 
+                              <span
                                 style={{ backgroundColor: dest.color }}
-                                className="h-3 w-3 rounded-sm shrink-0 border border-white/10" 
+                                className="h-3 w-3 rounded-sm shrink-0 border border-white/10"
                               />
                               <span className="text-zinc-450 font-medium">{dest.guaranteedText}</span>
                             </div>
@@ -347,15 +433,15 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                               </div>
                             </td>
                             <td className="p-3 font-semibold text-zinc-350">
-                              <div className="flex items-center gap-2">
+                              <Link href={`/team/${scorer.teamId}`} className="flex items-center gap-2 group hover:text-emerald-400 transition-colors">
                                 <img
                                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${scorer.teamId}`}
                                   alt={scorer.teamName}
-                                  className="h-5 w-5 object-contain"
+                                  className="h-5 w-5 object-contain transition-transform group-hover:scale-105"
                                   loading="lazy"
                                 />
                                 <span className="text-xs">{scorer.teamName}</span>
-                              </div>
+                              </Link>
                             </td>
                             <td className="p-3 text-center font-black text-emerald-450 text-sm">{scorer.value}</td>
                           </tr>
@@ -397,25 +483,25 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                               <span>{dateStr} | {timeStr}</span>
                             </div>
                             <div className="flex items-center justify-between gap-4">
-                              <div className="flex-1 flex items-center gap-2 text-right">
+                              <Link href={`/team/${game.homeCompetitor.id}`} className="flex-1 flex items-center gap-2 text-right group hover:text-emerald-400 transition-colors overflow-hidden">
                                 <img
                                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_50,h_50,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                   alt=""
-                                  className="h-6 w-6 object-contain"
+                                  className="h-6 w-6 object-contain transition-transform group-hover:scale-105"
                                 />
-                                <span className="text-xs font-bold text-zinc-200 truncate">{game.homeCompetitor.name}</span>
-                              </div>
+                                <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition-colors">{game.homeCompetitor.name}</span>
+                              </Link>
                               <div className="px-3 py-1 rounded bg-zinc-850 text-xs font-black font-mono text-zinc-150 shrink-0">
                                 {game.homeCompetitor.score} - {game.awayCompetitor.score}
                               </div>
-                              <div className="flex-1 flex items-center justify-end gap-2 text-left">
-                                <span className="text-xs font-bold text-zinc-200 truncate">{game.awayCompetitor.name}</span>
+                              <Link href={`/team/${game.awayCompetitor.id}`} className="flex-1 flex items-center justify-end gap-2 text-left group hover:text-emerald-400 transition-colors overflow-hidden">
+                                <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition-colors">{game.awayCompetitor.name}</span>
                                 <img
                                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_50,h_50,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                   alt=""
-                                  className="h-6 w-6 object-contain"
+                                  className="h-6 w-6 object-contain transition-transform group-hover:scale-105"
                                 />
-                              </div>
+                              </Link>
                             </div>
                           </div>
                         );
@@ -455,25 +541,25 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                               <span>{dateStr} | {timeStr}</span>
                             </div>
                             <div className="flex items-center justify-between gap-4">
-                              <div className="flex-1 flex items-center gap-2 text-right">
+                              <Link href={`/team/${game.homeCompetitor.id}`} className="flex-1 flex items-center gap-2 text-right group hover:text-emerald-400 transition-colors overflow-hidden">
                                 <img
                                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_50,h_50,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                   alt=""
-                                  className="h-6 w-6 object-contain"
+                                  className="h-6 w-6 object-contain transition-transform group-hover:scale-105"
                                 />
-                                <span className="text-xs font-bold text-zinc-200 truncate">{game.homeCompetitor.name}</span>
-                              </div>
+                                <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition-colors">{game.homeCompetitor.name}</span>
+                              </Link>
                               <div className="px-3 py-1 rounded bg-zinc-850 text-xs font-black text-emerald-450 shrink-0">
                                 {timeStr}
                               </div>
-                              <div className="flex-1 flex items-center justify-end gap-2 text-left">
-                                <span className="text-xs font-bold text-zinc-200 truncate">{game.awayCompetitor.name}</span>
+                              <Link href={`/team/${game.awayCompetitor.id}`} className="flex-1 flex items-center justify-end gap-2 text-left group hover:text-emerald-400 transition-colors overflow-hidden">
+                                <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition-colors">{game.awayCompetitor.name}</span>
                                 <img
                                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_50,h_50,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                   alt=""
-                                  className="h-6 w-6 object-contain"
+                                  className="h-6 w-6 object-contain transition-transform group-hover:scale-105"
                                 />
-                              </div>
+                              </Link>
                             </div>
                           </div>
                         );
@@ -483,6 +569,10 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                   <div className="p-8 text-center text-xs text-zinc-500">لا توجد مباريات قادمة مجدولة.</div>
                 )}
               </div>
+            )}
+
+            {activeTab === "knockout" && (
+              <StandingsBrackets brackets={brackets} leagueId={numLeagueId} />
             )}
           </div>
 
