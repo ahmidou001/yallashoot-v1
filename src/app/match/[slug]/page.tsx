@@ -1,11 +1,13 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { getGameDetails } from "@/services/api";
 import { dbConnect } from "@/lib/db";
 import LiveMatch from "@/models/LiveMatch";
 import MatchDetailsClient from "@/components/MatchDetailsClient";
 import { extractIdFromSlug } from "@/lib/matchSlug";
+import { signSecureStreamUrl } from "@/lib/crypto";
 
 type RouteParams = {
   params: Promise<{ slug: string }>;
@@ -26,7 +28,6 @@ async function getMatchHighlightIframe(homeTeam: string, awayTeam: string): Prom
     const json = await res.json();
     
     if (json && Array.isArray(json.list) && json.list.length > 0) {
-      // Find the best matching title that has at least one of the team names
       const bestVideo = json.list.find((v: any) => {
         const title = v.title.toLowerCase();
         return title.includes(homeTeam.toLowerCase()) || title.includes(awayTeam.toLowerCase());
@@ -82,6 +83,11 @@ export default async function MatchPage({ params }: RouteParams) {
   const { slug } = await params;
   const id = extractIdFromSlug(slug);
 
+  const headersList = await headers();
+  const userAgent = headersList.get("user-agent") || "";
+  const edgeDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
+  const secret = process.env.STREAM_SECRET_KEY || "MySuperSecretKeyForKooraLive2026";
+
   // 1. Fetch match details from upstream API
   let detailsData;
   try {
@@ -94,7 +100,7 @@ export default async function MatchPage({ params }: RouteParams) {
     notFound();
   }
 
-  // 2. Check if stream exists in DB — URL is signed client-side on activation
+  // 2. Query stream config & sign servers at SSR time (matches yalla_player architecture)
   let streamData: {
     hasStream: boolean;
     streamType: "hls" | "youtube" | "iframe" | "other";
@@ -104,9 +110,13 @@ export default async function MatchPage({ params }: RouteParams) {
     serverCount: number;
   } | null = null;
 
+  let servers: { label: string; signedUrl: string }[] = [];
+
   try {
     await dbConnect();
-    const doc = await LiveMatch.findOne({ "matches.slug": slug });
+    const doc = await LiveMatch.findOne({
+      $or: [{ "matches.slug": slug }, { "matches.id": slug }, { "matches.id": Number(id) || 0 }]
+    }).sort({ _id: -1 }).lean();
 
     if (doc && Array.isArray(doc.matches)) {
       const match = doc.matches.find((m: any) => m.slug === slug || String(m.id) === String(id));
@@ -117,11 +127,17 @@ export default async function MatchPage({ params }: RouteParams) {
         const isYoutube = streamUrlRaw.includes("youtube.com") || streamUrlRaw.includes("youtu.be");
         const isHls = streamUrlRaw.includes(".m3u8");
 
-        // Count alternate servers
-        const alternateUrls = Array.isArray((match as any)?.alternateStreamUrls)
-          ? (match as any).alternateStreamUrls.filter((u: string) => u && u.trim() !== "")
-          : [];
-        const serverCount = isIframe ? 0 : 1 + alternateUrls.length;
+        const rawUrls: string[] = [
+          ...(!isIframe ? [streamUrlRaw.replace("stream.chofmatch.live", edgeDomain)] : []),
+          ...((match as any).alternateStreamUrls || [])
+            .filter((u: string) => u && u.trim() !== "" && !u.includes("iframe"))
+            .map((u: string) => u.replace("stream.chofmatch.live", edgeDomain)),
+        ];
+
+        servers = rawUrls.map((url, i) => ({
+          label: i === 0 ? "خادم 1" : `خادم ${i + 1}`,
+          signedUrl: signSecureStreamUrl(url, secret, userAgent) || url,
+        }));
 
         streamData = {
           hasStream: true,
@@ -129,7 +145,7 @@ export default async function MatchPage({ params }: RouteParams) {
           iframeHtml: isIframe ? streamUrlRaw : null,
           channel: match?.channel || null,
           commentator: match?.commentator || null,
-          serverCount,
+          serverCount: servers.length,
         };
       }
     }
@@ -156,10 +172,12 @@ export default async function MatchPage({ params }: RouteParams) {
         gameId={id}
         matchSlug={slug}
         streamData={streamData}
+        servers={servers}
         highlightUrl={highlightUrl}
       />
     </div>
   );
 }
+
 
 

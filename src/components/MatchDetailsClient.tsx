@@ -33,6 +33,7 @@ interface MatchDetailsClientProps {
     serverCount?: number;
     iframeHtml?: string | null;
   } | null;
+  servers?: { label: string; signedUrl: string }[];
   highlightUrl?: string | null;
 }
 
@@ -41,6 +42,7 @@ export default function MatchDetailsClient({
   gameId,
   matchSlug,
   streamData,
+  servers = [],
   highlightUrl,
 }: MatchDetailsClientProps) {
   const router = useRouter();
@@ -189,6 +191,7 @@ export default function MatchDetailsClient({
             matchTime={formatTime(game.startTime)}
             serverCount={streamData?.serverCount || 1}
             iframeHtml={streamData?.iframeHtml}
+            servers={servers}
           />
         </div>
       )}
