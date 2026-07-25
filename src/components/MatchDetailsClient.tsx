@@ -50,7 +50,7 @@ export default function MatchDetailsClient({
   // Check if match has finished or started
   const isFinished = initialDetails.game.statusGroup === 4;
   const isStarted = initialDetails.game.homeCompetitor.score !== -1;
-  const defaultTab = isFinished && highlightUrl ? "summary" : isStarted ? "overview" : "details";
+  const defaultTab = (isFinished && highlightUrl && !streamData?.hasStream) ? "summary" : isStarted ? "overview" : "details";
 
   // Expand states for team performance logs
   const [showMoreHome, setShowMoreHome] = useState(false);

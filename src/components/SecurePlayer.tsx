@@ -33,7 +33,9 @@ export default function SecurePlayer({
 }: SecurePlayerProps) {
   const slug = matchSlug || gameId;
 
-  if (isFinished && highlightUrl) {
+  // Only fallback to Dailymotion highlight iframe if NO live stream is available
+  const hasLiveStream = (serverCount && serverCount > 0) || !!iframeHtml || (!!streamUrl && streamUrl.trim() !== "");
+  if (!hasLiveStream && isFinished && highlightUrl) {
     return (
       <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 shadow-2xl">
         <iframe
@@ -61,4 +63,5 @@ export default function SecurePlayer({
     </div>
   );
 }
+
 
