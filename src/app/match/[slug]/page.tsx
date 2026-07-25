@@ -13,33 +13,7 @@ type RouteParams = {
   params: Promise<{ slug: string }>;
 };
 
-/**
- * Dynamically queries Dailymotion for beIN Sports highlights of the match
- */
-async function getMatchHighlightIframe(homeTeam: string, awayTeam: string): Promise<string | null> {
-  try {
-    const searchString = `beIN Sports ملخص مباراة ${homeTeam} ${awayTeam}`;
-    const query = encodeURIComponent(searchString);
-    const res = await fetch(`https://api.dailymotion.com/videos?fields=id,title&search=${query}&limit=5`, {
-      next: { revalidate: 3600 } // Cache results for 1 hour
-    });
-    
-    if (!res.ok) return null;
-    const json = await res.json();
-    
-    if (json && Array.isArray(json.list) && json.list.length > 0) {
-      const bestVideo = json.list.find((v: any) => {
-        const title = v.title.toLowerCase();
-        return title.includes(homeTeam.toLowerCase()) || title.includes(awayTeam.toLowerCase());
-      }) || json.list[0];
-      
-      return `https://geo.dailymotion.com/player/xakml.html?video=${bestVideo.id}&customConfig%5Bpremium%5D=false`;
-    }
-  } catch (error) {
-    console.error("Highlight scraper error:", error);
-  }
-  return null;
-}
+
 
 /**
  * Generate Dynamic SEO Metadata for Match Details Page
@@ -153,18 +127,6 @@ export default async function MatchPage({ params }: RouteParams) {
     console.error("Failed to connect to Mongo or query stream slots:", error);
   }
 
-  // 3. If finished, fetch highlight
-  let highlightUrl = null;
-  if (detailsData.game.statusGroup === 4) {
-    highlightUrl = await getMatchHighlightIframe(
-      detailsData.game.homeCompetitor.name,
-      detailsData.game.awayCompetitor.name
-    );
-    if (!highlightUrl) {
-      highlightUrl = `https://geo.dailymotion.com/player/xakml.html?video=k1ARtcE08LXlXBHI2Ge&customConfig%5Bpremium%5D=false`;
-    }
-  }
-
   return (
     <div className="bg-zinc-950 min-h-screen text-zinc-100">
       <MatchDetailsClient
@@ -173,7 +135,6 @@ export default async function MatchPage({ params }: RouteParams) {
         matchSlug={slug}
         streamData={streamData}
         servers={servers}
-        highlightUrl={highlightUrl}
       />
     </div>
   );

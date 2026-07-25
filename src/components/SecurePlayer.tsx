@@ -34,23 +34,6 @@ export default function SecurePlayer({
   servers = [],
 }: SecurePlayerProps) {
   const slug = matchSlug || gameId;
-
-  // Only fallback to Dailymotion highlight iframe if NO live stream is available
-  const hasLiveStream = servers.length > 0 || (serverCount && serverCount > 0) || !!iframeHtml || (!!streamUrl && streamUrl.trim() !== "");
-  if (!hasLiveStream && isFinished && highlightUrl) {
-    return (
-      <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 shadow-2xl">
-        <iframe
-          src={highlightUrl}
-          className="absolute inset-0 h-full w-full"
-          allowFullScreen
-          allow="autoplay; encrypted-media; picture-in-picture"
-          title="ملخص المباراة"
-        />
-      </div>
-    );
-  }
-
   const matchStatus = isFinished ? "finished" : isLive ? "live" : "";
 
   return (

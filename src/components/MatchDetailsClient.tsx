@@ -52,7 +52,7 @@ export default function MatchDetailsClient({
   // Check if match has finished or started
   const isFinished = initialDetails.game.statusGroup === 4;
   const isStarted = initialDetails.game.homeCompetitor.score !== -1;
-  const defaultTab = (isFinished && highlightUrl && !streamData?.hasStream) ? "summary" : isStarted ? "overview" : "details";
+  const defaultTab = isStarted ? "overview" : "details";
 
   // Expand states for team performance logs
   const [showMoreHome, setShowMoreHome] = useState(false);
@@ -61,7 +61,6 @@ export default function MatchDetailsClient({
   // Set tab state synchronized with query param or local fallback, enforcing availability rules
   const activeTabRaw = searchParams.get("tab") || defaultTab;
   const isTabAllowed = (tab: string) => {
-    if (tab === "summary" && !(isFinished && highlightUrl)) return false;
     if ((tab === "overview" || tab === "stats") && !isStarted) return false;
     return true;
   };
@@ -261,7 +260,6 @@ export default function MatchDetailsClient({
       {/* Tabs Header Navigation */}
       <div className="flex border-b border-zinc-800 mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-between sm:justify-start gap-1">
         {[
-          ...(isFinished && highlightUrl ? [{ id: "summary", label: "ملخص المباراة", icon: Play }] : []),
           ...(isStarted ? [
             { id: "overview", label: "أحداث المباراة", icon: Activity },
             { id: "stats", label: "الإحصائيات", icon: BarChart3 }
@@ -293,30 +291,6 @@ export default function MatchDetailsClient({
 
       {/* Tab Panels */}
       <div className="min-h-[200px]">
-
-        {/* Tab 0: Match Summary (Only shown for finished matches with highlights) */}
-        {activeTab === "summary" && isFinished && highlightUrl && (
-          <div className="space-y-6 animate-fadeIn">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 sm:p-8 shadow-xl">
-              <h2 className="text-base sm:text-lg font-black text-zinc-100 mb-2 leading-tight">
-                ملخص مباراة {game.homeCompetitor.name} ضد {game.awayCompetitor.name} ({game.homeCompetitor.score} - {game.awayCompetitor.score})
-              </h2>
-              <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-zinc-400 mb-6 border-b border-zinc-850 pb-4">
-                <div>
-                  <span className="text-emerald-450">البطولة:</span> {leagueName}
-                </div>
-                <div className="h-3.5 w-px bg-zinc-800 hidden sm:block" />
-                <div>
-                  <span className="text-emerald-455">التاريخ:</span> {new Date(game.startTime).toLocaleDateString("ar-EG-u-nu-latn", { year: 'numeric', month: '2-digit', day: '2-digit' })}
-                </div>
-                <div className="h-3.5 w-px bg-zinc-800 hidden sm:block" />
-                <div>
-                  <span className="text-emerald-400">حالة اللقاء:</span> {game.statusText || "منتهية"}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
         
         {/* Tab 1: Overview & Events Timeline */}
         {activeTab === "overview" && (
