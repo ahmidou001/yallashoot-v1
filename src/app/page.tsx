@@ -506,17 +506,17 @@ export default function HomePage() {
                                   className="group block p-3.5 hover:bg-zinc-850/30 transition cursor-pointer"
                                 >
                                   <div className="flex items-center justify-between gap-2">
-                                    {/* Home Competitor */}
+                                    {/* Home Competitor (Logo on outer right edge) */}
                                     <div className="flex-1 flex items-center justify-start gap-2.5 min-w-0">
-                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
-                                        {game.homeCompetitor.name}
-                                      </span>
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                         alt={game.homeCompetitor.name}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                                        {game.homeCompetitor.name}
+                                      </span>
                                     </div>
 
                                     {/* Center: Time / Score Pill Badge */}
@@ -545,17 +545,17 @@ export default function HomePage() {
                                       )}
                                     </div>
 
-                                    {/* Away Competitor */}
+                                    {/* Away Competitor (Logo on outer left edge) */}
                                     <div className="flex-1 flex items-center justify-end gap-2.5 min-w-0">
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition text-left">
+                                        {game.awayCompetitor.name}
+                                      </span>
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                         alt={game.awayCompetitor.name}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
-                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
-                                        {game.awayCompetitor.name}
-                                      </span>
                                     </div>
                                   </div>
                                 </Link>
@@ -615,17 +615,17 @@ export default function HomePage() {
                                   className="group block p-3.5 hover:bg-zinc-850/30 transition cursor-pointer"
                                 >
                                   <div className="flex items-center justify-between gap-2">
-                                    {/* Home Competitor */}
+                                    {/* Home Competitor (Logo on outer right edge) */}
                                     <div className="flex-1 flex items-center justify-start gap-2.5 min-w-0">
-                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
-                                        {game.homeCompetitor.name}
-                                      </span>
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                         alt={game.homeCompetitor.name}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                                        {game.homeCompetitor.name}
+                                      </span>
                                     </div>
 
                                     {/* Center: Time / Score Pill Badge */}
@@ -654,17 +654,17 @@ export default function HomePage() {
                                       )}
                                     </div>
 
-                                    {/* Away Competitor */}
+                                    {/* Away Competitor (Logo on outer left edge) */}
                                     <div className="flex-1 flex items-center justify-end gap-2.5 min-w-0">
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition text-left">
+                                        {game.awayCompetitor.name}
+                                      </span>
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                         alt={game.awayCompetitor.name}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
-                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
-                                        {game.awayCompetitor.name}
-                                      </span>
                                     </div>
                                   </div>
                                 </Link>
