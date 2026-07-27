@@ -6,7 +6,7 @@ import Link from "next/link";
 import { 
   Calendar, Play, Tv, RefreshCw, AlertCircle, Award, 
   ChevronLeft, ChevronRight, Star, Trophy, Clock, 
-  ArrowLeftRight, Flame, BookOpen, Heart, Info, ChevronDown 
+  ArrowLeftRight, Flame, BookOpen, Heart, Info, ChevronDown, MoreHorizontal 
 } from "lucide-react";
 import SidebarLeagues from "@/components/SidebarLeagues";
 import { GamesResponse, Game, Competition } from "@/types/api";
@@ -454,7 +454,7 @@ export default function HomePage() {
 
             {/* Match Feed list */}
             {!isLoading && !error && (
-              <div className="max-h-[500px] overflow-y-auto divide-y divide-zinc-850 select-none [scrollbar-width:thin] bg-zinc-900/10">
+              <div className="max-h-[550px] overflow-y-auto divide-y divide-zinc-850 select-none [scrollbar-width:thin] bg-zinc-900/10">
                 {/* 1. Popular/Priority Leagues Group */}
                 {priorityCompetitions.length > 0 && (
                   <div>
@@ -462,33 +462,36 @@ export default function HomePage() {
                       <span className="text-[11px] font-black text-zinc-350">بطولات كرة قدم شائعة</span>
                       <Star className="h-3.5 w-3.5 text-sky-500 fill-sky-500" />
                     </div>
-                    <div className="divide-y divide-zinc-850/50">
+                    <div className="space-y-4 p-2 sm:p-3">
                       {priorityCompetitions.map(({ competition, games }) => (
-                        <div key={competition.id} className="p-3 bg-zinc-900/10">
+                        <div key={competition.id} className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-[#161b26] shadow-lg">
                           {/* League Header */}
                           {(() => {
                             const countryName = (data?.countries || []).find((c) => c.id === competition.countryId)?.name || (competition.countryId === 19 ? "أوروبا" : "دولي");
                             return (
-                              <div className="flex items-center justify-between mb-3 pb-2 border-b border-zinc-800/60 px-1">
+                              <div className="flex items-center justify-between bg-[#11151f] px-4 py-3 border-b border-zinc-800/70">
                                 <div className="flex items-center gap-2.5">
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
                                     alt={competition.name}
-                                    className="h-8 w-8 object-contain rounded-xl bg-zinc-850 border border-zinc-800 p-1"
+                                    className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1"
                                     loading="lazy"
                                   />
                                   <div className="flex flex-col text-right">
                                     <span className="text-xs font-black text-zinc-150 leading-tight">{competition.name}</span>
-                                    <span className="text-[10px] text-zinc-500 font-bold mt-0.5">{countryName}</span>
+                                    <span className="text-[10px] text-zinc-450 font-bold mt-0.5">{countryName}</span>
                                   </div>
                                 </div>
-                                <Star className="h-3.5 w-3.5 text-sky-500 fill-sky-500" />
+                                <div className="flex items-center gap-2">
+                                  <Star className="h-3.5 w-3.5 text-sky-500 fill-sky-500" />
+                                  <MoreHorizontal className="h-4 w-4 text-zinc-400 hover:text-zinc-200 transition cursor-pointer" />
+                                </div>
                               </div>
                             );
                           })()}
                           
                           {/* Matches */}
-                          <div className="space-y-2">
+                          <div className="divide-y divide-zinc-850/60">
                             {games.map((game) => {
                               const isLive = game.statusGroup === 3;
                               const isFinished = game.statusGroup === 4;
@@ -500,66 +503,60 @@ export default function HomePage() {
                                 <Link
                                   key={game.id}
                                   href={`/match/${slug}`}
-                                  className="block p-3 rounded-xl bg-zinc-900 border border-zinc-850 hover:bg-zinc-850/10 hover:border-zinc-800 transition"
+                                  className="group block p-3.5 hover:bg-zinc-850/30 transition cursor-pointer"
                                 >
-                                  <div className="flex items-center justify-between">
-                                    {/* Left Side: Score or Status */}
-                                    <div className="flex flex-col items-center justify-center min-w-[55px] text-center border-l border-zinc-850/80 pl-2">
+                                  <div className="flex items-center justify-between gap-2">
+                                    {/* Home Competitor */}
+                                    <div className="flex-1 flex items-center justify-start gap-2.5 min-w-0">
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                                        {game.homeCompetitor.name}
+                                      </span>
+                                      <img
+                                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
+                                        alt={game.homeCompetitor.name}
+                                        className="h-6 w-6 object-contain shrink-0"
+                                        loading="lazy"
+                                      />
+                                    </div>
+
+                                    {/* Center: Time / Score Pill Badge */}
+                                    <div className="flex flex-col items-center justify-center shrink-0 min-w-[68px] px-1 text-center">
                                       {isLive ? (
                                         <div className="flex flex-col items-center">
-                                          <span className="rounded bg-red-950/80 border border-red-500/20 px-1 py-0.5 text-[8px] font-black text-red-400 animate-pulse">
-                                            مباشر
+                                          <span className="rounded-full bg-red-950/90 border border-red-500/30 px-2 py-0.5 text-[9px] font-black text-red-400 animate-pulse">
+                                            مباشر {game.gameTime}&apos;
                                           </span>
-                                          <span className="text-[10px] font-black text-red-400 font-mono mt-0.5">
-                                            {game.gameTime}&apos;
-                                          </span>
+                                          <div className="flex items-center gap-1 mt-1 text-xs font-black font-mono text-zinc-100">
+                                            <span>{homeScore}</span>
+                                            <span className="text-zinc-500">:</span>
+                                            <span>{awayScore}</span>
+                                          </div>
                                         </div>
                                       ) : isFinished ? (
-                                        <span className="rounded bg-zinc-850 border border-zinc-800 px-1.5 py-0.5 text-[8px] font-bold text-zinc-400">
-                                          انتهت
-                                        </span>
+                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750 text-xs font-black font-mono text-zinc-200">
+                                          <span>{homeScore}</span>
+                                          <span className="text-zinc-500">:</span>
+                                          <span>{awayScore}</span>
+                                        </div>
                                       ) : (
-                                        <span className="text-[10px] font-black text-zinc-350 font-mono">
+                                        <div className="px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750/70 text-xs font-mono font-bold text-zinc-200 shadow-inner">
                                           {formatTime(game.startTime)}
-                                        </span>
+                                        </div>
                                       )}
                                     </div>
 
-                                    {/* Center: Competitors */}
-                                    <div className="flex-1 flex flex-col gap-1.5 px-3">
-                                      {/* Home Team */}
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2 text-right">
-                                          <img
-                                            src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
-                                            alt={game.homeCompetitor.name}
-                                            className="h-4.5 w-4.5 object-contain"
-                                            loading="lazy"
-                                          />
-                                          <span className="text-xs font-bold text-zinc-200">{game.homeCompetitor.name}</span>
-                                        </div>
-                                        {homeScore !== -1 && (
-                                          <span className="text-xs font-black font-mono text-zinc-100">{homeScore}</span>
-                                        )}
-                                      </div>
-
-                                      {/* Away Team */}
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2 text-right">
-                                          <img
-                                            src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
-                                            alt={game.awayCompetitor.name}
-                                            className="h-4.5 w-4.5 object-contain"
-                                            loading="lazy"
-                                          />
-                                          <span className="text-xs font-bold text-zinc-200">{game.awayCompetitor.name}</span>
-                                        </div>
-                                        {awayScore !== -1 && (
-                                          <span className="text-xs font-black font-mono text-zinc-100">{awayScore}</span>
-                                        )}
-                                      </div>
+                                    {/* Away Competitor */}
+                                    <div className="flex-1 flex items-center justify-end gap-2.5 min-w-0">
+                                      <img
+                                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
+                                        alt={game.awayCompetitor.name}
+                                        className="h-6 w-6 object-contain shrink-0"
+                                        loading="lazy"
+                                      />
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                                        {game.awayCompetitor.name}
+                                      </span>
                                     </div>
-
                                   </div>
                                 </Link>
                               );
@@ -570,39 +567,40 @@ export default function HomePage() {
                     </div>
                   </div>
                 )}
-
+                
                 {/* 2. Other Leagues Group */}
                 {otherCompetitions.length > 0 && (
                   <div>
                     <div className="bg-zinc-950/65 px-4 py-2.5 border-b border-zinc-800/80">
                       <span className="text-[11px] font-black text-zinc-400">بطولات أخرى</span>
                     </div>
-                    <div className="divide-y divide-zinc-850/50">
+                    <div className="space-y-4 p-2 sm:p-3">
                       {otherCompetitions.map(({ competition, games }) => (
-                        <div key={competition.id} className="p-3 bg-zinc-900/10">
+                        <div key={competition.id} className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-[#161b26] shadow-lg">
                           {/* League Header */}
                           {(() => {
                             const countryName = (data?.countries || []).find((c) => c.id === competition.countryId)?.name || (competition.countryId === 19 ? "أوروبا" : "دولي");
                             return (
-                              <div className="flex items-center justify-between mb-3 pb-2 border-b border-zinc-800/60 px-1">
+                              <div className="flex items-center justify-between bg-[#11151f] px-4 py-3 border-b border-zinc-800/70">
                                 <div className="flex items-center gap-2.5">
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
                                     alt={competition.name}
-                                    className="h-8 w-8 object-contain rounded-xl bg-zinc-850 border border-zinc-800 p-1"
+                                    className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1"
                                     loading="lazy"
                                   />
                                   <div className="flex flex-col text-right">
                                     <span className="text-xs font-black text-zinc-150 leading-tight">{competition.name}</span>
-                                    <span className="text-[10px] text-zinc-550 font-semibold mt-0.5">{countryName}</span>
+                                    <span className="text-[10px] text-zinc-450 font-bold mt-0.5">{countryName}</span>
                                   </div>
                                 </div>
+                                <MoreHorizontal className="h-4 w-4 text-zinc-400 hover:text-zinc-200 transition cursor-pointer" />
                               </div>
                             );
                           })()}
                           
                           {/* Matches */}
-                          <div className="space-y-2">
+                          <div className="divide-y divide-zinc-850/60">
                             {games.map((game) => {
                               const isLive = game.statusGroup === 3;
                               const isFinished = game.statusGroup === 4;
@@ -614,66 +612,60 @@ export default function HomePage() {
                                 <Link
                                   key={game.id}
                                   href={`/match/${slug}`}
-                                  className="block p-3 rounded-xl bg-zinc-900 border border-zinc-850 hover:bg-zinc-850/10 hover:border-zinc-800 transition"
+                                  className="group block p-3.5 hover:bg-zinc-850/30 transition cursor-pointer"
                                 >
-                                  <div className="flex items-center justify-between">
-                                    {/* Left Side: Score or Status */}
-                                    <div className="flex flex-col items-center justify-center min-w-[55px] text-center border-l border-zinc-850/80 pl-2">
+                                  <div className="flex items-center justify-between gap-2">
+                                    {/* Home Competitor */}
+                                    <div className="flex-1 flex items-center justify-start gap-2.5 min-w-0">
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                                        {game.homeCompetitor.name}
+                                      </span>
+                                      <img
+                                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
+                                        alt={game.homeCompetitor.name}
+                                        className="h-6 w-6 object-contain shrink-0"
+                                        loading="lazy"
+                                      />
+                                    </div>
+
+                                    {/* Center: Time / Score Pill Badge */}
+                                    <div className="flex flex-col items-center justify-center shrink-0 min-w-[68px] px-1 text-center">
                                       {isLive ? (
                                         <div className="flex flex-col items-center">
-                                          <span className="rounded bg-red-950/80 border border-red-500/20 px-1 py-0.5 text-[8px] font-black text-red-400 animate-pulse">
-                                            مباشر
+                                          <span className="rounded-full bg-red-950/90 border border-red-500/30 px-2 py-0.5 text-[9px] font-black text-red-400 animate-pulse">
+                                            مباشر {game.gameTime}&apos;
                                           </span>
-                                          <span className="text-[10px] font-black text-red-400 font-mono mt-0.5">
-                                            {game.gameTime}&apos;
-                                          </span>
+                                          <div className="flex items-center gap-1 mt-1 text-xs font-black font-mono text-zinc-100">
+                                            <span>{homeScore}</span>
+                                            <span className="text-zinc-500">:</span>
+                                            <span>{awayScore}</span>
+                                          </div>
                                         </div>
                                       ) : isFinished ? (
-                                        <span className="rounded bg-zinc-850 border border-zinc-800 px-1.5 py-0.5 text-[8px] font-bold text-zinc-400">
-                                          انتهت
-                                        </span>
+                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750 text-xs font-black font-mono text-zinc-200">
+                                          <span>{homeScore}</span>
+                                          <span className="text-zinc-500">:</span>
+                                          <span>{awayScore}</span>
+                                        </div>
                                       ) : (
-                                        <span className="text-[10px] font-black text-zinc-350 font-mono">
+                                        <div className="px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750/70 text-xs font-mono font-bold text-zinc-200 shadow-inner">
                                           {formatTime(game.startTime)}
-                                        </span>
+                                        </div>
                                       )}
                                     </div>
 
-                                    {/* Center: Competitors */}
-                                    <div className="flex-1 flex flex-col gap-1.5 px-3">
-                                      {/* Home Team */}
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2 text-right">
-                                          <img
-                                            src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
-                                            alt={game.homeCompetitor.name}
-                                            className="h-4.5 w-4.5 object-contain"
-                                            loading="lazy"
-                                          />
-                                          <span className="text-xs font-bold text-zinc-200">{game.homeCompetitor.name}</span>
-                                        </div>
-                                        {homeScore !== -1 && (
-                                          <span className="text-xs font-black font-mono text-zinc-100">{homeScore}</span>
-                                        )}
-                                      </div>
-
-                                      {/* Away Team */}
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-2 text-right">
-                                          <img
-                                            src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
-                                            alt={game.awayCompetitor.name}
-                                            className="h-4.5 w-4.5 object-contain"
-                                            loading="lazy"
-                                            />
-                                          <span className="text-xs font-bold text-zinc-200">{game.awayCompetitor.name}</span>
-                                        </div>
-                                        {awayScore !== -1 && (
-                                          <span className="text-xs font-black font-mono text-zinc-100">{awayScore}</span>
-                                        )}
-                                      </div>
+                                    {/* Away Competitor */}
+                                    <div className="flex-1 flex items-center justify-end gap-2.5 min-w-0">
+                                      <img
+                                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
+                                        alt={game.awayCompetitor.name}
+                                        className="h-6 w-6 object-contain shrink-0"
+                                        loading="lazy"
+                                      />
+                                      <span className="text-xs font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                                        {game.awayCompetitor.name}
+                                      </span>
                                     </div>
-
                                   </div>
                                 </Link>
                               );
