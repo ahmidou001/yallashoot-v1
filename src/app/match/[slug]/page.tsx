@@ -78,6 +78,7 @@ export default async function MatchPage({ params }: RouteParams) {
   let streamData: {
     hasStream: boolean;
     streamType: "hls" | "youtube" | "iframe" | "other";
+    streamUrl?: string;
     iframeHtml?: string | null;
     channel?: string | null;
     commentator?: string | null;
@@ -88,12 +89,23 @@ export default async function MatchPage({ params }: RouteParams) {
 
   try {
     await dbConnect();
+    const queryOr: any[] = [
+      { "matches.slug": slug },
+      { "matches.id": slug },
+      { "matches.id": String(id) },
+    ];
+    if (Number(id)) {
+      queryOr.push({ "matches.id": Number(id) });
+    }
+
     const doc = await LiveMatch.findOne({
-      $or: [{ "matches.slug": slug }, { "matches.id": slug }, { "matches.id": Number(id) || 0 }]
+      $or: queryOr,
     }).sort({ _id: -1 }).lean();
 
     if (doc && Array.isArray(doc.matches)) {
-      const match = doc.matches.find((m: any) => m.slug === slug || String(m.id) === String(id));
+      const match = doc.matches.find(
+        (m: any) => m.slug === slug || String(m.id) === String(id) || String(m.id) === String(slug)
+      );
       const streamUrlRaw = match?.streamUrl;
 
       if (streamUrlRaw && streamUrlRaw !== "غير محدد" && streamUrlRaw.trim() !== "") {
@@ -116,10 +128,11 @@ export default async function MatchPage({ params }: RouteParams) {
         streamData = {
           hasStream: true,
           streamType: isHls ? "hls" : isYoutube ? "youtube" : isIframe ? "iframe" : "other",
+          streamUrl: isIframe ? undefined : streamUrlRaw,
           iframeHtml: isIframe ? streamUrlRaw : null,
           channel: match?.channel || null,
           commentator: match?.commentator || null,
-          serverCount: servers.length,
+          serverCount: servers.length > 0 ? servers.length : (isIframe ? 1 : 0),
         };
       }
     }

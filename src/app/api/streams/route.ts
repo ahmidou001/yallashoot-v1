@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { dbConnect } from "@/lib/db";
 import LiveMatch from "@/models/LiveMatch";
 import { getGameDetails } from "@/services/api";
+import { generateMatchSlug } from "@/lib/matchSlug";
 
 export const dynamic = "force-dynamic";
 
@@ -82,8 +83,13 @@ export async function POST(request: Request) {
     const matchesList = [...(liveMatchDoc.matches || [])];
     const matchIndex = matchesList.findIndex((m: any) => String(m.id) === String(gameId));
 
+    const homeObj = matchData?.game?.homeCompetitor;
+    const awayObj = matchData?.game?.awayCompetitor;
+    const matchSlug = homeObj && awayObj ? generateMatchSlug(homeObj, awayObj, gameId) : undefined;
+
     const matchPayload = {
       id: String(gameId),
+      ...(matchSlug ? { slug: matchSlug } : {}),
       streamUrl: streamUrl,
       teamHome: { name: homeTeam },
       teamAway: { name: awayTeam },

@@ -174,22 +174,22 @@ export default function MatchDetailsClient({
       </Link>
 
       {/* Match Stream Broadcast Container */}
-      {(streamData || isFinished) && (
+      {streamData && streamData.hasStream && (
         <div className="mb-8">
           <SecurePlayer
             gameId={gameId}
             matchSlug={matchSlug}
-            streamType={streamData?.streamType || "iframe"}
-            streamUrl={streamData?.streamUrl || ""}
-            tokenRequired={streamData?.tokenRequired}
-            token={streamData?.token}
-            expires={streamData?.expires}
+            streamType={streamData.streamType}
+            streamUrl={streamData.streamUrl || ""}
+            tokenRequired={streamData.tokenRequired}
+            token={streamData.token}
+            expires={streamData.expires}
             isLive={isLive}
             isFinished={isFinished}
             highlightUrl={highlightUrl}
             matchTime={formatTime(game.startTime)}
-            serverCount={streamData?.serverCount || 1}
-            iframeHtml={streamData?.iframeHtml}
+            serverCount={streamData.serverCount || 1}
+            iframeHtml={streamData.iframeHtml}
             servers={servers}
           />
         </div>

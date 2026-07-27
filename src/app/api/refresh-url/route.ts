@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { signSecureStreamUrl } from "@/lib/crypto";
 import { dbConnect } from "@/lib/db";
 import LiveMatch from "@/models/LiveMatch";
+import { extractIdFromSlug } from "@/lib/matchSlug";
 
 export const dynamic = "force-dynamic";
 
@@ -26,9 +27,19 @@ export async function POST(request: NextRequest) {
     const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
     const secret = process.env.STREAM_SECRET_KEY;
 
+    const id = extractIdFromSlug(slug);
+    const queryOr: any[] = [
+      { "matches.slug": slug },
+      { "matches.id": slug },
+      { "matches.id": String(id) },
+    ];
+    if (Number(id)) {
+      queryOr.push({ "matches.id": Number(id) });
+    }
+
     await dbConnect();
     const liveMatchDoc = await LiveMatch.findOne({
-      $or: [{ "matches.slug": slug }, { "matches.id": slug }, { "matches.id": Number(slug) || 0 }]
+      $or: queryOr,
     })
       .sort({ _id: -1 })
       .lean();
@@ -38,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     const match = (liveMatchDoc as any).matches.find(
-      (m: any) => m.slug === slug || String(m.id) === String(slug)
+      (m: any) => m.slug === slug || String(m.id) === String(id) || String(m.id) === String(slug)
     );
     if (!match) {
       return NextResponse.json({ error: "Match not found" }, { status: 404 });

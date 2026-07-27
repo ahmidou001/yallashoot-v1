@@ -21,7 +21,10 @@ export async function GET(
     }
 
     // Find the day document that contains this match ID in the matches array
-    const doc = await LiveMatch.findOne({ "matches.id": gameId });
+    const queryOr: any[] = [{ "matches.id": String(gameId) }];
+    if (Number(gameId)) queryOr.push({ "matches.id": Number(gameId) });
+
+    const doc = await LiveMatch.findOne({ $or: queryOr }).sort({ _id: -1 }).lean();
 
     if (!doc) {
       return NextResponse.json({ success: false, message: "No active stream found for this match" }, { status: 404 });
