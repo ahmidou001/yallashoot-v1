@@ -52,7 +52,11 @@ export default async function NewsArchivePage() {
             >
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-950">
                 <img
-                  src={article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"}
+                  src={
+                    article.image_url && article.image_url.includes("res.cloudinary.com")
+                      ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
+                      : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
+                  }
                   alt={article.headline_ar}
                   className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                   loading="lazy"

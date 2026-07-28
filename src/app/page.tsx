@@ -865,10 +865,17 @@ export default function HomePage() {
                   >
                     <div className="relative h-20 w-28 overflow-hidden rounded-xl bg-zinc-950 shrink-0">
                       <img
-                        src={article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"}
+                        src={
+                          article.image_url && article.image_url.includes("res.cloudinary.com")
+                            ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
+                            : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
+                        }
                         alt={article.headline_ar}
                         className="h-full w-full object-cover transition group-hover:scale-105"
                         loading="lazy"
+                        onError={(e: any) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60";
+                        }}
                       />
                       {article.score >= 8 && (
                         <span className="absolute top-1.5 right-1.5 flex items-center gap-1 rounded bg-red-600 px-1.5 py-0.5 text-[8px] font-black text-white border border-red-500 animate-pulse select-none">

@@ -98,7 +98,11 @@ export default async function NewsArticlePage({ params }: PageProps) {
         {article.image_url && (
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-950">
             <img
-              src={article.image_url}
+              src={
+                article.image_url.includes("res.cloudinary.com")
+                  ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
+                  : article.image_url
+              }
               alt={article.headline_ar}
               className="h-full w-full object-cover"
             />
