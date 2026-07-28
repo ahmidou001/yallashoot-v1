@@ -1,9 +1,41 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronRight, Calendar, ExternalLink, Tag, Clock, Share2, Sparkles, BookOpen } from "lucide-react";
+import connectDB from "@/lib/db";
+import Article from "@/models/Article";
+import { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  await connectDB();
+  const article = await Article.findOne({
+    $or: [{ slug: id }, { _id: mongooseId(id) }],
+    status: "published",
+  }).lean();
+
+  if (!article) {
+    return { title: "مقال غير موجود - يلا شوت" };
+  }
+
+  return {
+    title: `${article.headline_ar} | يلا شوت - أخبار الرياضة`,
+    description: article.body_ar.slice(0, 150),
+    openGraph: {
+      title: article.headline_ar,
+      description: article.body_ar.slice(0, 150),
+      images: article.image_url ? [article.image_url] : [],
+    },
+  };
+}
+
+function mongooseId(id: string) {
+  return id.match(/^[0-9a-fA-F]{24}$/) ? id : null;
 }
 
 export default async function NewsArticlePage({ params }: PageProps) {
@@ -13,18 +45,157 @@ export default async function NewsArticlePage({ params }: PageProps) {
     notFound();
   }
 
+  await connectDB();
+
+  const article = await Article.findOne({
+    $or: [{ slug: id }, { _id: mongooseId(id) }],
+    status: "published",
+  }).lean();
+
+  if (!article) {
+    notFound();
+  }
+
+  const relatedArticles = await Article.find({
+    status: "published",
+    _id: { $ne: article._id },
+  })
+    .sort({ published_at: -1, created_at: -1 })
+    .limit(4)
+    .lean();
+
+  const formattedDate = new Date(article.published_at || article.created_at).toLocaleDateString(
+    "ar-MA",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8" dir="rtl">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-emerald-400 mb-6 transition"
-      >
-        <ChevronLeft className="h-4 w-4" />
-        العودة للرئيسية
-      </Link>
-      <div className="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-8 text-center text-zinc-400 text-sm">
-        <p>تعذر تحميل المقال. الرجاء المحاولة مرة أخرى.</p>
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8" dir="rtl">
+      {/* Breadcrumb Navigation */}
+      <div className="mb-6 flex items-center justify-between">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-350 transition bg-emerald-950/40 border border-emerald-500/20 px-3.5 py-2 rounded-xl"
+        >
+          <ChevronRight className="h-4 w-4" />
+          العودة لجدول المباريات والأخبار
+        </Link>
+        <span className="text-xs font-semibold text-zinc-500 flex items-center gap-1.5">
+          <Clock className="h-3.5 w-3.5 text-zinc-400" />
+          {formattedDate}
+        </span>
       </div>
+
+      {/* Main Article Container */}
+      <article className="overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl">
+        {/* Cover Image */}
+        {article.image_url && (
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-950">
+            <img
+              src={article.image_url}
+              alt={article.headline_ar}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-black/30" />
+            <div className="absolute bottom-4 right-4 left-4 flex items-center justify-between">
+              <span className="rounded-lg bg-emerald-950/90 px-3 py-1 text-xs font-extrabold text-emerald-400 border border-emerald-500/30 backdrop-blur-md">
+                {article.source || "أنباء رياضية"}
+              </span>
+              {article.score >= 8 && (
+                <span className="rounded-lg bg-red-600/90 px-3 py-1 text-xs font-black text-white border border-red-500 backdrop-blur-md animate-pulse">
+                  خبر عاجل 🔥
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className="p-6 sm:p-8 space-y-6">
+          {/* Article Title */}
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-zinc-100 leading-snug">
+            {article.headline_ar}
+          </h1>
+
+          {/* Tags List */}
+          {article.tags && article.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-1 border-b border-zinc-800/80 pb-4">
+              {article.tags.map((tag: string, idx: number) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-zinc-300 bg-zinc-800/80 border border-zinc-700/60 px-2.5 py-1 rounded-lg"
+                >
+                  <Tag className="h-3 w-3 text-emerald-400" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Article Body */}
+          <div className="prose prose-invert max-w-none text-zinc-200 text-base sm:text-lg leading-relaxed whitespace-pre-line space-y-4">
+            {article.body_ar}
+          </div>
+
+          {/* Source Credit */}
+          <div className="pt-6 border-t border-zinc-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-bold text-zinc-400">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-emerald-400" />
+              <span>المصدر الأصلي للخبر: {article.source}</span>
+            </div>
+            {article.original_url && (
+              <a
+                href={article.original_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-emerald-400 hover:underline"
+              >
+                رابط الخبر الأصلي
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+
+      {/* Related News Section */}
+      {relatedArticles.length > 0 && (
+        <div className="mt-12 space-y-4">
+          <h3 className="font-extrabold text-base sm:text-lg text-zinc-150 flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-emerald-400" />
+            أخبار رياضية ذات صلة
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {relatedArticles.map((rel: any) => (
+              <Link
+                key={rel._id}
+                href={`/news/${rel.slug || rel._id}`}
+                className="group flex gap-3.5 p-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 transition duration-200"
+              >
+                <div className="relative h-20 w-28 overflow-hidden rounded-xl bg-zinc-950 shrink-0">
+                  <img
+                    src={rel.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"}
+                    alt={rel.headline_ar}
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex flex-col justify-between min-w-0 flex-1">
+                  <h4 className="font-bold text-xs sm:text-sm text-zinc-200 leading-tight group-hover:text-emerald-400 transition line-clamp-2">
+                    {rel.headline_ar}
+                  </h4>
+                  <span className="text-[10px] text-zinc-500 font-bold">{rel.source}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

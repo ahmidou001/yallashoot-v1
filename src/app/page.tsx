@@ -73,37 +73,6 @@ const PRIORITY_LEAGUE_IDS = [
   323,  // مباريات ودية أندية
 ];
 
-const COVERAGE_DATA: Record<string, Array<{ id: number; title: string; image: string; source: string; time: string }>> = {
-  "نبض المونديال": [
-    { id: 1, title: "مدرجات لوسيل تهتز: حضور جماهيري قياسي يتجاوز 88 ألف متفرج بنصف النهائي", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل 12 دقيقة" },
-    { id: 2, title: "صراع هداف كأس العالم 2026.. ميسي ومبابي في مواجهة حاسمة بالنهائي", image: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل ساعة" },
-    { id: 3, title: "قوانين فيفا الجديدة في الوقت بدل الضائع تثير جدلاً واسعاً بين المدربين", image: "https://images.unsplash.com/photo-1579952360673-2d0299027f3b?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل ساعتين" }
-  ],
-  "قلب الحدث": [
-    { id: 4, title: "تغطية مباشرة من معسكر المنتخب المغربي قبل مواجهة ربع النهائي المونديالي", image: "https://images.unsplash.com/photo-1540747737956-378723c02953?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل 30 دقيقة" },
-    { id: 5, title: "تصريحات مدرب فرنسا: إسبانيا تملك أقوى خط وسط وعلينا الحذر والتركيز", image: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل 3 ساعات" }
-  ],
-  "المنتخبات": [
-    { id: 6, title: "رسمياً.. تشكيلة منتخب البرازيل المتوقعة تشهد عودة نيمار دا سيلفا للتشكيل الأساسي", image: "https://images.unsplash.com/photo-1516567727245-ad8c68f3ec93?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل 5 ساعات" },
-    { id: 7, title: "نجوم المنتخب السعودي يؤدون تدريبات استشفائية بالصالة الرياضية المغلقة", image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل يوم واحد" }
-  ],
-  "لغة الأرقام": [
-    { id: 8, title: "إحصائية تاريخية: نسبة الاستحواذ لمنتخب إسبانيا تتخطى 72% بالبطولة الحالية", image: "https://images.unsplash.com/photo-1431324155629-1a6edd179650?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل 4 ساعات" },
-    { id: 9, title: "أسرع 5 أهداف تم تسجيلها في تاريخ الأدوار الإقصائية للمونديال عبر التاريخ", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60", source: "أنباء 365", time: "قبل يومين" }
-  ],
-  "دليل المشجع": [
-    { id: 10, title: "خريطة المترو والمواصلات المجانية للجماهير خلال أيام مباريات نصف النهائي", image: "https://images.unsplash.com/photo-1440688807730-73e4e2169fb8?w=500&auto=format&fit=crop&q=60", source: "دليل المشجع", time: "قبل يوم" },
-    { id: 11, title: "قائمة بجميع مناطق الفعاليات الترفيهية والشاشات العملاقة المفتوحة للجماهير", image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60", source: "دليل المشجع", time: "قبل يومين" }
-  ]
-};
-
-const MOCK_NEWS_FEED = [
-  { id: 201, title: "رسمياً: ليفربول يعلن تجديد عقد محمد صلاح لموسمين إضافيين براتب قياسي تاريخي", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60", isLive: true, time: "قبل 5 دقائق", source: "أنباء 365" },
-  { id: 202, title: "صدمة في معسكر ريال مدريد: إصابة قوية تضرب جود بيلينغهام وتغيبه لثلاثة أسابيع كاملة", image: "https://images.unsplash.com/photo-1540747737956-378723c02953?w=500&auto=format&fit=crop&q=60", isLive: false, time: "قبل 15 دقيقة", source: "أنباء 365" },
-  { id: 203, title: "فيديو: ملخص وأهداف مباراة المغرب وتنزانيا في الجولة الافتتاحية للمجموعات", image: "https://images.unsplash.com/photo-1579952360673-2d0299027f3b?w=500&auto=format&fit=crop&q=60", isLive: false, time: "قبل ساعة", source: "أنباء 365" },
-  { id: 204, title: "ميركاتو الصيف: النصر السعودي يقدم عرضاً ضخماً للتعاقد مع نجم دفاع نادي إنتر ميلان", image: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=500&auto=format&fit=crop&q=60", isLive: false, time: "قبل ساعتين", source: "أنباء 365" }
-];
-
 export default function HomePage() {
   const { formatTime } = useSettings();
 
@@ -118,10 +87,21 @@ export default function HomePage() {
 
   const [filterLiveOnly, setFilterLiveOnly] = useState(false);
   const [activeScorersLeague, setActiveScorersLeague] = useState<string>("5930");
-  const [activeCoverageTab, setActiveCoverageTab] = useState<string>("نبض المونديال");
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
   const [openCountry, setOpenCountry] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
+
+  // Fetch real sports news from MongoDB API
+  const { data: newsArticles, isLoading: isNewsLoading } = useQuery({
+    queryKey: ["latestNewsFeed"],
+    queryFn: async () => {
+      const res = await fetch("/api/news?limit=10");
+      if (!res.ok) return [];
+      const json = await res.json();
+      return json.data || [];
+    },
+    refetchInterval: 60000,
+  });
 
   // Custom Calendar state
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -857,93 +837,71 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* 3. Special Tournament Coverage Section */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
-            <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 flex items-center gap-2 border-b border-zinc-800 pb-3.5 mb-4">
-              <Flame className="h-4.5 w-4.5 text-orange-500" />
-              تغطية كأس العالم 2026
-            </h3>
-
-            {/* Pills wrapper */}
-            <div className="flex gap-2 mb-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {Object.keys(COVERAGE_DATA).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveCoverageTab(tab)}
-                  className={`px-3.5 py-1.5 rounded-full text-[11px] font-extrabold border transition whitespace-nowrap cursor-pointer ${
-                    activeCoverageTab === tab
-                      ? "bg-emerald-950 border-emerald-500/30 text-emerald-400"
-                      : "bg-zinc-850 border-transparent text-zinc-450 hover:text-zinc-200"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Horizontal sliding cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {COVERAGE_DATA[activeCoverageTab]?.map((card) => (
-                <div key={card.id} className="group overflow-hidden rounded-xl bg-zinc-900/40 border border-zinc-850 flex flex-col shadow hover:border-zinc-800 transition">
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-950 shrink-0">
-                    <img
-                      src={card.image}
-                      alt={card.title}
-                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <span className="absolute bottom-2 right-2 rounded bg-zinc-950/80 px-2 py-0.5 text-[9px] font-bold text-zinc-300 border border-zinc-800 backdrop-blur-xs select-none">
-                      {card.source}
-                    </span>
-                  </div>
-                  <div className="p-3.5 flex flex-col justify-between flex-1">
-                    <h4 className="font-extrabold text-xs sm:text-sm text-zinc-150 leading-snug group-hover:text-emerald-400 transition-all line-clamp-2">
-                      {card.title}
-                    </h4>
-                    <span className="text-[10px] text-zinc-550 font-bold font-mono mt-3 select-none">{card.time}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 4. General Football News Feed Grid */}
+          {/* 3. General Football News Feed Grid (Dynamic from MongoDB) */}
           <div className="space-y-4">
-            <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 flex items-center gap-2">
-              <BookOpen className="h-4.5 w-4.5 text-emerald-400" />
-              أحدث الأخبار الرياضية
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {MOCK_NEWS_FEED.map((news) => (
-                <div key={news.id} className="group flex gap-3.5 p-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition duration-200">
-                  <div className="relative h-20 w-28 overflow-hidden rounded-xl bg-zinc-950 shrink-0">
-                    <img
-                      src={news.image}
-                      alt={news.title}
-                      className="h-full w-full object-cover transition group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    {news.isLive && (
-                      <span className="absolute top-1.5 right-1.5 flex items-center gap-1 rounded bg-red-600 px-1.5 py-0.5 text-[8px] font-black text-white border border-red-500 animate-pulse select-none">
-                        <span className="h-1 w-1 rounded-full bg-white" />
-                        عاجل
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex flex-col justify-between min-w-0">
-                    <h4 className="font-bold text-xs sm:text-sm text-zinc-200 leading-tight group-hover:text-emerald-400 transition line-clamp-2">
-                      {news.title}
-                    </h4>
-                    <div className="flex items-center gap-2 text-[10px] text-zinc-550 font-bold select-none">
-                      <span className="text-zinc-500">{news.source}</span>
-                      <span>•</span>
-                      <span className="font-mono">{news.time}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="flex items-center justify-between">
+              <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 flex items-center gap-2">
+                <BookOpen className="h-4.5 w-4.5 text-emerald-400" />
+                أحدث الأخبار الرياضية
+              </h3>
+              <Link href="/news" className="text-xs font-bold text-emerald-400 hover:text-emerald-350 transition flex items-center gap-1">
+                عرض أرشيف الأخبار &rarr;
+              </Link>
             </div>
+
+            {isNewsLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="animate-pulse bg-zinc-900 border border-zinc-800 rounded-2xl h-24 p-3" />
+                ))}
+              </div>
+            ) : newsArticles && newsArticles.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {newsArticles.map((article: any) => (
+                  <Link
+                    key={article._id || article.slug}
+                    href={`/news/${article.slug || article._id}`}
+                    className="group flex gap-3.5 p-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 transition duration-200"
+                  >
+                    <div className="relative h-20 w-28 overflow-hidden rounded-xl bg-zinc-950 shrink-0">
+                      <img
+                        src={article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"}
+                        alt={article.headline_ar}
+                        className="h-full w-full object-cover transition group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      {article.score >= 8 && (
+                        <span className="absolute top-1.5 right-1.5 flex items-center gap-1 rounded bg-red-600 px-1.5 py-0.5 text-[8px] font-black text-white border border-red-500 animate-pulse select-none">
+                          <span className="h-1 w-1 rounded-full bg-white" />
+                          عاجل
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col justify-between min-w-0 flex-1">
+                      <h4 className="font-bold text-xs sm:text-sm text-zinc-200 leading-tight group-hover:text-emerald-400 transition line-clamp-2">
+                        {article.headline_ar}
+                      </h4>
+                      <div className="flex items-center gap-2 text-[10px] text-zinc-550 font-bold select-none">
+                        <span className="text-zinc-400 font-semibold">{article.source || "أنباء رياضية"}</span>
+                        <span>•</span>
+                        <span className="font-mono">
+                          {article.published_at || article.created_at
+                            ? new Date(article.published_at || article.created_at).toLocaleDateString("ar-MA", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })
+                            : "مباشر"}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-zinc-500 text-xs bg-zinc-900/40 border border-zinc-850 rounded-2xl">
+                لا تتوفر أخبار رياضية حالياً.
+              </div>
+            )}
           </div>
 
           {/* 5. SEO Text & Footer Widgets Block */}

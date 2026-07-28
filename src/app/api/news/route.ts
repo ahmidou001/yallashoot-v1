@@ -1,41 +1,44 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import connectDB from "@/lib/db";
+import Article from "@/models/Article";
 
 export const dynamic = "force-dynamic";
 
-/**
- * GET /api/news?competitionId=XXX&langId=27
- * Proxy news articles from 365scores
- */
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
+    await connectDB();
+
     const { searchParams } = new URL(request.url);
-    const competitionId = searchParams.get("competitionId") || "";
-    const langId = searchParams.get("langId") || "27";
-    const page = searchParams.get("page") || "1";
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
+    const slug = searchParams.get("slug");
+    const id = searchParams.get("id");
 
-    const apiUrl = `https://webws.365scores.com/web/articles/?appTypeId=5&langId=${langId}&timezoneName=Africa%2FCasablanca&userCountryId=127&competitions=${competitionId}&page=${page}`;
-
-    const response = await fetch(apiUrl, {
-      headers: {
-        "User-Agent": "Mozilla/5.0",
-        Accept: "application/json",
-      },
-      next: { revalidate: 300 },
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch news" },
-        { status: response.status }
-      );
+    if (slug) {
+      const article = await Article.findOne({ slug, status: "published" }).lean();
+      if (!article) {
+        return NextResponse.json({ success: false, error: "المقال غير موجود" }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, data: article });
     }
 
-    const data = await response.json();
-    return NextResponse.json(data);
+    if (id) {
+      const article = await Article.findById(id).lean();
+      if (!article) {
+        return NextResponse.json({ success: false, error: "المقال غير موجود" }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, data: article });
+    }
+
+    const articles = await Article.find({ status: "published" })
+      .sort({ published_at: -1, created_at: -1 })
+      .limit(limit)
+      .lean();
+
+    return NextResponse.json({ success: true, data: articles });
   } catch (error: any) {
-    console.error("GET /api/news error:", error);
+    console.error("Error fetching news in yallashoot API:", error);
     return NextResponse.json(
-      { error: error.message || "Internal Server Error" },
+      { success: false, error: "حدث خطأ أثناء جلب الأخبار" },
       { status: 500 }
     );
   }
