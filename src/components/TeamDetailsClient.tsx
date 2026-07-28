@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { 
   Calendar, Award, Star, Trophy, Clock, 
@@ -385,35 +386,18 @@ export default function TeamDetailsClient({
 
   const teamColor = team.color || "#075C9C";
 
-  // Dynamic news generated dynamically based on team name
-  const newsList = React.useMemo(() => {
-    return [
-      {
-        title: `تقرير شامل: آخر تطورات صفقات ${team.name} في فترة الانتقالات الحالية`,
-        time: "منذ ساعتين",
-        source: "يلا شوت دوت كوم",
-        image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=600&auto=format&fit=crop"
-      },
-      {
-        title: `المدرب يؤكد جاهزية لاعبي ${team.name} التامة للمواجهة المقبلة الصعبة`,
-        time: "منذ 5 ساعات",
-        source: "أخبار كرة القدم",
-        image: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=600&auto=format&fit=crop"
-      },
-      {
-        title: `رسمياً: الكشف عن التصميم البديل لقميص ${team.name} للموسم الرياضي الجديد`,
-        time: "منذ 8 ساعات",
-        source: "يلا شوت الرياضي",
-        image: "https://images.unsplash.com/photo-1577223625856-74558e918770?q=80&w=600&auto=format&fit=crop"
-      },
-      {
-        title: `ترقب جماهيري كبير لحضور جماهير ${team.name} في مباراة القمة نهاية هذا الأسبوع`,
-        time: "منذ يوم واحد",
-        source: "صحيفة الملاعب",
-        image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600&auto=format&fit=crop"
-      }
-    ];
-  }, [team.name]);
+  // Fetch real team sports news from MongoDB API (filtered by team name tag, with fallback to general news)
+  const { data: teamNewsArticles, isLoading: isTeamNewsLoading } = useQuery({
+    queryKey: ["teamNews", team.name],
+    queryFn: async () => {
+      const res = await fetch(`/api/news?tag=${encodeURIComponent(team.name)}&limit=6`);
+      if (!res.ok) return [];
+      const json = await res.json();
+      return json.data || [];
+    },
+    enabled: activeTab === "news",
+    refetchInterval: 60000,
+  });
 
   return (
     <div className="min-h-screen bg-[#0d0f12] text-white font-sans pb-12" dir="rtl">
@@ -924,40 +908,75 @@ export default function TeamDetailsClient({
 
         {activeTab === "news" && (
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white flex items-center gap-2">
-              <Newspaper className="w-6 h-6 text-green-500" />
-              أحدث الأخبار والتقارير الرياضية
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {newsList.map((item, idx) => (
-                <div 
-                  key={idx}
-                  className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl overflow-hidden hover:border-gray-700 transition-all duration-300 flex flex-col sm:flex-row group hover:shadow-xl hover:shadow-black/30"
-                >
-                  <div className="sm:w-1/3 h-44 sm:h-auto relative overflow-hidden bg-gray-950 shrink-0">
-                    <img 
-                      src={item.image} 
-                      alt="" 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-5 flex flex-col justify-between flex-1">
-                    <div>
-                      <span className="text-[10px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">رياضة</span>
-                      <h4 className="font-extrabold text-sm sm:text-base text-white mt-2 leading-snug line-clamp-3">
-                        {item.title}
-                      </h4>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xxs text-gray-500 font-semibold border-t border-gray-800/50 pt-3 mt-4">
-                      <span>{item.source}</span>
-                      <span>{item.time}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Newspaper className="w-6 h-6 text-emerald-400" />
+                أحدث الأخبار والتقارير الرياضية الخاصّة بـ {team.name}
+              </h3>
+              <Link href="/news" className="text-xs font-bold text-emerald-400 hover:underline">
+                أرشيف الأخبار الكامل &larr;
+              </Link>
             </div>
+
+            {isTeamNewsLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="animate-pulse bg-[#131722]/90 border border-gray-800/60 rounded-2xl h-36" />
+                ))}
+              </div>
+            ) : teamNewsArticles && teamNewsArticles.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {teamNewsArticles.map((item: any) => (
+                  <Link 
+                    key={item._id || item.slug}
+                    href={`/news/${item.slug || item._id}`}
+                    className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl overflow-hidden hover:border-emerald-500/40 transition-all duration-300 flex flex-col sm:flex-row group hover:shadow-xl hover:shadow-black/30"
+                  >
+                    <div className="sm:w-1/3 h-44 sm:h-auto relative overflow-hidden bg-gray-950 shrink-0">
+                      <img 
+                        src={
+                          item.image_url && item.image_url.includes("res.cloudinary.com")
+                            ? decodeURIComponent(item.image_url.split("/image/fetch/f_auto,q_auto/")[1] || item.image_url)
+                            : item.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
+                        } 
+                        alt={item.headline_ar} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        onError={(e: any) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60";
+                        }}
+                      />
+                    </div>
+                    <div className="p-5 flex flex-col justify-between flex-1">
+                      <div>
+                        <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                          {item.source || "أنباء رياضية"}
+                        </span>
+                        <h4 className="font-extrabold text-sm sm:text-base text-white mt-2 leading-snug group-hover:text-emerald-400 transition line-clamp-3">
+                          {item.headline_ar}
+                        </h4>
+                      </div>
+
+                      <div className="flex items-center justify-between text-xs text-gray-400 font-semibold border-t border-gray-800/50 pt-3 mt-4">
+                        <span>{item.source}</span>
+                        <span className="font-mono">
+                          {item.published_at || item.created_at
+                            ? new Date(item.published_at || item.created_at).toLocaleDateString("ar-MA", {
+                                day: "numeric",
+                                month: "short",
+                              })
+                            : "مباشر"}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500 text-xs bg-[#131722]/90 border border-gray-800/60 rounded-2xl">
+                لا تتوفر أخبار لهذا الفريق حالياً.
+              </div>
+            )}
           </div>
         )}
 
