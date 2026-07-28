@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
+import {
   Trophy, BookOpen, ArrowLeftRight, BarChart3, MoreHorizontal, Settings, X, Tv, ShieldAlert
 } from "lucide-react";
 import { useSettings } from "./providers";
@@ -19,13 +19,13 @@ export default function MobileBottomNav() {
       label: "المباريات",
       href: "/",
       icon: (active: boolean) => (
-        <svg 
+        <svg
           className={`h-5 w-5 transition-transform ${active ? "scale-110" : ""}`}
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth={active ? "2.2" : "1.8"} 
-          strokeLinecap="round" 
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={active ? "2.2" : "1.8"}
+          strokeLinecap="round"
           strokeLinejoin="round"
         >
           {/* Soccer pitch icon */}
@@ -39,7 +39,7 @@ export default function MobileBottomNav() {
     {
       id: "news",
       label: "الأخبار",
-      href: "#news",
+      href: "/news",
       icon: (active: boolean) => (
         <BookOpen className={`h-5 w-5 transition-transform ${active ? "scale-110" : ""}`} />
       ),
@@ -88,9 +88,8 @@ export default function MobileBottomNav() {
                 <button
                   key={item.id}
                   onClick={() => setIsMoreOpen(!isMoreOpen)}
-                  className={`flex flex-col items-center justify-center py-1 px-2 min-w-[58px] transition-all cursor-pointer ${
-                    active ? "text-emerald-400 font-extrabold" : "text-zinc-400 hover:text-zinc-200"
-                  }`}
+                  className={`flex flex-col items-center justify-center py-1 px-2 min-w-[58px] transition-all cursor-pointer ${active ? "text-emerald-400 font-extrabold" : "text-zinc-400 hover:text-zinc-200"
+                    }`}
                 >
                   <div className={`p-1 rounded-xl transition ${active ? "bg-emerald-500/10 text-emerald-400" : ""}`}>
                     {item.icon(active)}
@@ -104,9 +103,8 @@ export default function MobileBottomNav() {
               <Link
                 key={item.id}
                 href={item.href}
-                className={`flex flex-col items-center justify-center py-1 px-2 min-w-[58px] transition-all cursor-pointer ${
-                  active ? "text-emerald-400 font-extrabold" : "text-zinc-400 hover:text-zinc-200"
-                }`}
+                className={`flex flex-col items-center justify-center py-1 px-2 min-w-[58px] transition-all cursor-pointer ${active ? "text-emerald-400 font-extrabold" : "text-zinc-400 hover:text-zinc-200"
+                  }`}
               >
                 <div className={`p-1 rounded-xl transition ${active ? "bg-emerald-500/10 text-emerald-400" : ""}`}>
                   {item.icon(active)}
@@ -185,17 +183,15 @@ export default function MobileBottomNav() {
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => setTimeFormat("24")}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
-                        timeFormat === "24" ? "bg-emerald-500 text-zinc-950" : "bg-zinc-850 text-zinc-400"
-                      }`}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition ${timeFormat === "24" ? "bg-emerald-500 text-zinc-950" : "bg-zinc-850 text-zinc-400"
+                        }`}
                     >
                       24h
                     </button>
                     <button
                       onClick={() => setTimeFormat("12")}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold transition ${
-                        timeFormat === "12" ? "bg-emerald-500 text-zinc-950" : "bg-zinc-850 text-zinc-400"
-                      }`}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition ${timeFormat === "12" ? "bg-emerald-500 text-zinc-950" : "bg-zinc-850 text-zinc-400"
+                        }`}
                     >
                       12h
                     </button>
