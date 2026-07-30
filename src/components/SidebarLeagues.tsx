@@ -48,27 +48,29 @@ export default function SidebarLeagues({ activeLeagueId }: { activeLeagueId?: nu
             <Link
               key={league.id}
               href={`/standings/${league.id}`}
-              className={`flex items-center justify-between p-3 rounded-xl transition-all duration-200 group ${
+              className={`flex items-center justify-between p-3 min-h-[48px] rounded-xl transition-all duration-200 group ${
                 isSelected
                   ? "bg-emerald-950/60 text-emerald-400 border border-emerald-500/20 shadow-md shadow-emerald-900/5"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-850/50 border border-transparent"
+                  : "text-zinc-300 hover:text-zinc-100 hover:bg-zinc-850/50 border border-transparent"
               }`}
             >
               <div className="flex items-center gap-3">
                 <img
                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${league.id}`}
                   alt={league.name}
+                  width={32}
+                  height={32}
                   className="h-8 w-8 object-contain rounded-lg bg-zinc-900 border border-zinc-800 p-1"
                   loading="lazy"
                 />
                 <div>
                   <div className="text-sm font-semibold leading-tight">{league.name}</div>
-                  <div className="text-[10px] text-zinc-500 font-medium mt-0.5">{league.country}</div>
+                  <div className="text-[10px] text-zinc-400 font-medium mt-0.5">{league.country}</div>
                 </div>
               </div>
               
               <ChevronLeft className={`h-4 w-4 transition-transform group-hover:-translate-x-1 ${
-                isSelected ? "text-emerald-400" : "text-zinc-600"
+                isSelected ? "text-emerald-400" : "text-zinc-500"
               }`} />
             </Link>
           );

@@ -53,7 +53,7 @@ export default function Header() {
             href="/" 
             className="flex items-center gap-2 font-black text-xl tracking-tight text-emerald-500 hover:text-emerald-400 transition"
           >
-            <img src="/logo.svg" alt="يلا شوت لايف" className="h-9 w-auto object-contain" />
+            <img src="/logo.svg" alt="يلا شوت لايف" width={140} height={36} className="h-9 w-auto object-contain" />
           </Link>
 
           {/* Navigation Links */}
@@ -63,7 +63,7 @@ export default function Header() {
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                 pathname === "/" 
                   ? "bg-zinc-900 text-emerald-400 border border-zinc-800" 
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+                  : "text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900/50"
               }`}
             >
               <Home className="h-4 w-4" />
@@ -74,7 +74,7 @@ export default function Header() {
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                 pathname === "/live"
                   ? "bg-zinc-900 text-emerald-400 border border-zinc-800"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+                  : "text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900/50"
               }`}
             >
               <Tv className="h-4 w-4" />
@@ -85,7 +85,7 @@ export default function Header() {
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
                 pathname.startsWith("/standings")
                   ? "bg-zinc-900 text-emerald-400 border border-zinc-800"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50"
+                  : "text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900/50"
               }`}
             >
               <Award className="h-4 w-4" />
@@ -98,6 +98,7 @@ export default function Header() {
         <div ref={menuRef} className="relative">
           <button
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="الإعدادات وخيارات التوقيت"
             className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition cursor-pointer relative"
             title="الإعدادات"
           >
@@ -113,11 +114,12 @@ export default function Header() {
                   {/* Timezone */}
                   <button 
                     onClick={() => setCurrentMenu("timezone")}
+                    aria-label="تغيير منطقتك الزمنية"
                     className="w-full flex items-center justify-between py-3 px-2.5 rounded-xl hover:bg-zinc-900/60 transition group text-right cursor-pointer"
                   >
                     <div className="flex items-center gap-1">
-                      <ChevronLeft className="h-4 w-4 text-zinc-500 group-hover:text-zinc-350 transition" />
-                      <span className="text-xs text-zinc-450 font-bold">
+                      <ChevronLeft className="h-4 w-4 text-zinc-400 group-hover:text-zinc-200 transition" />
+                      <span className="text-xs text-zinc-300 font-bold">
                         {timezone === "auto" ? "منطقتك الزمنية" : 
                          timezone === "Saudi" ? "السعودية" : 
                          timezone === "Egypt" ? "مصر" : 
@@ -130,11 +132,12 @@ export default function Header() {
                   {/* Time Format */}
                   <button 
                     onClick={() => setCurrentMenu("timeformat")}
+                    aria-label="تغيير صيغة الوقت"
                     className="w-full flex items-center justify-between py-3 px-2.5 rounded-xl hover:bg-zinc-900/60 transition group text-right cursor-pointer"
                   >
                     <div className="flex items-center gap-1">
-                      <ChevronLeft className="h-4 w-4 text-zinc-500 group-hover:text-zinc-350 transition" />
-                      <span className="text-xs text-zinc-450 font-bold">
+                      <ChevronLeft className="h-4 w-4 text-zinc-400 group-hover:text-zinc-200 transition" />
+                      <span className="text-xs text-zinc-300 font-bold">
                         {timeFormat === "24" ? "24 ساعة" : "12 ساعة"}
                       </span>
                     </div>

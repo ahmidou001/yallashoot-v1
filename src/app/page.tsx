@@ -279,7 +279,8 @@ export default function HomePage() {
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => handleNavigateDate("prev")}
-                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-850 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition cursor-pointer"
+                  aria-label="اليوم السابق"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-850 text-zinc-300 hover:text-emerald-400 hover:bg-zinc-800 transition cursor-pointer"
                   title="اليوم السابق"
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -289,6 +290,7 @@ export default function HomePage() {
                 <div className="relative" ref={calendarRef}>
                   <button
                     onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                    aria-label="اختر التاريخ"
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-850 hover:bg-zinc-800 text-zinc-300 hover:text-emerald-400 transition cursor-pointer font-bold text-xs"
                     title="اختر التاريخ"
                   >
@@ -302,7 +304,8 @@ export default function HomePage() {
                       <div className="flex items-center justify-between mb-3 text-xs font-black text-zinc-200">
                         <button
                           onClick={() => setCalendarDate(new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1))}
-                          className="p-1 hover:text-emerald-400 transition cursor-pointer"
+                          aria-label="الشهر السابق"
+                          className="p-1 text-zinc-300 hover:text-emerald-400 transition cursor-pointer"
                         >
                           <ChevronRight className="h-4 w-4" />
                         </button>
@@ -311,14 +314,15 @@ export default function HomePage() {
                         </span>
                         <button
                           onClick={() => setCalendarDate(new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1))}
-                          className="p-1 hover:text-emerald-400 transition cursor-pointer"
+                          aria-label="الشهر التالي"
+                          className="p-1 text-zinc-300 hover:text-emerald-400 transition cursor-pointer"
                         >
                           <ChevronLeft className="h-4 w-4" />
                         </button>
                       </div>
 
                       {/* Week headers */}
-                      <div className="grid grid-cols-7 gap-1 text-[9px] font-extrabold text-zinc-500 mb-2">
+                      <div className="grid grid-cols-7 gap-1 text-[9px] font-extrabold text-zinc-400 mb-2">
                         {["سبت", "أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة"].map((d) => (
                           <span key={d}>{d}</span>
                         ))}
@@ -340,6 +344,7 @@ export default function HomePage() {
                                 setSelectedDate(dateStr);
                                 setIsCalendarOpen(false);
                               }}
+                              aria-label={`تاريخ ${dateStr}`}
                               className={`h-6 text-[10px] font-black font-mono rounded-lg transition cursor-pointer flex items-center justify-center ${
                                 isActive 
                                   ? "bg-emerald-500 text-zinc-950" 
@@ -363,6 +368,7 @@ export default function HomePage() {
                           setCalendarDate(today);
                           setIsCalendarOpen(false);
                         }}
+                        aria-label="العودة لليوم"
                         className="w-full mt-3 py-1.5 text-[10px] font-black text-emerald-400 bg-emerald-950/20 border border-emerald-500/20 rounded-lg hover:bg-emerald-950/40 transition cursor-pointer"
                       >
                         اليوم
@@ -373,7 +379,8 @@ export default function HomePage() {
 
                 <button
                   onClick={() => handleNavigateDate("next")}
-                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-850 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800 transition cursor-pointer"
+                  aria-label="اليوم التالي"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-850 text-zinc-300 hover:text-emerald-400 hover:bg-zinc-800 transition cursor-pointer"
                   title="اليوم التالي"
                 >
                   <ChevronLeft className="h-4 w-4" />
@@ -385,13 +392,14 @@ export default function HomePage() {
             <div className="flex items-center justify-between gap-3 px-4.5 py-3.5 bg-zinc-900/20 border-b border-zinc-850">
               <button
                 onClick={() => setFilterLiveOnly(!filterLiveOnly)}
+                aria-label="تصفية المباريات المباشرة"
                 className={`relative flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                   filterLiveOnly
                     ? "bg-emerald-950/60 text-emerald-400 border-emerald-500/40 shadow-inner"
                     : "bg-zinc-850 border-zinc-800 text-zinc-300 hover:bg-zinc-800"
                 }`}
               >
-                <span className={`h-1.5 w-1.5 rounded-full ${filterLiveOnly ? "bg-emerald-400 live-glow-badge" : "bg-zinc-500"}`} />
+                <span className={`h-1.5 w-1.5 rounded-full ${filterLiveOnly ? "bg-emerald-400 live-glow-badge" : "bg-zinc-400"}`} />
                 مباشر
                 {liveCount > 0 && (
                   <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-emerald-500 text-[9px] font-black text-zinc-950 font-mono shadow-md">
@@ -400,7 +408,7 @@ export default function HomePage() {
                 )}
               </button>
 
-              <div className="flex items-center gap-1.5 text-xs text-zinc-450 font-medium">
+              <div className="flex items-center gap-1.5 text-xs text-zinc-300 font-medium">
                 <span>حسب التوقيت</span>
               </div>
             </div>
@@ -454,17 +462,19 @@ export default function HomePage() {
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
                                     alt={competition.name}
+                                    width={28}
+                                    height={28}
                                     className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1"
                                     loading="lazy"
                                   />
                                   <div className="flex flex-col text-right">
                                     <span className="text-xs font-black text-zinc-150 leading-tight">{competition.name}</span>
-                                    <span className="text-[10px] text-zinc-450 font-bold mt-0.5">{countryName}</span>
+                                    <span className="text-[10px] text-zinc-300 font-bold mt-0.5">{countryName}</span>
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <Star className="h-3.5 w-3.5 text-sky-500 fill-sky-500" />
-                                  <MoreHorizontal className="h-4 w-4 text-zinc-400 hover:text-zinc-200 transition cursor-pointer" />
+                                  <MoreHorizontal className="h-4 w-4 text-zinc-300 hover:text-zinc-100 transition cursor-pointer" />
                                 </div>
                               </div>
                             );
@@ -491,6 +501,8 @@ export default function HomePage() {
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                         alt={game.homeCompetitor.name}
+                                        width={24}
+                                        height={24}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
@@ -503,19 +515,19 @@ export default function HomePage() {
                                     <div className="flex flex-col items-center justify-center shrink-0 min-w-[68px] px-1 text-center">
                                       {isLive ? (
                                         <div className="flex flex-col items-center">
-                                          <span className="rounded-full bg-red-950/90 border border-red-500/30 px-2 py-0.5 text-[9px] font-black text-red-400 animate-pulse">
+                                          <span className="rounded-full bg-red-950/90 border border-red-500/40 px-2 py-0.5 text-[9px] font-black text-red-300 animate-pulse">
                                             مباشر {game.gameTime}&apos;
                                           </span>
                                           <div className="flex items-center gap-1 mt-1 text-xs font-black font-mono text-zinc-100">
                                             <span>{homeScore}</span>
-                                            <span className="text-zinc-500">:</span>
+                                            <span className="text-zinc-400">:</span>
                                             <span>{awayScore}</span>
                                           </div>
                                         </div>
                                       ) : isFinished ? (
                                         <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750 text-xs font-black font-mono text-zinc-200">
                                           <span>{homeScore}</span>
-                                          <span className="text-zinc-500">:</span>
+                                          <span className="text-zinc-400">:</span>
                                           <span>{awayScore}</span>
                                         </div>
                                       ) : (
@@ -533,6 +545,8 @@ export default function HomePage() {
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                         alt={game.awayCompetitor.name}
+                                        width={24}
+                                        height={24}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
@@ -552,7 +566,7 @@ export default function HomePage() {
                 {otherCompetitions.length > 0 && (
                   <div>
                     <div className="bg-zinc-950/65 px-4 py-2.5 border-b border-zinc-800/80">
-                      <span className="text-[11px] font-black text-zinc-400">بطولات أخرى</span>
+                      <span className="text-[11px] font-black text-zinc-300">بطولات أخرى</span>
                     </div>
                     <div className="space-y-4 p-2 sm:p-3">
                       {otherCompetitions.map(({ competition, games }) => (
@@ -566,15 +580,17 @@ export default function HomePage() {
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
                                     alt={competition.name}
+                                    width={28}
+                                    height={28}
                                     className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1"
                                     loading="lazy"
                                   />
                                   <div className="flex flex-col text-right">
                                     <span className="text-xs font-black text-zinc-150 leading-tight">{competition.name}</span>
-                                    <span className="text-[10px] text-zinc-450 font-bold mt-0.5">{countryName}</span>
+                                    <span className="text-[10px] text-zinc-300 font-bold mt-0.5">{countryName}</span>
                                   </div>
                                 </div>
-                                <MoreHorizontal className="h-4 w-4 text-zinc-400 hover:text-zinc-200 transition cursor-pointer" />
+                                <MoreHorizontal className="h-4 w-4 text-zinc-300 hover:text-zinc-100 transition cursor-pointer" />
                               </div>
                             );
                           })()}
@@ -600,6 +616,8 @@ export default function HomePage() {
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                         alt={game.homeCompetitor.name}
+                                        width={24}
+                                        height={24}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
@@ -612,19 +630,19 @@ export default function HomePage() {
                                     <div className="flex flex-col items-center justify-center shrink-0 min-w-[68px] px-1 text-center">
                                       {isLive ? (
                                         <div className="flex flex-col items-center">
-                                          <span className="rounded-full bg-red-950/90 border border-red-500/30 px-2 py-0.5 text-[9px] font-black text-red-400 animate-pulse">
+                                          <span className="rounded-full bg-red-950/90 border border-red-500/40 px-2 py-0.5 text-[9px] font-black text-red-300 animate-pulse">
                                             مباشر {game.gameTime}&apos;
                                           </span>
                                           <div className="flex items-center gap-1 mt-1 text-xs font-black font-mono text-zinc-100">
                                             <span>{homeScore}</span>
-                                            <span className="text-zinc-500">:</span>
+                                            <span className="text-zinc-400">:</span>
                                             <span>{awayScore}</span>
                                           </div>
                                         </div>
                                       ) : isFinished ? (
                                         <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750 text-xs font-black font-mono text-zinc-200">
                                           <span>{homeScore}</span>
-                                          <span className="text-zinc-500">:</span>
+                                          <span className="text-zinc-400">:</span>
                                           <span>{awayScore}</span>
                                         </div>
                                       ) : (
@@ -642,6 +660,8 @@ export default function HomePage() {
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                         alt={game.awayCompetitor.name}
+                                        width={24}
+                                        height={24}
                                         className="h-6 w-6 object-contain shrink-0"
                                         loading="lazy"
                                       />
@@ -684,6 +704,8 @@ export default function HomePage() {
                           <img
                             src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_countries:default.png/v1/countries/${country.id}`}
                             alt={country.name}
+                            width={24}
+                            height={18}
                             className="h-4.5 w-6 object-cover rounded"
                             loading="lazy"
                           />
@@ -710,14 +732,18 @@ export default function HomePage() {
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
                                         alt=""
+                                        width={16}
+                                        height={16}
                                         className="h-4 w-4 object-contain"
                                       />
                                     </div>
-                                    <span className="text-zinc-600 font-medium">vs</span>
+                                    <span className="text-zinc-400 font-medium">vs</span>
                                     <div className="flex items-center gap-1.5 font-bold text-zinc-300">
                                       <img
                                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
                                         alt=""
+                                        width={16}
+                                        height={16}
                                         className="h-4 w-4 object-contain"
                                       />
                                       <span>{game.awayCompetitor.name}</span>
@@ -757,7 +783,7 @@ export default function HomePage() {
                 <Trophy className="h-4.5 w-4.5 text-yellow-500" />
                 هدافي البطولات
               </h3>
-              <span className="text-xs font-bold text-zinc-400">الأهداف</span>
+              <span className="text-xs font-bold text-zinc-300">الأهداف</span>
             </div>
 
             {/* Horizontal Tabs */}
@@ -771,10 +797,11 @@ export default function HomePage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveScorersLeague(tab.id)}
+                  aria-label={`عرض هدافي ${tab.label}`}
                   className={`px-4 py-2 border-b-2 font-bold text-xs whitespace-nowrap transition cursor-pointer ${
                     activeScorersLeague === tab.id
                       ? "border-emerald-500 text-emerald-400"
-                      : "border-transparent text-zinc-450 hover:text-zinc-300"
+                      : "border-transparent text-zinc-300 hover:text-zinc-100"
                   }`}
                 >
                   {tab.label}
@@ -802,12 +829,14 @@ export default function HomePage() {
                       <img
                         src={getScorerImageUrl(scorer)}
                         alt={scorer.name}
+                        width={32}
+                        height={32}
                         className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-900 object-cover"
                         loading="lazy"
                       />
                       <div className="flex flex-col text-right">
                         <span className="text-xs sm:text-sm font-extrabold text-zinc-150">{scorer.name}</span>
-                        <span className="text-[10px] text-zinc-550 font-medium">{scorer.teamName}</span>
+                        <span className="text-[10px] text-zinc-400 font-medium">{scorer.teamName}</span>
                       </div>
                     </div>
 
@@ -815,6 +844,8 @@ export default function HomePage() {
                       <img
                         src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${scorer.teamId}`}
                         alt={scorer.teamName}
+                        width={20}
+                        height={20}
                         className="h-5 w-5 object-contain"
                         loading="lazy"
                       />
@@ -833,7 +864,7 @@ export default function HomePage() {
                 </Link>
               </div>
             ) : (
-              <div className="text-center py-6 text-zinc-500 text-xs">لا تتوفر إحصائيات لهذه البطولة حالياً.</div>
+              <div className="text-center py-6 text-zinc-400 text-xs">لا تتوفر إحصائيات لهذه البطولة حالياً.</div>
             )}
           </div>
 
@@ -871,6 +902,8 @@ export default function HomePage() {
                             : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
                         }
                         alt={article.headline_ar}
+                        width={112}
+                        height={80}
                         className="h-full w-full object-cover transition group-hover:scale-105"
                         loading="lazy"
                         onError={(e: any) => {
@@ -888,8 +921,8 @@ export default function HomePage() {
                       <h4 className="font-bold text-xs sm:text-sm text-zinc-200 leading-tight group-hover:text-emerald-400 transition line-clamp-2">
                         {article.headline_ar}
                       </h4>
-                      <div className="flex items-center gap-2 text-[10px] text-zinc-550 font-bold select-none">
-                        <span className="text-zinc-400 font-semibold">{article.source || "أنباء رياضية"}</span>
+                      <div className="flex items-center gap-2 text-[10px] text-zinc-400 font-bold select-none">
+                        <span className="text-zinc-300 font-semibold">{article.source || "أنباء رياضية"}</span>
                         <span>•</span>
                         <span className="font-mono">
                           {article.published_at || article.created_at
@@ -905,7 +938,7 @@ export default function HomePage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-zinc-500 text-xs bg-zinc-900/40 border border-zinc-850 rounded-2xl">
+              <div className="text-center py-8 text-zinc-400 text-xs bg-zinc-900/40 border border-zinc-850 rounded-2xl">
                 لا تتوفر أخبار رياضية حالياً.
               </div>
             )}
@@ -917,11 +950,12 @@ export default function HomePage() {
             {/* Expandable SEO block */}
             <div className="border-b border-zinc-800 pb-5">
               <h4 className="font-extrabold text-sm text-zinc-200 mb-2">كرة القدم على يلا شوت لايف</h4>
-              <p className={`text-xs text-zinc-450 leading-relaxed transition-all duration-300 ${isSeoExpanded ? "line-clamp-none" : "line-clamp-3"}`}>
+              <p className={`text-xs text-zinc-300 leading-relaxed transition-all duration-300 ${isSeoExpanded ? "line-clamp-none" : "line-clamp-3"}`}>
                 موقع يلا شوت لايف يقدم تغطية شاملة وحية لكافة مباريات كرة القدم المحلية والدولية. نوفر نتائج مباشرة، إحصائيات تفصيلية عن الفرق واللاعبين، بالإضافة لترتيب الهدافين وجداول المجموعات في كأس العالم 2026 ودوري أبطال أوروبا. بفضل التحديثات اللحظية وسرعة الخوادم، يمكنك البقاء على اطلاع مستمر بجدول مباريات اليوم وتوقيتات اللقاءات بمختلف المناطق الزمنية.
               </p>
               <button
                 onClick={() => setIsSeoExpanded(!isSeoExpanded)}
+                aria-label="قراءة المزيد عن يلا شوت"
                 className="mt-2 text-xs font-black text-emerald-400 hover:text-emerald-350 cursor-pointer"
               >
                 {isSeoExpanded ? "اقرأ أقل" : "اقرأ المزيد"}
@@ -934,7 +968,7 @@ export default function HomePage() {
               {/* Col 1: A-Z Leagues (Far Right) */}
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">كل البطولات أ-ي</h5>
-                <ul className="grid grid-cols-2 gap-1.5 text-xs text-zinc-450">
+                <ul className="grid grid-cols-2 gap-1.5 text-xs text-zinc-300">
                   {[
                     { name: "ألمانيا", id: 25 },
                     { name: "الأرجنتين", id: 651 },
@@ -946,7 +980,7 @@ export default function HomePage() {
                     { name: "فرنسا", id: 35 },
                     { name: "السعودية", id: 649 }
                   ].map((item, i) => (
-                    <li key={i} className="hover:text-zinc-200 transition select-none">
+                    <li key={i} className="hover:text-zinc-100 transition select-none">
                       <Link href={`/standings/${item.id}`}>{item.name}</Link>
                     </li>
                   ))}
@@ -956,7 +990,7 @@ export default function HomePage() {
               {/* Col 2: Popular Leagues (Center) */}
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">بطولات شائعة</h5>
-                <ul className="space-y-1.5 text-xs text-zinc-450">
+                <ul className="space-y-1.5 text-xs text-zinc-300">
                   {[
                     { name: "كأس العالم 2026", id: 5930 },
                     { name: "دوري أبطال أوروبا", id: 572 },
@@ -965,7 +999,7 @@ export default function HomePage() {
                     { name: "البطولة الاحترافية المغربية", id: 557 },
                     { name: "الدوري السعودي", id: 649 }
                   ].map((item, i) => (
-                    <li key={i} className="hover:text-zinc-200 transition select-none">
+                    <li key={i} className="hover:text-zinc-100 transition select-none">
                       <Link href={`/standings/${item.id}`}>{item.name}</Link>
                     </li>
                   ))}
@@ -983,13 +1017,14 @@ export default function HomePage() {
                     { id: 3252, name: "الهلال" },
                     { id: 3928, name: "النصر" }
                   ].map((team) => (
-                    <div key={team.id} className="flex items-center justify-between text-xs text-zinc-450 hover:text-zinc-200 transition select-none">
+                    <div key={team.id} className="flex items-center justify-between text-xs text-zinc-300 hover:text-zinc-100 transition select-none">
                       <Link href={`/team/${team.id}`} className="hover:text-emerald-400 transition cursor-pointer">{team.name}</Link>
                       <button 
                         onClick={() => toggleFavorite(team.id)} 
-                        className="cursor-pointer focus:outline-none"
+                        aria-label={`تفضيل ${team.name}`}
+                        className="cursor-pointer focus:outline-none p-1.5 min-h-[36px] min-w-[36px] flex items-center justify-center"
                       >
-                        <Star className={`h-3.5 w-3.5 ${favorites.includes(team.id) ? "fill-yellow-500 text-yellow-500" : "text-zinc-650 hover:text-zinc-400"}`} />
+                        <Star className={`h-3.5 w-3.5 ${favorites.includes(team.id) ? "fill-yellow-500 text-yellow-500" : "text-zinc-500 hover:text-zinc-300"}`} />
                       </button>
                     </div>
                   ))}
@@ -1016,7 +1051,7 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (!matches || matches.length === 0) {
-    return <div className="text-center py-6 text-zinc-500 text-xs">لا تتوفر مباريات بارزة حالياً.</div>;
+    return <div className="text-center py-6 text-zinc-400 text-xs">لا تتوفر مباريات بارزة حالياً.</div>;
   }
 
   const match = matches[currentIndex];
@@ -1103,7 +1138,8 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
       {matches.length > 1 && (
         <button
           onClick={handlePrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-950/70 text-zinc-400 hover:text-white hover:bg-zinc-900 border border-zinc-800 transition z-20 cursor-pointer shadow-lg hover:scale-105"
+          aria-label="المباراة السابقة"
+          className="absolute left-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-950/70 text-zinc-300 hover:text-white hover:bg-zinc-900 border border-zinc-800 transition z-20 cursor-pointer shadow-lg hover:scale-105"
           title="المباراة السابقة"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -1114,7 +1150,8 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
       {matches.length > 1 && (
         <button
           onClick={handleNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-950/70 text-zinc-400 hover:text-white hover:bg-zinc-900 border border-zinc-800 transition z-20 cursor-pointer shadow-lg hover:scale-105"
+          aria-label="المباراة التالية"
+          className="absolute right-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-950/70 text-zinc-300 hover:text-white hover:bg-zinc-900 border border-zinc-800 transition z-20 cursor-pointer shadow-lg hover:scale-105"
           title="المباراة التالية"
         >
           <ChevronRight className="h-5 w-5" />
@@ -1133,6 +1170,8 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
                 <img
                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${match.competitionId}`}
                   alt=""
+                  width={18}
+                  height={18}
                   className="h-4.5 w-4.5 object-contain"
                 />
                 <span className="rounded-full bg-zinc-850 border border-zinc-800 px-4 py-1 text-xs font-black text-zinc-300">
@@ -1141,7 +1180,7 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
               </div>
 
               {/* Slide date relative label */}
-              <span className="text-zinc-450 font-bold text-xs mb-4">{getDateLabel()}</span>
+              <span className="text-zinc-300 font-bold text-xs mb-4">{getDateLabel()}</span>
 
               {/* Teams and Score/Time info */}
               <div className="w-full flex items-center justify-between gap-4 sm:gap-8 max-w-lg">
@@ -1151,6 +1190,8 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
                   <img
                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_100,h_100,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${match.homeCompetitor.id}`}
                     alt={match.homeCompetitor.name}
+                    width={64}
+                    height={64}
                     className="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-2xl bg-zinc-850 p-2 border border-zinc-800 shadow-inner mb-3 group-hover/card-content:border-emerald-500/30 transition-colors"
                     loading="lazy"
                   />
@@ -1168,14 +1209,14 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
                       }`}>
                         {timeLeft}
                       </span>
-                      <span className="text-[10px] text-zinc-550 font-bold mt-2">يبدأ خلال</span>
+                      <span className="text-[10px] text-zinc-400 font-bold mt-2">يبدأ خلال</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-4.5 my-1">
                       <span className="text-3xl sm:text-4xl font-black font-mono text-zinc-100">
                         {match.homeCompetitor.score !== -1 ? match.homeCompetitor.score : 0}
                       </span>
-                      <span className="text-zinc-650 font-bold text-xl">:</span>
+                      <span className="text-zinc-500 font-bold text-xl">:</span>
                       <span className="text-3xl sm:text-4xl font-black font-mono text-zinc-100">
                         {match.awayCompetitor.score !== -1 ? match.awayCompetitor.score : 0}
                       </span>
@@ -1183,7 +1224,7 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
                   )}
                   
                   {!isNotStarted && (
-                    <span className="text-[10px] font-black text-zinc-400 bg-zinc-850 px-2 py-0.5 rounded-full mt-2">
+                    <span className="text-[10px] font-black text-zinc-300 bg-zinc-850 px-2 py-0.5 rounded-full mt-2">
                       {isLive ? `${match.gameTime}'` : isFinished ? "منتهية" : "لم تبدأ"}
                     </span>
                   )}
@@ -1194,6 +1235,8 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
                   <img
                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_100,h_100,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${match.awayCompetitor.id}`}
                     alt={match.awayCompetitor.name}
+                    width={64}
+                    height={64}
                     className="h-12 w-12 sm:h-16 sm:w-16 object-contain rounded-2xl bg-zinc-850 p-2 border border-zinc-800 shadow-inner mb-3 group-hover/card-content:border-emerald-500/30 transition-colors"
                     loading="lazy"
                   />
@@ -1205,7 +1248,7 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
               </div>
 
               {/* Match Info Details (Date, Time, Venue) */}
-              <div className="text-zinc-400 text-[10px] sm:text-xs font-semibold mt-5 text-center select-text max-w-lg leading-relaxed bg-zinc-850/40 px-4 py-1.5 rounded-xl border border-zinc-800/40 group-hover/card-content:border-zinc-700 transition-colors">
+              <div className="text-zinc-300 text-[10px] sm:text-xs font-semibold mt-5 text-center select-text max-w-lg leading-relaxed bg-zinc-850/40 px-4 py-1.5 rounded-xl border border-zinc-800/40 group-hover/card-content:border-zinc-700 transition-colors">
                 {(() => {
                   const matchDate = new Date(match.startTime);
                   const dateStr = matchDate.toLocaleDateString("ar-EG-u-nu-latn", {

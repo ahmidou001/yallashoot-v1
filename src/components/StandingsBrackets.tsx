@@ -52,12 +52,14 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
               <Link href={`/team/${p1.competitorId}`} className="flex items-center gap-2 min-w-0 group/item">
                 <img 
                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`} 
+                  width={20}
+                  height={20}
                   className="w-5 h-5 rounded-full object-cover shrink-0 transition-transform group-hover/item:scale-105" 
-                  alt="" 
+                  alt={p1.name || "فريق"} 
                 />
                 <span className={`font-bold truncate text-right group-hover/item:text-emerald-400 transition-colors ${
                   hasPlayed 
-                    ? (isWinner1 && highlightWinner ? "text-white" : "text-gray-500 font-medium") 
+                    ? (isWinner1 && highlightWinner ? "text-white" : "text-gray-300 font-medium") 
                     : "text-gray-300"
                 }`}>
                   {p1.name}
@@ -75,9 +77,9 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
           
           <div className="flex items-center gap-1 shrink-0 font-bold">
             {penScore1 !== undefined && penScore1 !== null && (
-              <span className="text-[10px] text-gray-500 font-semibold">({penScore1})</span>
+              <span className="text-[10px] text-gray-400 font-semibold">({penScore1})</span>
             )}
-            <span className={hasPlayed ? (isWinner1 && highlightWinner ? "text-white text-sm" : "text-gray-500 text-sm") : "text-gray-500 text-sm"}>
+            <span className={hasPlayed ? (isWinner1 && highlightWinner ? "text-white text-sm" : "text-gray-300 text-sm") : "text-gray-400 text-sm"}>
               {hasPlayed ? score1 : "-"}
             </span>
           </div>
@@ -90,12 +92,14 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
               <Link href={`/team/${p2.competitorId}`} className="flex items-center gap-2 min-w-0 group/item">
                 <img 
                   src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`} 
+                  width={20}
+                  height={20}
                   className="w-5 h-5 rounded-full object-cover shrink-0 transition-transform group-hover/item:scale-105" 
-                  alt="" 
+                  alt={p2.name || "فريق"} 
                 />
                 <span className={`font-bold truncate text-right group-hover/item:text-emerald-400 transition-colors ${
                   hasPlayed 
-                    ? (isWinner2 && highlightWinner ? "text-white" : "text-gray-500 font-medium") 
+                    ? (isWinner2 && highlightWinner ? "text-white" : "text-gray-300 font-medium") 
                     : "text-gray-300"
                 }`}>
                   {p2.name}
@@ -113,9 +117,9 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
           
           <div className="flex items-center gap-1 shrink-0 font-bold">
             {penScore2 !== undefined && penScore2 !== null && (
-              <span className="text-[10px] text-gray-500 font-semibold">({penScore2})</span>
+              <span className="text-[10px] text-gray-400 font-semibold">({penScore2})</span>
             )}
-            <span className={hasPlayed ? (isWinner2 && highlightWinner ? "text-white text-sm" : "text-gray-500 text-sm") : "text-gray-500 text-sm"}>
+            <span className={hasPlayed ? (isWinner2 && highlightWinner ? "text-white text-sm" : "text-gray-300 text-sm") : "text-gray-400 text-sm"}>
               {hasPlayed ? score2 : "-"}
             </span>
           </div>
@@ -142,7 +146,8 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
           </h3>
           <Link 
             href={`/standings/${leagueId}?tab=standings`}
-            className="text-zinc-400 hover:text-white bg-zinc-850 hover:bg-zinc-800 p-2 rounded-xl border border-zinc-800 transition flex items-center justify-center"
+            aria-label="إغلاق الأدوار الإقصائية"
+            className="text-zinc-400 hover:text-white bg-zinc-850 hover:bg-zinc-800 p-2 min-h-[44px] min-w-[44px] rounded-xl border border-zinc-800 transition flex items-center justify-center"
             title="إغلاق"
           >
             <X className="w-5 h-5" />
@@ -156,17 +161,19 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
             <div className="absolute top-4 left-6 right-6 flex justify-between z-20 pointer-events-none">
               <button 
                 onClick={() => scrollBrackets("left")} 
-                className="p-2 bg-gray-850 hover:bg-gray-800 text-white rounded-xl border border-gray-800 transition-all cursor-pointer pointer-events-auto active:scale-95 flex items-center justify-center shadow-lg"
+                aria-label="الرجوع للنهائي"
+                className="p-2.5 min-h-[44px] min-w-[44px] bg-gray-850 hover:bg-gray-800 text-white rounded-xl border border-gray-800 transition-all cursor-pointer pointer-events-auto active:scale-95 flex items-center justify-center shadow-lg"
                 title="الرجوع للنهائي"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-400 hover:text-white" />
+                <ChevronLeft className="w-5 h-5 text-gray-300 hover:text-white" />
               </button>
               <button 
                 onClick={() => scrollBrackets("right")} 
-                className="p-2 bg-gray-850 hover:bg-gray-800 text-white rounded-xl border border-gray-800 transition-all cursor-pointer pointer-events-auto active:scale-95 flex items-center justify-center shadow-lg"
+                aria-label="عرض دور الـ 32"
+                className="p-2.5 min-h-[44px] min-w-[44px] bg-gray-850 hover:bg-gray-800 text-white rounded-xl border border-gray-800 transition-all cursor-pointer pointer-events-auto active:scale-95 flex items-center justify-center shadow-lg"
                 title="عرض دور الـ 32"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 hover:text-white" />
+                <ChevronRight className="w-5 h-5 text-gray-300 hover:text-white" />
               </button>
             </div>
           )}

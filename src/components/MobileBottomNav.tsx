@@ -79,7 +79,7 @@ export default function MobileBottomNav() {
     <>
       {/* Fixed Bottom Navigation Bar on Mobile */}
       <div className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-[#0b0e14]/95 backdrop-blur-xl border-t border-zinc-800/80 shadow-[0_-8px_30px_rgba(0,0,0,0.5)] select-none">
-        <div className="flex items-center justify-around px-2 py-1.5 max-w-md mx-auto">
+        <div className="flex items-center justify-around px-2 py-1 max-w-md mx-auto">
           {navItems.map((item) => {
             const active = item.isActive;
 
@@ -88,8 +88,10 @@ export default function MobileBottomNav() {
                 <button
                   key={item.id}
                   onClick={() => setIsMoreOpen(!isMoreOpen)}
-                  className={`flex flex-col items-center justify-center py-1 px-2 min-w-[58px] transition-all cursor-pointer ${active ? "text-emerald-400 font-extrabold" : "text-zinc-400 hover:text-zinc-200"
-                    }`}
+                  aria-label={item.label}
+                  className={`flex flex-col items-center justify-center py-1.5 px-2 min-w-[58px] min-h-[48px] transition-all cursor-pointer ${
+                    active ? "text-emerald-400 font-extrabold" : "text-zinc-300 hover:text-zinc-100"
+                  }`}
                 >
                   <div className={`p-1 rounded-xl transition ${active ? "bg-emerald-500/10 text-emerald-400" : ""}`}>
                     {item.icon(active)}
@@ -103,8 +105,10 @@ export default function MobileBottomNav() {
               <Link
                 key={item.id}
                 href={item.href}
-                className={`flex flex-col items-center justify-center py-1 px-2 min-w-[58px] transition-all cursor-pointer ${active ? "text-emerald-400 font-extrabold" : "text-zinc-400 hover:text-zinc-200"
-                  }`}
+                aria-label={item.label}
+                className={`flex flex-col items-center justify-center py-1.5 px-2 min-w-[58px] min-h-[48px] transition-all cursor-pointer ${
+                  active ? "text-emerald-400 font-extrabold" : "text-zinc-300 hover:text-zinc-100"
+                }`}
               >
                 <div className={`p-1 rounded-xl transition ${active ? "bg-emerald-500/10 text-emerald-400" : ""}`}>
                   {item.icon(active)}
@@ -127,7 +131,8 @@ export default function MobileBottomNav() {
               </h3>
               <button
                 onClick={() => setIsMoreOpen(false)}
-                className="p-1.5 rounded-full bg-zinc-900 text-zinc-400 hover:text-zinc-200"
+                aria-label="إغلاق الإعدادات"
+                className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full bg-zinc-900 text-zinc-300 hover:text-zinc-100"
               >
                 <X className="h-5 w-5" />
               </button>
