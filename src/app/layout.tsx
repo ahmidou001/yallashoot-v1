@@ -45,6 +45,8 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={`h-full antialiased ${cairo.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <link rel="preconnect" href="https://imagecache.365scores.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://imagecache.365scores.com" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#10b981" />

@@ -899,7 +899,7 @@ export default function HomePage() {
                         src={
                           article.image_url && article.image_url.includes("res.cloudinary.com")
                             ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
-                            : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
+                            : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=200&auto=format&fit=crop&q=70"
                         }
                         alt={article.headline_ar}
                         width={112}
@@ -907,7 +907,7 @@ export default function HomePage() {
                         className="h-full w-full object-cover transition group-hover:scale-105"
                         loading="lazy"
                         onError={(e: any) => {
-                          e.currentTarget.src = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60";
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=200&auto=format&fit=crop&q=70";
                         }}
                       />
                       {article.score >= 8 && (
@@ -968,7 +968,7 @@ export default function HomePage() {
               {/* Col 1: A-Z Leagues (Far Right) */}
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">كل البطولات أ-ي</h5>
-                <ul className="grid grid-cols-2 gap-1.5 text-xs text-zinc-300">
+                <ul className="grid grid-cols-2 gap-1 text-xs text-zinc-300">
                   {[
                     { name: "ألمانيا", id: 25 },
                     { name: "الأرجنتين", id: 651 },
@@ -980,8 +980,14 @@ export default function HomePage() {
                     { name: "فرنسا", id: 35 },
                     { name: "السعودية", id: 649 }
                   ].map((item, i) => (
-                    <li key={i} className="hover:text-zinc-100 transition select-none">
-                      <Link href={`/standings/${item.id}`}>{item.name}</Link>
+                    <li key={i} className="select-none">
+                      <Link 
+                        href={`/standings/${item.id}`}
+                        aria-label={`جدول ترتيب ${item.name}`}
+                        className="flex items-center py-2 px-1 text-xs font-semibold text-zinc-300 hover:text-emerald-400 min-h-[44px] transition"
+                      >
+                        {item.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -990,7 +996,7 @@ export default function HomePage() {
               {/* Col 2: Popular Leagues (Center) */}
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">بطولات شائعة</h5>
-                <ul className="space-y-1.5 text-xs text-zinc-300">
+                <ul className="space-y-1 text-xs text-zinc-300">
                   {[
                     { name: "كأس العالم 2026", id: 5930 },
                     { name: "دوري أبطال أوروبا", id: 572 },
@@ -999,8 +1005,14 @@ export default function HomePage() {
                     { name: "البطولة الاحترافية المغربية", id: 557 },
                     { name: "الدوري السعودي", id: 649 }
                   ].map((item, i) => (
-                    <li key={i} className="hover:text-zinc-100 transition select-none">
-                      <Link href={`/standings/${item.id}`}>{item.name}</Link>
+                    <li key={i} className="select-none">
+                      <Link 
+                        href={`/standings/${item.id}`}
+                        aria-label={`جدول ترتيب ${item.name}`}
+                        className="flex items-center py-2 px-1 text-xs font-semibold text-zinc-300 hover:text-emerald-400 min-h-[44px] transition"
+                      >
+                        {item.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -1009,7 +1021,7 @@ export default function HomePage() {
               {/* Col 3: Popular Teams (Far Left) */}
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">الفرق الأكثر شعبية</h5>
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {[
                     { id: 131, name: "ريال مدريد" },
                     { id: 132, name: "برشلونة" },
@@ -1017,14 +1029,20 @@ export default function HomePage() {
                     { id: 3252, name: "الهلال" },
                     { id: 3928, name: "النصر" }
                   ].map((team) => (
-                    <div key={team.id} className="flex items-center justify-between text-xs text-zinc-300 hover:text-zinc-100 transition select-none">
-                      <Link href={`/team/${team.id}`} className="hover:text-emerald-400 transition cursor-pointer">{team.name}</Link>
+                    <div key={team.id} className="flex items-center justify-between text-xs text-zinc-300 hover:text-zinc-100 transition select-none min-h-[44px] py-1">
+                      <Link 
+                        href={`/team/${team.id}`} 
+                        aria-label={`صفحة فريق ${team.name}`}
+                        className="hover:text-emerald-400 transition cursor-pointer py-2 flex-1"
+                      >
+                        {team.name}
+                      </Link>
                       <button 
                         onClick={() => toggleFavorite(team.id)} 
                         aria-label={`تفضيل ${team.name}`}
-                        className="cursor-pointer focus:outline-none p-1.5 min-h-[36px] min-w-[36px] flex items-center justify-center"
+                        className="cursor-pointer focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
                       >
-                        <Star className={`h-3.5 w-3.5 ${favorites.includes(team.id) ? "fill-yellow-500 text-yellow-500" : "text-zinc-500 hover:text-zinc-300"}`} />
+                        <Star className={`h-4 w-4 ${favorites.includes(team.id) ? "fill-yellow-500 text-yellow-500" : "text-zinc-400 hover:text-zinc-200"}`} />
                       </button>
                     </div>
                   ))}
