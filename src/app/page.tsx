@@ -274,7 +274,7 @@ export default function HomePage() {
             
             {/* Header with Calendar Picker & Date Navigation */}
             <div className="flex items-center justify-between bg-zinc-900/60 px-4.5 py-4 border-b border-zinc-800">
-              <h3 className="font-extrabold text-sm sm:text-base text-zinc-150">مباريات اليوم</h3>
+              <h1 className="font-extrabold text-sm sm:text-base text-zinc-150">يلا شوت - نتائج مباريات اليوم والبث المباشر</h1>
               
               <div className="flex items-center gap-1.5">
                 <button
@@ -1050,6 +1050,18 @@ export default function HomePage() {
               </div>
 
             </div>
+
+            {/* Footer Institutional & Legal Links Bar */}
+            <div className="border-t border-zinc-800 pt-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-zinc-400">
+              <p>© {new Date().getFullYear()} يلا شوت لايف yallahsoot.com - جميع الحقوق محفوظة.</p>
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                <Link href="/about" aria-label="عن التطبيق والموقع" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">عن التطبيق</Link>
+                <Link href="/privacy" aria-label="سياسة الخصوصية" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">سياسة الخصوصية</Link>
+                <Link href="/terms" aria-label="شروط الاستخدام" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">شروط الاستخدام</Link>
+                <Link href="/contact" aria-label="اتصل بنا" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">اتصل بنا</Link>
+              </div>
+            </div>
+
           </div>
 
         </div>
