@@ -35,12 +35,24 @@ export async function GET() {
       }
     });
 
-    return NextResponse.json({ success: true, data: streamsList });
+    return NextResponse.json(
+      { success: true, data: streamsList },
+      {
+        headers: {
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("GET streams API error:", error);
     return NextResponse.json(
       { success: false, error: error.message || "Internal Server Error" },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }
     );
   }
 }

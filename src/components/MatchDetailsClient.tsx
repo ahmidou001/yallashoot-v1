@@ -78,6 +78,32 @@ export default function MatchDetailsClient({
 
   const isLive = initialDetails.game.statusGroup === 3;
 
+  // 0. Query Stream Data Client-side (Protects SSR HTML from DMCA scrapers)
+  const { data: fetchedStreamData } = useQuery({
+    queryKey: ["streamDataClient", gameId],
+    queryFn: async () => {
+      const res = await fetch(`/api/streams/${gameId}`);
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (!json.success || !json.data) return null;
+      return {
+        hasStream: true,
+        streamType: (json.data.streamType || "iframe") as "iframe" | "hls" | "youtube" | "other",
+        streamUrl: json.data.streamUrl,
+        tokenRequired: json.data.tokenRequired,
+        token: json.data.token as string | undefined,
+        expires: json.data.expires as number | undefined,
+        channel: json.data.channel || null,
+        commentator: json.data.commentator || null,
+        serverCount: 1,
+        iframeHtml: json.data.iframeHtml || null,
+      };
+    },
+    refetchInterval: isLive ? 30000 : false,
+  });
+
+  const activeStreamData = fetchedStreamData || streamData;
+
   // 1. Query for Match Details & Lineups
   const { data: detailsData } = useQuery<GameDetailsResponse>({
     queryKey: ["matchDetails", gameId],
@@ -174,22 +200,22 @@ export default function MatchDetailsClient({
       </Link>
 
       {/* Match Stream Broadcast Container */}
-      {streamData && streamData.hasStream && (
+      {activeStreamData && activeStreamData.hasStream && (
         <div className="mb-8">
           <SecurePlayer
             gameId={gameId}
             matchSlug={matchSlug}
-            streamType={streamData.streamType}
-            streamUrl={streamData.streamUrl || ""}
-            tokenRequired={streamData.tokenRequired}
-            token={streamData.token}
-            expires={streamData.expires}
+            streamType={activeStreamData.streamType}
+            streamUrl={activeStreamData.streamUrl || ""}
+            tokenRequired={activeStreamData.tokenRequired}
+            token={activeStreamData.token}
+            expires={activeStreamData.expires}
             isLive={isLive}
             isFinished={isFinished}
             highlightUrl={highlightUrl}
             matchTime={formatTime(game.startTime)}
-            serverCount={streamData.serverCount || 1}
-            iframeHtml={streamData.iframeHtml}
+            serverCount={activeStreamData.serverCount || 1}
+            iframeHtml={activeStreamData.iframeHtml}
             servers={servers}
           />
         </div>

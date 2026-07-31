@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Calendar, ExternalLink, Tag, Clock, Share2, Sparkles, BookOpen } from "lucide-react";
 import connectDB from "@/lib/db";
@@ -144,25 +144,6 @@ export default async function NewsArticlePage({ params }: PageProps) {
           {/* Article Body */}
           <div className="prose prose-invert max-w-none text-zinc-200 text-base sm:text-lg leading-relaxed whitespace-pre-line space-y-4">
             {article.body_ar}
-          </div>
-
-          {/* Source Credit */}
-          <div className="pt-6 border-t border-zinc-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-bold text-zinc-400">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-emerald-400" />
-              <span>المصدر الأصلي للخبر: {article.source}</span>
-            </div>
-            {article.original_url && (
-              <a
-                href={article.original_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-emerald-400 hover:underline"
-              >
-                رابط الخبر الأصلي
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            )}
           </div>
         </div>
       </article>

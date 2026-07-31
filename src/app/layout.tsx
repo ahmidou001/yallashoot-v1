@@ -14,11 +14,51 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "يلا شوت لايف - نتائج المباريات والبث المباشر",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.yallahsoot.com"),
+  title: {
+    default: "يلا شوت لايف - نتائج المباريات والبث المباشر",
+    template: "%s | يلا شوت لايف",
+  },
   description: "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات والتشكيلة الحية.",
-  keywords: ["يلا شوت", "مباريات اليوم", "بث مباشر", "تطبيق يلا شوت", "نتائج حية", "كرة القدم"],
+  keywords: ["يلا شوت", "يلا شوت لايف", "yallashoot", "مباريات اليوم", "بث مباشر", "تطبيق يلا شوت", "نتائج حية", "كرة القدم"],
   authors: [{ name: "Kora Live Team" }],
   manifest: "/manifest.json",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ar_MA",
+    url: "https://www.yallahsoot.com",
+    title: "يلا شوت لايف - نتائج المباريات والبث المباشر",
+    description: "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات والتشكيلة الحية.",
+    siteName: "يلا شوت لايف",
+    images: [
+      {
+        url: "/fav-icon.svg",
+        width: 512,
+        height: 512,
+        alt: "يلا شوت لايف",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "يلا شوت لايف - نتائج المباريات والبث المباشر",
+    description: "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات.",
+    images: ["/fav-icon.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -41,6 +81,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "يلا شوت لايف",
+    "url": "https://www.yallahsoot.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.yallahsoot.com/news?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "description": "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات."
+  };
+
   return (
     <html lang="ar" dir="rtl" className={`h-full antialiased ${cairo.variable}`}>
       <head>
@@ -50,6 +103,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#10b981" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className={`${cairo.className} bg-zinc-950 text-zinc-50 min-h-full flex flex-col selection:bg-emerald-500 selection:text-zinc-950`}>
         <Providers>

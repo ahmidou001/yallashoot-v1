@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+Allow: /news
+Allow: /news/
+Allow: /standings
+Allow: /standings/
+Allow: /team
+Allow: /team/
+Allow: /match
+Allow: /match/
+
+# Disallow DMCA bots & search crawlers from indexing live stream APIs & players
+Disallow: /api/streams/
+Disallow: /api/refresh-url/
+Disallow: /live/player/
+Disallow: /embed/
+
+# Block known aggressive DMCA scanning bots
+User-agent: MarkMonitor
+Disallow: /
+
+User-agent: FriendDMCA
+Disallow: /
+
+User-agent: Irdeto
+Disallow: /
+
+Sitemap: https://www.yallahsoot.com/sitemap.xml

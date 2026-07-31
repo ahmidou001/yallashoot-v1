@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { 
-  Calendar, Award, Star, Trophy, Clock, 
-  ArrowLeftRight, Info, Shield, Users, 
-  TrendingUp, Activity, HelpCircle, ChevronDown, 
+import {
+  Calendar, Award, Star, Trophy, Clock,
+  ArrowLeftRight, Info, Shield, Users,
+  TrendingUp, Activity, HelpCircle, ChevronDown,
   ChevronUp, Newspaper, Network, ChevronLeft, ChevronRight
 } from "lucide-react";
 import { generateMatchSlug } from "@/lib/matchSlug";
@@ -49,7 +49,7 @@ export default function TeamDetailsClient({
       });
     }
   };
-  
+
   // Process standings into separate tables for group stages (e.g. World Cup group stages)
   const processedTables = React.useMemo(() => {
     const list: Array<{ displayName: string; rows: any[]; destinations?: any[] }> = [];
@@ -102,23 +102,22 @@ export default function TeamDetailsClient({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
             {p1.competitorId ? (
-              <img 
-                src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`} 
-                className="w-5 h-5 rounded-full object-cover shrink-0" 
-                alt="" 
+              <img
+                src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`}
+                className="w-5 h-5 rounded-full object-cover shrink-0"
+                alt=""
               />
             ) : (
               <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
             )}
-            <span className={`font-bold truncate text-right ${
-              hasPlayed 
-                ? (isWinner1 && highlightWinner ? "text-white" : "text-gray-500 font-medium") 
+            <span className={`font-bold truncate text-right ${hasPlayed
+                ? (isWinner1 && highlightWinner ? "text-white" : "text-gray-500 font-medium")
                 : "text-gray-300"
-            }`}>
+              }`}>
               {p1.name}
             </span>
           </div>
-          
+
           <div className="flex items-center gap-1 shrink-0 font-bold">
             {penScore1 !== undefined && penScore1 !== null && (
               <span className="text-[10px] text-gray-500 font-semibold">({penScore1})</span>
@@ -133,23 +132,22 @@ export default function TeamDetailsClient({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
             {p2.competitorId ? (
-              <img 
-                src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`} 
-                className="w-5 h-5 rounded-full object-cover shrink-0" 
-                alt="" 
+              <img
+                src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`}
+                className="w-5 h-5 rounded-full object-cover shrink-0"
+                alt=""
               />
             ) : (
               <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
             )}
-            <span className={`font-bold truncate text-right ${
-              hasPlayed 
-                ? (isWinner2 && highlightWinner ? "text-white" : "text-gray-500 font-medium") 
+            <span className={`font-bold truncate text-right ${hasPlayed
+                ? (isWinner2 && highlightWinner ? "text-white" : "text-gray-500 font-medium")
                 : "text-gray-300"
-            }`}>
+              }`}>
               {p2.name}
             </span>
           </div>
-          
+
           <div className="flex items-center gap-1 shrink-0 font-bold">
             {penScore2 !== undefined && penScore2 !== null && (
               <span className="text-[10px] text-gray-500 font-semibold">({penScore2})</span>
@@ -282,7 +280,7 @@ export default function TeamDetailsClient({
       let cleaned = txt
         .replace(/365Scores/gi, "yallashoot")
         .replace(/365 Scores/gi, "yallashoot")
-        .replace(/365/g, "yallashoot");
+        .replace(/365/g, "");
       if (team.type === 2) {
         cleaned = cleaned.replace(/نادي/g, "منتخب");
       }
@@ -403,7 +401,7 @@ export default function TeamDetailsClient({
     <div className="min-h-screen bg-[#0d0f12] text-white font-sans pb-12" dir="rtl">
       {/* Premium Header Backdrop with team primary color glow */}
       <div className="relative overflow-hidden bg-gradient-to-b from-[#13171f] to-[#0d0f12] border-b border-gray-800/60 pb-6 pt-8">
-        <div 
+        <div
           className="absolute inset-0 opacity-10 pointer-events-none blur-3xl scale-125"
           style={{
             background: `radial-gradient(circle at 80% 20%, ${teamColor} 0%, transparent 60%)`
@@ -448,11 +446,10 @@ export default function TeamDetailsClient({
             <div className="flex items-center gap-3">
               <button
                 onClick={handleFollowToggle}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold transition-all duration-300 cursor-pointer ${
-                  isFollowed 
-                    ? "bg-transparent border border-green-500 text-green-500" 
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold transition-all duration-300 cursor-pointer ${isFollowed
+                    ? "bg-transparent border border-green-500 text-green-500"
                     : "bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-900/20 active:scale-95"
-                }`}
+                  }`}
               >
                 <Star className={`w-5 h-5 ${isFollowed ? "fill-green-500" : ""}`} />
                 {isFollowed ? "متابع" : "متابعة"}
@@ -478,11 +475,10 @@ export default function TeamDetailsClient({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-3 border-b-2 text-sm font-semibold transition-all duration-300 whitespace-nowrap cursor-pointer ${
-                    isActive 
-                      ? "border-green-500 text-green-500 bg-green-500/5" 
+                  className={`flex items-center gap-2 px-5 py-3 border-b-2 text-sm font-semibold transition-all duration-300 whitespace-nowrap cursor-pointer ${isActive
+                      ? "border-green-500 text-green-500 bg-green-500/5"
                       : "border-transparent text-gray-400 hover:text-white"
-                  }`}
+                    }`}
                 >
                   <TabIcon className="w-4 h-4" />
                   {tab.label}
@@ -506,7 +502,7 @@ export default function TeamDetailsClient({
                     <Info className="w-5 h-5 text-green-500" />
                     {team.type === 2 ? "نبذة عن المنتخب" : "نبذة عن النادي"}
                   </h3>
-                  <div 
+                  <div
                     className="text-gray-300 text-sm leading-relaxed antialiased"
                     dangerouslySetInnerHTML={{ __html: descriptionHTML }}
                   />
@@ -530,8 +526,8 @@ export default function TeamDetailsClient({
                     <div className="w-full flex items-center justify-between gap-4 max-w-md">
                       {/* Home Team */}
                       <Link href={`/team/${nextMatch.homeCompetitor.id}`} className="flex-1 flex flex-col items-center text-center gap-2 group">
-                        <img 
-                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${nextMatch.homeCompetitor.id}`} 
+                        <img
+                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${nextMatch.homeCompetitor.id}`}
                           alt={nextMatch.homeCompetitor.name}
                           className="w-14 h-14 object-contain transition-transform group-hover:scale-105"
                         />
@@ -548,8 +544,8 @@ export default function TeamDetailsClient({
 
                       {/* Away Team */}
                       <Link href={`/team/${nextMatch.awayCompetitor.id}`} className="flex-1 flex flex-col items-center text-center gap-2 group">
-                        <img 
-                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${nextMatch.awayCompetitor.id}`} 
+                        <img
+                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${nextMatch.awayCompetitor.id}`}
                           alt={nextMatch.awayCompetitor.name}
                           className="w-14 h-14 object-contain transition-transform group-hover:scale-105"
                         />
@@ -579,23 +575,21 @@ export default function TeamDetailsClient({
 
                   <div className="flex flex-wrap items-center gap-3">
                     {recentForm.map((item, index) => (
-                      <div 
+                      <div
                         key={index}
-                        className={`flex-1 min-w-[70px] flex flex-col items-center p-3 rounded-xl border ${
-                          item.result === "W" 
-                            ? "bg-green-950/20 border-green-500/30" 
-                            : item.result === "L" 
-                              ? "bg-red-950/20 border-red-500/30" 
+                        className={`flex-1 min-w-[70px] flex flex-col items-center p-3 rounded-xl border ${item.result === "W"
+                            ? "bg-green-950/20 border-green-500/30"
+                            : item.result === "L"
+                              ? "bg-red-950/20 border-red-500/30"
                               : "bg-gray-800/30 border-gray-700/30"
-                        }`}
+                          }`}
                       >
-                        <span className={`text-base font-black mb-2 ${
-                          item.result === "W" ? "text-green-400" : item.result === "L" ? "text-red-400" : "text-gray-400"
-                        }`}>
+                        <span className={`text-base font-black mb-2 ${item.result === "W" ? "text-green-400" : item.result === "L" ? "text-red-400" : "text-gray-400"
+                          }`}>
                           {item.result === "W" ? "فوز" : item.result === "L" ? "خسارة" : "تعادل"}
                         </span>
-                        <img 
-                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${item.opponent.id}`} 
+                        <img
+                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${item.opponent.id}`}
                           alt={item.opponent.name}
                           className="w-8 h-8 object-contain mb-1"
                         />
@@ -613,13 +607,13 @@ export default function TeamDetailsClient({
                     <HelpCircle className="w-5 h-5 text-yellow-500" />
                     الأسئلة الشائعة
                   </h3>
-                  
+
                   <div className="space-y-3">
                     {faqElements.map((faq, idx) => {
                       const isOpen = openFaqIndex === idx;
                       return (
-                        <div 
-                          key={idx} 
+                        <div
+                          key={idx}
                           className="border border-gray-800/60 rounded-xl overflow-hidden bg-gray-900/10"
                         >
                           <button
@@ -629,9 +623,9 @@ export default function TeamDetailsClient({
                             <span>{faq.question}</span>
                             {isOpen ? <ChevronUp className="w-4 h-4 text-gray-500 shrink-0" /> : <ChevronDown className="w-4 h-4 text-gray-500 shrink-0" />}
                           </button>
-                          
+
                           {isOpen && (
-                            <div 
+                            <div
                               className="p-4 border-t border-gray-800/40 text-xs sm:text-sm text-gray-450 leading-relaxed bg-[#0d0f12]/30"
                               dangerouslySetInnerHTML={{ __html: faq.answer }}
                             />
@@ -655,14 +649,14 @@ export default function TeamDetailsClient({
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
                     {related.competitors.slice(0, 6).map((comp: any) => (
-                      <Link 
-                        key={comp.id} 
+                      <Link
+                        key={comp.id}
                         href={`/team/${comp.id}`}
                         className="p-3 bg-gray-900/30 border border-gray-800/50 rounded-xl flex flex-col items-center text-center gap-2 hover:border-gray-700/60 hover:shadow-lg transition-all duration-300"
                       >
-                        <img 
-                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${comp.id}`} 
-                          alt="" 
+                        <img
+                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${comp.id}`}
+                          alt=""
                           className="w-10 h-10 object-contain"
                         />
                         <span className="text-xxs sm:text-xs font-bold line-clamp-1 text-zinc-300">{comp.name}</span>
@@ -686,8 +680,8 @@ export default function TeamDetailsClient({
                     {resultsList.slice(0, 8).map((game: any, index) => {
                       const slug = generateMatchSlug(game.homeCompetitor, game.awayCompetitor, game.id);
                       return (
-                        <Link 
-                          key={index} 
+                        <Link
+                          key={index}
                           href={`/match/${slug}`}
                           className="py-3 flex items-center justify-between hover:bg-gray-800/20 px-2 rounded-xl transition-all duration-200"
                         >
@@ -725,17 +719,15 @@ export default function TeamDetailsClient({
                 <div className="flex bg-gray-850 p-1 rounded-xl w-full max-w-xs border border-gray-800/60">
                   <button
                     onClick={() => setMatchesSubTab("fixtures")}
-                    className={`flex-1 py-2 text-center text-sm font-bold rounded-lg transition-all cursor-pointer ${
-                      matchesSubTab === "fixtures" ? "bg-green-600 text-white shadow-md" : "text-gray-400 hover:text-white"
-                    }`}
+                    className={`flex-1 py-2 text-center text-sm font-bold rounded-lg transition-all cursor-pointer ${matchesSubTab === "fixtures" ? "bg-green-600 text-white shadow-md" : "text-gray-400 hover:text-white"
+                      }`}
                   >
                     جدول المباريات
                   </button>
                   <button
                     onClick={() => setMatchesSubTab("results")}
-                    className={`flex-1 py-2 text-center text-sm font-bold rounded-lg transition-all cursor-pointer ${
-                      matchesSubTab === "results" ? "bg-green-600 text-white shadow-md" : "text-gray-400 hover:text-white"
-                    }`}
+                    className={`flex-1 py-2 text-center text-sm font-bold rounded-lg transition-all cursor-pointer ${matchesSubTab === "results" ? "bg-green-600 text-white shadow-md" : "text-gray-400 hover:text-white"
+                      }`}
                   >
                     النتائج
                   </button>
@@ -754,7 +746,7 @@ export default function TeamDetailsClient({
                     >
                       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="text-xs text-gray-500 font-semibold">{game.competitionDisplayName}</div>
-                        
+
                         <div className="flex items-center gap-6 justify-center w-full sm:w-auto">
                           <div className="flex items-center gap-3 text-right">
                             <span className="font-extrabold text-sm sm:text-base">{game.homeCompetitor.name}</span>
@@ -837,17 +829,16 @@ export default function TeamDetailsClient({
                           {table.rows.map((row: any, i: number) => {
                             const isCurrentTeam = row.competitor.id === team.id;
                             return (
-                              <tr 
-                                key={i} 
-                                className={`hover:bg-gray-800/20 transition-all ${
-                                  isCurrentTeam ? "bg-green-500/10 font-bold border-r-4 border-r-emerald-500" : ""
-                                }`}
+                              <tr
+                                key={i}
+                                className={`hover:bg-gray-800/20 transition-all ${isCurrentTeam ? "bg-green-500/10 font-bold border-r-4 border-r-emerald-500" : ""
+                                  }`}
                               >
                                 <td className="py-4 px-4 text-center text-xs sm:text-sm text-gray-400">
                                   {row.position}
                                 </td>
                                 <td className="py-4 px-4">
-                                  <Link 
+                                  <Link
                                     href={`/team/${row.competitor.id}`}
                                     className="flex items-center gap-3"
                                   >
@@ -927,19 +918,19 @@ export default function TeamDetailsClient({
             ) : teamNewsArticles && teamNewsArticles.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {teamNewsArticles.map((item: any) => (
-                  <Link 
+                  <Link
                     key={item._id || item.slug}
                     href={`/news/${item.slug || item._id}`}
                     className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl overflow-hidden hover:border-emerald-500/40 transition-all duration-300 flex flex-col sm:flex-row group hover:shadow-xl hover:shadow-black/30"
                   >
                     <div className="sm:w-1/3 h-44 sm:h-auto relative overflow-hidden bg-gray-950 shrink-0">
-                      <img 
+                      <img
                         src={
                           item.image_url && item.image_url.includes("res.cloudinary.com")
                             ? decodeURIComponent(item.image_url.split("/image/fetch/f_auto,q_auto/")[1] || item.image_url)
                             : item.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
-                        } 
-                        alt={item.headline_ar} 
+                        }
+                        alt={item.headline_ar}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                         onError={(e: any) => {
@@ -962,9 +953,9 @@ export default function TeamDetailsClient({
                         <span className="font-mono">
                           {item.published_at || item.created_at
                             ? new Date(item.published_at || item.created_at).toLocaleDateString("ar-MA", {
-                                day: "numeric",
-                                month: "short",
-                              })
+                              day: "numeric",
+                              month: "short",
+                            })
                             : "مباشر"}
                         </span>
                       </div>
@@ -989,8 +980,8 @@ export default function TeamDetailsClient({
                   {/* Left Arrow Button */}
                   <div className="w-10">
                     {hasR32 && (
-                      <button 
-                        onClick={() => scrollBrackets("left")} 
+                      <button
+                        onClick={() => scrollBrackets("left")}
                         className="p-2 bg-gray-850 hover:bg-gray-800 text-white rounded-xl border border-gray-800 transition-all cursor-pointer shrink-0 active:scale-95 flex items-center justify-center"
                         title="الرجوع للنهائي"
                       >
@@ -1008,8 +999,8 @@ export default function TeamDetailsClient({
                   {/* Right Arrow Button */}
                   <div className="w-10 text-left">
                     {hasR32 && (
-                      <button 
-                        onClick={() => scrollBrackets("right")} 
+                      <button
+                        onClick={() => scrollBrackets("right")}
                         className="p-2 bg-gray-850 hover:bg-gray-800 text-white rounded-xl border border-gray-800 transition-all cursor-pointer shrink-0 active:scale-95 flex items-center justify-center"
                         title="عرض دور الـ 32"
                       >
@@ -1024,7 +1015,7 @@ export default function TeamDetailsClient({
                   const heightVal = hasR32 ? "1200px" : "600px";
 
                   return (
-                    <div 
+                    <div
                       ref={bracketsScrollRef}
                       className="flex flex-row-reverse items-start justify-start gap-0 overflow-x-auto py-12 px-4 select-none scrollbar-none min-w-[900px] relative"
                     >
@@ -1174,184 +1165,184 @@ export default function TeamDetailsClient({
                           </div>
 
                           <div className="flex flex-col justify-between w-full" style={{ height: heightVal }}>
-                             {/* Final match card (Large & Premium in the center) */}
-                             {(() => {
-                               const finalGroup = brackets.stages.find((s: any) => s.num === 6).groups[0];
-                               if (!finalGroup) return null;
-                               const p1 = finalGroup.participants?.[0] || { name: "مجهول" };
-                               const p2 = finalGroup.participants?.[1] || { name: "مجهول" };
-                               const score1 = finalGroup.score?.[0];
-                               const score2 = finalGroup.score?.[1];
-                               const hasPlayed = score1 !== undefined && score1 !== null && score1 !== -1;
-                               const gameRecord = finalGroup.games?.[0];
+                            {/* Final match card (Large & Premium in the center) */}
+                            {(() => {
+                              const finalGroup = brackets.stages.find((s: any) => s.num === 6).groups[0];
+                              if (!finalGroup) return null;
+                              const p1 = finalGroup.participants?.[0] || { name: "مجهول" };
+                              const p2 = finalGroup.participants?.[1] || { name: "مجهول" };
+                              const score1 = finalGroup.score?.[0];
+                              const score2 = finalGroup.score?.[1];
+                              const hasPlayed = score1 !== undefined && score1 !== null && score1 !== -1;
+                              const gameRecord = finalGroup.games?.[0];
 
-                               const isWinner1 = finalGroup.toQualify === 1;
-                               const isWinner2 = finalGroup.toQualify === 2;
-                               
-                               const dateFormatted = gameRecord?.startTime 
-                                 ? new Date(gameRecord.startTime).toLocaleDateString("ar-MA", { weekday: 'short', day: 'numeric', month: 'short' })
-                                 : "الأحد, 19 يوليو";
-                               
-                               const timeFormatted = gameRecord?.startTime
-                                 ? new Date(gameRecord.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })
-                                 : "08:00 م";
+                              const isWinner1 = finalGroup.toQualify === 1;
+                              const isWinner2 = finalGroup.toQualify === 2;
 
-                               return (
-                                 <div className="flex justify-center flex-1 flex-col justify-center">
-                                   <div className="bg-[#121214] border border-yellow-500/20 rounded-2xl p-4 w-[240px] shrink-0 text-xs flex flex-col relative shadow-xl shadow-yellow-950/5">
-                                     {/* Date/Time Header */}
-                                     <div className="text-[10px] text-gray-500 font-semibold mb-3 text-right">
-                                       {dateFormatted} • {timeFormatted}
-                                     </div>
+                              const dateFormatted = gameRecord?.startTime
+                                ? new Date(gameRecord.startTime).toLocaleDateString("ar-MA", { weekday: 'short', day: 'numeric', month: 'short' })
+                                : "الأحد, 19 يوليو";
 
-                                     <div className="flex items-center justify-between gap-3">
-                                       {/* Teams list */}
-                                       <div className="flex-1 flex flex-col gap-2.5 min-w-0">
-                                         <div className="flex items-center justify-between">
-                                           <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
-                                             {p1.competitorId ? (
-                                               <img 
-                                                 src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`} 
-                                                 className="w-5 h-5 rounded-full object-cover shrink-0" 
-                                                 alt="" 
-                                               />
-                                             ) : (
-                                               <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
-                                             )}
-                                             <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner1 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
-                                               {p1.name}
-                                             </span>
-                                           </div>
-                                           {hasPlayed && (
-                                             <span className={`font-bold ${isWinner1 ? "text-white text-sm" : "text-gray-500 text-sm"}`}>
-                                               {score1}
-                                             </span>
-                                           )}
-                                         </div>
+                              const timeFormatted = gameRecord?.startTime
+                                ? new Date(gameRecord.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })
+                                : "08:00 م";
 
-                                         <div className="flex items-center justify-between">
-                                           <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
-                                             {p2.competitorId ? (
-                                               <img 
-                                                 src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`} 
-                                                 className="w-5 h-5 rounded-full object-cover shrink-0" 
-                                                 alt="" 
-                                               />
-                                             ) : (
-                                               <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
-                                             )}
-                                             <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner2 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
-                                               {p2.name}
-                                             </span>
-                                           </div>
-                                           {hasPlayed && (
-                                             <span className={`font-bold ${isWinner2 ? "text-white text-sm" : "text-gray-500 text-sm"}`}>
-                                               {score2}
-                                             </span>
-                                           )}
-                                         </div>
-                                       </div>
+                              return (
+                                <div className="flex justify-center flex-1 flex-col justify-center">
+                                  <div className="bg-[#121214] border border-yellow-500/20 rounded-2xl p-4 w-[240px] shrink-0 text-xs flex flex-col relative shadow-xl shadow-yellow-950/5">
+                                    {/* Date/Time Header */}
+                                    <div className="text-[10px] text-gray-500 font-semibold mb-3 text-right">
+                                      {dateFormatted} • {timeFormatted}
+                                    </div>
 
-                                       {/* Trophy */}
-                                       <div className="flex items-center justify-center pr-2 border-r border-gray-800/80 h-10">
-                                         <Trophy className="w-8 h-8 text-yellow-500 animate-pulse" />
-                                       </div>
-                                     </div>
+                                    <div className="flex items-center justify-between gap-3">
+                                      {/* Teams list */}
+                                      <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
+                                            {p1.competitorId ? (
+                                              <img
+                                                src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`}
+                                                className="w-5 h-5 rounded-full object-cover shrink-0"
+                                                alt=""
+                                              />
+                                            ) : (
+                                              <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
+                                            )}
+                                            <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner1 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
+                                              {p1.name}
+                                            </span>
+                                          </div>
+                                          {hasPlayed && (
+                                            <span className={`font-bold ${isWinner1 ? "text-white text-sm" : "text-gray-500 text-sm"}`}>
+                                              {score1}
+                                            </span>
+                                          )}
+                                        </div>
 
-                                     {/* Badge */}
-                                     <div className="mt-3 flex items-center justify-center">
-                                       <span className="text-[10px] font-bold text-yellow-500 bg-yellow-500/10 px-2.5 py-0.5 rounded-full">
-                                         النهائي
-                                       </span>
-                                     </div>
-                                   </div>
-                                 </div>
-                               );
-                             })()}
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
+                                            {p2.competitorId ? (
+                                              <img
+                                                src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`}
+                                                className="w-5 h-5 rounded-full object-cover shrink-0"
+                                                alt=""
+                                              />
+                                            ) : (
+                                              <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
+                                            )}
+                                            <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner2 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
+                                              {p2.name}
+                                            </span>
+                                          </div>
+                                          {hasPlayed && (
+                                            <span className={`font-bold ${isWinner2 ? "text-white text-sm" : "text-gray-500 text-sm"}`}>
+                                              {score2}
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
 
-                             {/* Third place play-off */}
-                             {(() => {
-                               const thirdGroup = brackets.stages.find((s: any) => s.num === 6).groups[1];
-                               if (!thirdGroup) return <div className="h-20" />;
-                               const p1 = thirdGroup.participants?.[0] || { name: "مجهول" };
-                               const p2 = thirdGroup.participants?.[1] || { name: "مجهول" };
-                               const score1 = thirdGroup.score?.[0];
-                               const score2 = thirdGroup.score?.[1];
-                               const hasPlayed = score1 !== undefined && score1 !== null && score1 !== -1;
-                               const gameRecord = thirdGroup.games?.[0];
+                                      {/* Trophy */}
+                                      <div className="flex items-center justify-center pr-2 border-r border-gray-800/80 h-10">
+                                        <Trophy className="w-8 h-8 text-yellow-500 animate-pulse" />
+                                      </div>
+                                    </div>
 
-                               const isWinner1 = hasPlayed && score1 > score2;
-                               const isWinner2 = hasPlayed && score2 > score1;
+                                    {/* Badge */}
+                                    <div className="mt-3 flex items-center justify-center">
+                                      <span className="text-[10px] font-bold text-yellow-500 bg-yellow-500/10 px-2.5 py-0.5 rounded-full">
+                                        النهائي
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })()}
 
-                               const dateFormatted = gameRecord?.startTime 
-                                 ? new Date(gameRecord.startTime).toLocaleDateString("ar-MA", { weekday: 'short', day: 'numeric', month: 'short' })
-                                 : "السبت, 18 يوليو";
-                               
-                               const timeFormatted = gameRecord?.startTime
-                                 ? new Date(gameRecord.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })
-                                 : "10:00 م";
+                            {/* Third place play-off */}
+                            {(() => {
+                              const thirdGroup = brackets.stages.find((s: any) => s.num === 6).groups[1];
+                              if (!thirdGroup) return <div className="h-20" />;
+                              const p1 = thirdGroup.participants?.[0] || { name: "مجهول" };
+                              const p2 = thirdGroup.participants?.[1] || { name: "مجهول" };
+                              const score1 = thirdGroup.score?.[0];
+                              const score2 = thirdGroup.score?.[1];
+                              const hasPlayed = score1 !== undefined && score1 !== null && score1 !== -1;
+                              const gameRecord = thirdGroup.games?.[0];
 
-                               return (
-                                 <div className="flex justify-center pb-4 shrink-0">
-                                   <div className="bg-[#121214] border border-gray-800/80 rounded-2xl p-4 w-[240px] shrink-0 text-xs flex flex-col relative shadow-lg">
-                                     {/* Date/Time Header */}
-                                     <div className="text-[10px] text-gray-500 font-semibold mb-3 text-right">
-                                       {dateFormatted} • {timeFormatted}
-                                     </div>
+                              const isWinner1 = hasPlayed && score1 > score2;
+                              const isWinner2 = hasPlayed && score2 > score1;
 
-                                     <div className="flex flex-col gap-2.5">
-                                       <div className="flex items-center justify-between">
-                                         <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
-                                           {p1.competitorId ? (
-                                             <img 
-                                               src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`} 
-                                               className="w-5 h-5 rounded-full object-cover shrink-0" 
-                                               alt="" 
-                                             />
-                                           ) : (
-                                             <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
-                                           )}
-                                           <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner1 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
-                                             {p1.name}
-                                           </span>
-                                         </div>
-                                         <span className={`font-bold ${hasPlayed ? (isWinner1 ? "text-white text-sm" : "text-gray-500 text-sm") : "text-gray-500 text-sm"}`}>
-                                           {hasPlayed ? score1 : "-"}
-                                         </span>
-                                       </div>
+                              const dateFormatted = gameRecord?.startTime
+                                ? new Date(gameRecord.startTime).toLocaleDateString("ar-MA", { weekday: 'short', day: 'numeric', month: 'short' })
+                                : "السبت, 18 يوليو";
 
-                                       <div className="flex items-center justify-between">
-                                         <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
-                                           {p2.competitorId ? (
-                                             <img 
-                                               src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`} 
-                                               className="w-5 h-5 rounded-full object-cover shrink-0" 
-                                               alt="" 
-                                             />
-                                           ) : (
-                                             <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
-                                           )}
-                                           <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner2 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
-                                             {p2.name}
-                                           </span>
-                                         </div>
-                                         <span className={`font-bold ${hasPlayed ? (isWinner2 ? "text-white text-sm" : "text-gray-500 text-sm") : "text-gray-500 text-sm"}`}>
-                                           {hasPlayed ? score2 : "-"}
-                                         </span>
-                                       </div>
-                                     </div>
+                              const timeFormatted = gameRecord?.startTime
+                                ? new Date(gameRecord.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })
+                                : "10:00 م";
 
-                                     {/* Badge */}
-                                     <div className="mt-3 flex items-center justify-center">
-                                       <span className="text-[10px] font-bold text-gray-400 bg-gray-800 px-2.5 py-0.5 rounded-full">
-                                         المركز الثالث
-                                       </span>
-                                     </div>
-                                   </div>
-                                 </div>
-                               );
-                             })()}
-                           </div>
+                              return (
+                                <div className="flex justify-center pb-4 shrink-0">
+                                  <div className="bg-[#121214] border border-gray-800/80 rounded-2xl p-4 w-[240px] shrink-0 text-xs flex flex-col relative shadow-lg">
+                                    {/* Date/Time Header */}
+                                    <div className="text-[10px] text-gray-500 font-semibold mb-3 text-right">
+                                      {dateFormatted} • {timeFormatted}
+                                    </div>
+
+                                    <div className="flex flex-col gap-2.5">
+                                      <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
+                                          {p1.competitorId ? (
+                                            <img
+                                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p1.competitorId}`}
+                                              className="w-5 h-5 rounded-full object-cover shrink-0"
+                                              alt=""
+                                            />
+                                          ) : (
+                                            <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
+                                          )}
+                                          <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner1 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
+                                            {p1.name}
+                                          </span>
+                                        </div>
+                                        <span className={`font-bold ${hasPlayed ? (isWinner1 ? "text-white text-sm" : "text-gray-500 text-sm") : "text-gray-500 text-sm"}`}>
+                                          {hasPlayed ? score1 : "-"}
+                                        </span>
+                                      </div>
+
+                                      <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2 min-w-0 flex-row-reverse">
+                                          {p2.competitorId ? (
+                                            <img
+                                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${p2.competitorId}`}
+                                              className="w-5 h-5 rounded-full object-cover shrink-0"
+                                              alt=""
+                                            />
+                                          ) : (
+                                            <div className="w-5 h-5 rounded-full bg-gray-850 shrink-0" />
+                                          )}
+                                          <span className={`font-bold truncate text-right ${hasPlayed ? (isWinner2 ? "text-white" : "text-gray-500") : "text-gray-300"}`}>
+                                            {p2.name}
+                                          </span>
+                                        </div>
+                                        <span className={`font-bold ${hasPlayed ? (isWinner2 ? "text-white text-sm" : "text-gray-500 text-sm") : "text-gray-500 text-sm"}`}>
+                                          {hasPlayed ? score2 : "-"}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    {/* Badge */}
+                                    <div className="mt-3 flex items-center justify-center">
+                                      <span className="text-[10px] font-bold text-gray-400 bg-gray-800 px-2.5 py-0.5 rounded-full">
+                                        المركز الثالث
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })()}
+                          </div>
                         </div>
                       )}
 
@@ -1399,13 +1390,13 @@ export default function TeamDetailsClient({
               {activeStatCategory && activeStatCategory.rows.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {activeStatCategory.rows.map((row: any, index: number) => (
-                    <div 
+                    <div
                       key={index}
                       className="bg-gray-800/20 border border-gray-800/40 rounded-xl p-4 flex items-center gap-4 hover:border-gray-700/60 transition-all duration-300"
                     >
                       <div className="w-14 h-14 bg-gray-800 rounded-full overflow-hidden border border-gray-700 relative shrink-0">
-                        <img 
-                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_athletes:default.png/v1/athletes/${row.entity.id}`} 
+                        <img
+                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_athletes:default.png/v1/athletes/${row.entity.id}`}
                           alt=""
                           className="w-full h-full object-cover"
                           onError={(e) => {
@@ -1460,8 +1451,8 @@ export default function TeamDetailsClient({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {section.players.map((player: any) => (
-                      <div 
-                        key={player.id} 
+                      <div
+                        key={player.id}
                         className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl p-4 flex items-center gap-4 hover:border-gray-700/60 hover:shadow-lg transition-all duration-300 relative group overflow-hidden"
                       >
                         <div className="absolute top-2 left-3 text-xxs font-black text-gray-600 group-hover:text-green-500/30 transition-all">
@@ -1509,7 +1500,7 @@ export default function TeamDetailsClient({
               {mappedTransfers.incoming.length > 0 ? (
                 <div className="space-y-4">
                   {mappedTransfers.incoming.map((item, index) => (
-                    <div 
+                    <div
                       key={index}
                       className="bg-gray-850/40 border border-gray-800/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
                     >
@@ -1537,9 +1528,9 @@ export default function TeamDetailsClient({
                         {item.originClub && (
                           <div className="flex items-center gap-1.5">
                             <span className="text-xxs text-gray-400">من</span>
-                            <img 
-                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${item.originClub.id}`} 
-                              alt="" 
+                            <img
+                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${item.originClub.id}`}
+                              alt=""
                               className="w-5 h-5 object-contain"
                             />
                             <span className="text-xs text-gray-400 truncate max-w-[80px]">{item.originClub.name}</span>
@@ -1572,7 +1563,7 @@ export default function TeamDetailsClient({
               {mappedTransfers.outgoing.length > 0 ? (
                 <div className="space-y-4">
                   {mappedTransfers.outgoing.map((item, index) => (
-                    <div 
+                    <div
                       key={index}
                       className="bg-gray-850/40 border border-gray-800/50 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
                     >
@@ -1600,9 +1591,9 @@ export default function TeamDetailsClient({
                         {item.targetClub && (
                           <div className="flex items-center gap-1.5">
                             <span className="text-xxs text-gray-400">إلى</span>
-                            <img 
-                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${item.targetClub.id}`} 
-                              alt="" 
+                            <img
+                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_24,h_24,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${item.targetClub.id}`}
+                              alt=""
                               className="w-5 h-5 object-contain"
                             />
                             <span className="text-xs text-gray-400 truncate max-w-[80px]">{item.targetClub.name}</span>

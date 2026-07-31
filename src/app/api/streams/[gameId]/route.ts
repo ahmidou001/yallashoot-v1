@@ -79,22 +79,34 @@ export async function GET(
       signedStreamUrl = signSecureStreamUrl(signedStreamUrl, secret, userAgent);
     }
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        gameId,
-        homeTeam: match.teamHome?.name || "",
-        awayTeam: match.teamAway?.name || "",
-        streamType,
-        streamUrl: signedStreamUrl,
-        tokenRequired: !!token,
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          gameId,
+          homeTeam: match.teamHome?.name || "",
+          awayTeam: match.teamAway?.name || "",
+          streamType,
+          streamUrl: signedStreamUrl,
+          tokenRequired: !!token,
+        },
       },
-    });
+      {
+        headers: {
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }
+    );
   } catch (error: any) {
     console.error(`GET stream for gameId ${context.params} error:`, error);
     return NextResponse.json(
       { success: false, error: error.message || "Internal Server Error" },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      }
     );
   }
 }
