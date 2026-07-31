@@ -67,3 +67,58 @@ export async function GET(request: Request) {
     );
   }
 }
+
+/**
+ * POST /api/news - Create/Save a news article and automatically notify Google & Bing Indexing APIs
+ */
+export async function POST(request: Request) {
+  try {
+    await connectDB();
+    const body = await request.json();
+    const { headline_ar, body_ar, slug, image_url, source, tags, score } = body;
+
+    if (!headline_ar || !body_ar) {
+      return NextResponse.json(
+        { success: false, error: "Missing required fields: headline_ar, body_ar" },
+        { status: 400 }
+      );
+    }
+
+    const articleSlug = slug || headline_ar.toLowerCase().replace(/[^\w\u0621-\u064A]+/g, "-");
+
+    const newArticle = await Article.create({
+      headline_ar,
+      body_ar,
+      slug: articleSlug,
+      image_url: image_url || "",
+      source: source || "يلا شوت",
+      tags: tags || [],
+      score: score || 5,
+      status: "published",
+      published_at: new Date(),
+    });
+
+    // Auto-trigger instant indexing to Google & Bing
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.yallahsoot.com";
+    const articleUrl = `${siteUrl}/news/${newArticle.slug || newArticle._id}`;
+
+    // Non-blocking call to notify search engines
+    const { notifyAllSearchEngines } = await import("@/lib/indexing");
+    notifyAllSearchEngines(articleUrl).catch((err) => {
+      console.error("Auto indexing notification failed silently:", err);
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Article created and indexing notified successfully",
+      data: newArticle,
+      articleUrl,
+    });
+  } catch (error: any) {
+    console.error("Error creating news article:", error);
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to create article" },
+      { status: 500 }
+    );
+  }
+}
