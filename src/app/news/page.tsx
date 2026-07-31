@@ -3,6 +3,7 @@ import { BookOpen, ChevronRight, Clock, Tag, Flame } from "lucide-react";
 import connectDB from "@/lib/db";
 import Article from "@/models/Article";
 import { Metadata } from "next";
+import NewsImage from "@/components/NewsImage";
 
 export const dynamic = "force-dynamic";
 
@@ -51,15 +52,11 @@ export default async function NewsArchivePage() {
               className="group flex flex-col overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 transition duration-200 shadow-lg"
             >
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-950">
-                <img
-                  src={
-                    article.image_url && article.image_url.includes("res.cloudinary.com")
-                      ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
-                      : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
-                  }
+                <NewsImage
+                  src={article.image_url}
                   alt={article.headline_ar}
                   className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                  loading="lazy"
+                  fallbackSrc="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
                 />
                 <span className="absolute bottom-2 right-2 rounded-md bg-zinc-950/80 px-2 py-0.5 text-[9px] font-bold text-zinc-300 border border-zinc-800 backdrop-blur-xs">
                   {article.source || "أنباء رياضية"}

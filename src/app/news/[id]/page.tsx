@@ -1,9 +1,10 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Calendar, ExternalLink, Tag, Clock, Share2, Sparkles, BookOpen } from "lucide-react";
 import connectDB from "@/lib/db";
 import Article from "@/models/Article";
 import { Metadata } from "next";
+import NewsImage from "@/components/NewsImage";
 
 export const dynamic = "force-dynamic";
 
@@ -97,14 +98,11 @@ export default async function NewsArticlePage({ params }: PageProps) {
         {/* Cover Image */}
         {article.image_url && (
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-950">
-            <img
-              src={
-                article.image_url.includes("res.cloudinary.com")
-                  ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
-                  : article.image_url
-              }
+            <NewsImage
+              src={article.image_url}
               alt={article.headline_ar}
               className="h-full w-full object-cover"
+              fallbackSrc="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop&q=80"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-black/30" />
             <div className="absolute bottom-4 right-4 left-4 flex items-center justify-between">
@@ -164,10 +162,13 @@ export default async function NewsArticlePage({ params }: PageProps) {
                 className="group flex gap-3.5 p-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 transition duration-200"
               >
                 <div className="relative h-20 w-28 overflow-hidden rounded-xl bg-zinc-950 shrink-0">
-                  <img
-                    src={rel.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"}
+                  <NewsImage
+                    src={rel.image_url}
                     alt={rel.headline_ar}
+                    width={112}
+                    height={80}
                     className="h-full w-full object-cover transition group-hover:scale-105"
+                    fallbackSrc="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=200&auto=format&fit=crop&q=70"
                   />
                 </div>
                 <div className="flex flex-col justify-between min-w-0 flex-1">
