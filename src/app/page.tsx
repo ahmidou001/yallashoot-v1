@@ -457,12 +457,12 @@ export default function HomePage() {
                     </div>
                     <div className="space-y-4 p-2 sm:p-3">
                       {priorityCompetitions.map(({ competition, games }) => (
-                        <div key={competition.id} className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-[#161b26] shadow-lg">
+                        <div key={competition.id} className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900 shadow-lg">
                           {/* League Header */}
                           {(() => {
                             const countryName = (data?.countries || []).find((c) => c.id === competition.countryId)?.name || (competition.countryId === 19 ? "أوروبا" : "دولي");
                             return (
-                              <div className="flex items-center justify-between bg-[#11151f] px-4 py-3 border-b border-zinc-800/70">
+                              <div className="flex items-center justify-between bg-zinc-850/50 px-4 py-3 border-b border-zinc-800/70">
                                 <div className="flex items-center gap-2.5">
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
@@ -530,13 +530,13 @@ export default function HomePage() {
                                           </div>
                                         </div>
                                       ) : isFinished ? (
-                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750 text-xs font-black font-mono text-zinc-200">
+                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-850 border border-zinc-800 text-xs font-black font-mono text-zinc-200">
                                           <span>{homeScore}</span>
                                           <span className="text-zinc-400">:</span>
                                           <span>{awayScore}</span>
                                         </div>
                                       ) : (
-                                        <div className="px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750/70 text-xs font-mono font-bold text-zinc-200 shadow-inner">
+                                        <div className="px-3 py-1 rounded-full bg-zinc-850 border border-zinc-800 text-xs font-mono font-bold text-zinc-200 shadow-inner">
                                           {formatTime(game.startTime)}
                                         </div>
                                       )}
@@ -575,12 +575,12 @@ export default function HomePage() {
                     </div>
                     <div className="space-y-4 p-2 sm:p-3">
                       {otherCompetitions.map(({ competition, games }) => (
-                        <div key={competition.id} className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-[#161b26] shadow-lg">
+                        <div key={competition.id} className="overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900 shadow-lg">
                           {/* League Header */}
                           {(() => {
                             const countryName = (data?.countries || []).find((c) => c.id === competition.countryId)?.name || (competition.countryId === 19 ? "أوروبا" : "دولي");
                             return (
-                              <div className="flex items-center justify-between bg-[#11151f] px-4 py-3 border-b border-zinc-800/70">
+                              <div className="flex items-center justify-between bg-zinc-850/50 px-4 py-3 border-b border-zinc-800/70">
                                 <div className="flex items-center gap-2.5">
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
@@ -645,13 +645,13 @@ export default function HomePage() {
                                           </div>
                                         </div>
                                       ) : isFinished ? (
-                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750 text-xs font-black font-mono text-zinc-200">
+                                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-850 border border-zinc-800 text-xs font-black font-mono text-zinc-200">
                                           <span>{homeScore}</span>
                                           <span className="text-zinc-400">:</span>
                                           <span>{awayScore}</span>
                                         </div>
                                       ) : (
-                                        <div className="px-3 py-1 rounded-full bg-[#1c2230] border border-zinc-750/70 text-xs font-mono font-bold text-zinc-200 shadow-inner">
+                                        <div className="px-3 py-1 rounded-full bg-zinc-850 border border-zinc-800 text-xs font-mono font-bold text-zinc-200 shadow-inner">
                                           {formatTime(game.startTime)}
                                         </div>
                                       )}
