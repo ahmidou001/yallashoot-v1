@@ -9,6 +9,7 @@ import {
   ArrowLeftRight, Flame, BookOpen, Heart, Info, ChevronDown, MoreHorizontal 
 } from "lucide-react";
 import SidebarLeagues from "@/components/SidebarLeagues";
+import CompetitionTeamsHeaderBar from "@/components/CompetitionTeamsHeaderBar";
 import { GamesResponse, Game, Competition } from "@/types/api";
 import { useSettings } from "@/components/providers";
 import { generateMatchSlug } from "@/lib/matchSlug";
@@ -262,8 +263,12 @@ export default function HomePage() {
   const { padding: calendarPadding, days: calendarDays } = getCalendarDays();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" dir="rtl">
-      {/* 2-Column Responsive Layout: Swapped order in DOM so that Sidebar is on the RIGHT and Slider/Widgets on the LEFT under dir="rtl" */}
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-6" dir="rtl">
+      
+      {/* Top Competition & Teams Header Bar (beIN Sports Style) */}
+      <CompetitionTeamsHeaderBar />
+
+      {/* 2-Column Responsive Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* ============================================================ */}
