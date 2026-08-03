@@ -904,7 +904,7 @@ export default function HomePage() {
                         src={
                           article.image_url && article.image_url.includes("res.cloudinary.com")
                             ? decodeURIComponent(article.image_url.split("/image/fetch/f_auto,q_auto/")[1] || article.image_url)
-                            : article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=200&auto=format&fit=crop&q=70"
+                            : article.image_url || "/new.png"
                         }
                         alt={article.headline_ar}
                         width={112}
@@ -912,7 +912,7 @@ export default function HomePage() {
                         className="h-full w-full object-cover transition group-hover:scale-105"
                         loading="lazy"
                         onError={(e: any) => {
-                          e.currentTarget.src = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=200&auto=format&fit=crop&q=70";
+                          e.currentTarget.src = "/new.png";
                         }}
                       />
                       {article.score >= 8 && (
@@ -970,25 +970,20 @@ export default function HomePage() {
             {/* 3-Column Footer sub-grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right">
               
-              {/* Col 1: A-Z Leagues (Far Right) */}
+              {/* Col 1: Information & Legal Links */}
               <div className="space-y-3">
-                <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">كل البطولات أ-ي</h5>
-                <ul className="grid grid-cols-2 gap-1 text-xs text-zinc-300">
+                <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">روابط سريعة</h5>
+                <ul className="space-y-1 text-xs text-zinc-300">
                   {[
-                    { name: "ألمانيا", id: 25 },
-                    { name: "الأرجنتين", id: 651 },
-                    { name: "البرازيل", id: 300 },
-                    { name: "إنجلترا", id: 7 },
-                    { name: "إسبانيا", id: 11 },
-                    { name: "إيطاليا", id: 17 },
-                    { name: "المغرب", id: 557 },
-                    { name: "فرنسا", id: 35 },
-                    { name: "السعودية", id: 649 }
+                    { name: "عن التطبيق", href: "/about" },
+                    { name: "سياسة الخصوصية", href: "/privacy" },
+                    { name: "شروط الاستخدام", href: "/terms" },
+                    { name: "اتصل بنا", href: "/contact" }
                   ].map((item, i) => (
                     <li key={i} className="select-none">
                       <Link 
-                        href={`/standings/${item.id}`}
-                        aria-label={`جدول ترتيب ${item.name}`}
+                        href={item.href}
+                        aria-label={item.name}
                         className="flex items-center py-2 px-1 text-xs font-semibold text-zinc-300 hover:text-emerald-400 min-h-[44px] transition"
                       >
                         {item.name}
@@ -1023,7 +1018,7 @@ export default function HomePage() {
                 </ul>
               </div>
 
-              {/* Col 3: Popular Teams (Far Left) */}
+              {/* Col 3: Popular Teams (Far Left - Stars Removed) */}
               <div className="space-y-3">
                 <h5 className="font-black text-xs text-zinc-200 border-r-2 border-emerald-500 pr-2">الفرق الأكثر شعبية</h5>
                 <div className="space-y-1">
@@ -1031,24 +1026,17 @@ export default function HomePage() {
                     { id: 131, name: "ريال مدريد" },
                     { id: 132, name: "برشلونة" },
                     { id: 110, name: "مانشستر سيتي" },
-                    { id: 3252, name: "الهلال" },
-                    { id: 3928, name: "النصر" }
+                    { id: 5457, name: "الهلال" },
+                    { id: 7549, name: "النصر" }
                   ].map((team) => (
-                    <div key={team.id} className="flex items-center justify-between text-xs text-zinc-300 hover:text-zinc-100 transition select-none min-h-[44px] py-1">
+                    <div key={team.id} className="flex items-center text-xs text-zinc-300 hover:text-zinc-100 transition select-none min-h-[44px] py-1">
                       <Link 
                         href={`/team/${team.id}`} 
                         aria-label={`صفحة فريق ${team.name}`}
-                        className="hover:text-emerald-400 transition cursor-pointer py-2 flex-1"
+                        className="hover:text-emerald-400 transition cursor-pointer py-2 flex-1 font-semibold"
                       >
                         {team.name}
                       </Link>
-                      <button 
-                        onClick={() => toggleFavorite(team.id)} 
-                        aria-label={`تفضيل ${team.name}`}
-                        className="cursor-pointer focus:outline-none p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
-                      >
-                        <Star className={`h-4 w-4 ${favorites.includes(team.id) ? "fill-yellow-500 text-yellow-500" : "text-zinc-400 hover:text-zinc-200"}`} />
-                      </button>
                     </div>
                   ))}
                 </div>
@@ -1057,14 +1045,8 @@ export default function HomePage() {
             </div>
 
             {/* Footer Institutional & Legal Links Bar */}
-            <div className="border-t border-zinc-800 pt-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-zinc-400">
+            <div className="border-t border-zinc-800 pt-5 flex items-center justify-center text-xs font-bold text-zinc-400">
               <p>© {new Date().getFullYear()} يلا شوت لايف yallahsoot.com - جميع الحقوق محفوظة.</p>
-              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-                <Link href="/about" aria-label="عن التطبيق والموقع" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">عن التطبيق</Link>
-                <Link href="/privacy" aria-label="سياسة الخصوصية" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">سياسة الخصوصية</Link>
-                <Link href="/terms" aria-label="شروط الاستخدام" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">شروط الاستخدام</Link>
-                <Link href="/contact" aria-label="اتصل بنا" className="hover:text-emerald-400 transition min-h-[44px] flex items-center">اتصل بنا</Link>
-              </div>
             </div>
 
           </div>

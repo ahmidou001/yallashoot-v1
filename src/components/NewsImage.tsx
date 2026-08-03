@@ -17,7 +17,7 @@ export default function NewsImage({
   className = "",
   width,
   height,
-  fallbackSrc = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60",
+  fallbackSrc = "/new.png",
 }: NewsImageProps) {
   const getInitialSrc = (url?: string) => {
     if (!url || url.trim() === "") return fallbackSrc;

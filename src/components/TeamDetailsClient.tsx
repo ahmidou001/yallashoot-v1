@@ -928,13 +928,13 @@ export default function TeamDetailsClient({
                         src={
                           item.image_url && item.image_url.includes("res.cloudinary.com")
                             ? decodeURIComponent(item.image_url.split("/image/fetch/f_auto,q_auto/")[1] || item.image_url)
-                            : item.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
+                            : item.image_url || "/new.png"
                         }
                         alt={item.headline_ar}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                         onError={(e: any) => {
-                          e.currentTarget.src = "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60";
+                          e.currentTarget.src = "/new.png";
                         }}
                       />
                     </div>

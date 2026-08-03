@@ -56,7 +56,7 @@ export default async function NewsArchivePage() {
                   src={article.image_url}
                   alt={article.headline_ar}
                   className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                  fallbackSrc="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60"
+                  fallbackSrc="/new.png"
                 />
                 <span className="absolute bottom-2 right-2 rounded-md bg-zinc-950/80 px-2 py-0.5 text-[9px] font-bold text-zinc-300 border border-zinc-800 backdrop-blur-xs">
                   {article.source || "أنباء رياضية"}
