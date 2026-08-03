@@ -32,17 +32,13 @@ export default function PwaInstallPrompt() {
     const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
     setIsIos(isIosDevice);
 
-    // 4. Check localStorage / sessionStorage preferences
+    // 4. Check if user permanently dismissed widget
     const isWidgetDismissed = localStorage.getItem("pwa_widget_dismissed") === "true";
-    const autoModalShown = sessionStorage.getItem("pwa_auto_modal_shown") === "true";
 
+    // SMART UX: Never auto-open intrusive full-screen modal on first load!
+    // Show only a sleek, non-intrusive floating button/badge
     if (!isWidgetDismissed) {
       setShowWidget(true);
-      // Auto open modal only ONCE per session if not dismissed before
-      if (!autoModalShown) {
-        setShowModal(true);
-        sessionStorage.setItem("pwa_auto_modal_shown", "true");
-      }
     }
 
     // 5. Intercept Chrome/Edge/Android beforeinstallprompt event
@@ -76,7 +72,6 @@ export default function PwaInstallPrompt() {
 
   const handleDismissModal = () => {
     setShowModal(false);
-    sessionStorage.setItem("pwa_auto_modal_shown", "true");
   };
 
   const handleDismissWidget = (e: React.MouseEvent) => {
@@ -90,11 +85,11 @@ export default function PwaInstallPrompt() {
 
   return (
     <>
-      {/* SofaScore-Style Bottom Left Floating Widget */}
+      {/* Sleek, Non-Intrusive Bottom Floating Action Badge (SofaScore / BeIN Sports Style) */}
       {showWidget && (
-        <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 flex items-center group animate-fadeIn">
-          <div className="relative">
-            {/* Tiny Close Badge (x) */}
+        <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 flex items-center animate-fadeIn select-none">
+          <div className="relative group">
+            {/* Tiny Dismiss (x) button */}
             <button
               onClick={handleDismissWidget}
               className="absolute -top-2 -right-2 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-900 border border-zinc-700 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition shadow-md cursor-pointer"
@@ -104,24 +99,24 @@ export default function PwaInstallPrompt() {
               <X className="h-3 w-3" />
             </button>
 
-            {/* Main Floating Download Button */}
+            {/* Smart Floating Button */}
             <button
               onClick={() => setShowModal(true)}
-              className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-zinc-950 shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer border border-emerald-300/40"
-              title="تثبيت تطبيق يلا شوت"
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-zinc-900/95 border border-emerald-500/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:shadow-[0_0_30px_rgba(16,185,129,0.45)] hover:border-emerald-400 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer backdrop-blur-md"
+              title="تثبيت تطبيق يلا شوت لايف"
             >
-              <Download className="h-6 w-6 text-zinc-950 animate-bounce" />
+              <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-500 text-zinc-950 shadow-sm shrink-0">
+                <Download className="h-4 w-4" />
+              </div>
+              <span className="text-xs font-black text-zinc-150 hidden sm:inline">
+                تثبيت التطبيق 📱
+              </span>
             </button>
-
-            {/* Tooltip Label on Desktop Hover */}
-            <div className="hidden md:block absolute left-full ml-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap bg-zinc-900 border border-emerald-500/30 text-emerald-400 text-xs font-black px-3 py-1.5 rounded-xl shadow-xl">
-              تثبيت التطبيق 📱
-            </div>
           </div>
         </div>
       )}
 
-      {/* Install Modal Dialog */}
+      {/* Install Modal Dialog (Opened ONLY when user voluntarily clicks floating badge) */}
       {showModal && (
         <div className="fixed inset-0 z-[100] bg-black/75 backdrop-blur-md flex items-end sm:items-center justify-center p-4 animate-fadeIn select-none">
           <div
@@ -154,7 +149,7 @@ export default function PwaInstallPrompt() {
               <div className="flex flex-col">
                 <span className="inline-flex items-center gap-1.5 text-[10px] font-black text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2.5 py-0.5 rounded-full w-fit mb-1">
                   <Smartphone className="h-3 w-3" />
-                  تطبيق أندرويد و آيفون الرسمى
+                  تطبيق أندرويد و آيفون الرسمي
                 </span>
                 <h3 className="text-lg font-black text-zinc-100 leading-tight">
                   تثبيت تطبيق يلا شوت لايف
@@ -214,4 +209,3 @@ export default function PwaInstallPrompt() {
     </>
   );
 }
-
