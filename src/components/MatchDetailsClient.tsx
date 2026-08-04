@@ -145,7 +145,7 @@ export default function MatchDetailsClient({
     enabled: activeTab === "h2h",
   });
 
-  // 4. Query for Standings table in H2H tab
+  // Query for Standings table in H2H tab
   const { data: standingsData, isLoading: standingsLoading } = useQuery<StandingsResponse>({
     queryKey: ["standings", competitionId],
     queryFn: async () => {
@@ -154,6 +154,18 @@ export default function MatchDetailsClient({
       return json.data;
     },
     enabled: activeTab === "h2h" || activeTab === "standings",
+  });
+
+  // Query Match Highlight for this gameId
+  const { data: matchHighlight } = useQuery({
+    queryKey: ["matchHighlight", gameId],
+    queryFn: async () => {
+      const res = await fetch(`/api/highlights?gameId=${gameId}`);
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (!json.success || !json.data || json.data.length === 0) return null;
+      return json.data[0];
+    },
   });
 
   // Helper to resolve player name
@@ -286,10 +298,15 @@ export default function MatchDetailsClient({
       {/* Tabs Header Navigation */}
       <div className="flex border-b border-zinc-800 mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-between sm:justify-start gap-1">
         {[
-          ...(isStarted ? [
-            { id: "overview", label: "أحداث المباراة", icon: Activity },
-            { id: "stats", label: "الإحصائيات", icon: BarChart3 }
-          ] : []),
+          ...(matchHighlight?.iframeUrl
+            ? [{ id: "highlight", label: "ملخص المباراة", icon: Play }]
+            : []),
+          ...(isStarted
+            ? [
+                { id: "overview", label: "أحداث المباراة", icon: Activity },
+                { id: "stats", label: "الإحصائيات", icon: BarChart3 },
+              ]
+            : []),
           { id: "lineups", label: "التشكيلة", icon: Users },
           { id: "details", label: "التفاصيل", icon: Award },
           { id: "h2h", label: "المواجهات المباشرة", icon: History },
@@ -317,6 +334,27 @@ export default function MatchDetailsClient({
 
       {/* Tab Panels */}
       <div className="min-h-[200px]">
+        {/* Tab 0: Match Highlight Video */}
+        {activeTab === "highlight" && matchHighlight && (
+          <div className="space-y-4 animate-fadeIn">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden p-4 sm:p-6 shadow-xl">
+              <h3 className="text-sm font-extrabold text-zinc-200 uppercase tracking-wider mb-4 flex items-center gap-2 border-b border-zinc-800 pb-3">
+                <Play className="h-4 w-4 text-emerald-400 fill-current" />
+                {matchHighlight.title || "ملخص المباراة"}
+              </h3>
+
+              <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden border border-zinc-800 shadow-2xl">
+                <iframe
+                  src={matchHighlight.iframeUrl}
+                  className="w-full h-full border-0"
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
+                  allowFullScreen
+                  title={matchHighlight.title || "ملخص المباراة"}
+                />
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* Tab 1: Overview & Events Timeline */}
         {activeTab === "overview" && (
