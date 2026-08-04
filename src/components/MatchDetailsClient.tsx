@@ -352,6 +352,30 @@ export default function MatchDetailsClient({
                   title={matchHighlight.title || "ملخص المباراة"}
                 />
               </div>
+
+              {/* Fallback Direct Link */}
+              <div className="mt-4 pt-3 border-t border-zinc-850 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <span className="text-zinc-400">
+                  إذا حُظر التشغيل في موقعك من قِبل القناة الناقلة:
+                </span>
+                {(() => {
+                  let directUrl = matchHighlight.iframeUrl;
+                  const ytMatch = directUrl.match(/\/embed\/([a-zA-Z0-9_-]+)/);
+                  if (ytMatch && ytMatch[1]) {
+                    directUrl = `https://www.youtube.com/watch?v=${ytMatch[1]}`;
+                  }
+                  return (
+                    <a
+                      href={directUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-zinc-950 font-black transition shadow-md shrink-0"
+                    >
+                      <span>مشاهدة الفيديو مباشرة على المصدر الأصلي ↗</span>
+                    </a>
+                  );
+                })()}
+              </div>
             </div>
           </div>
         )}

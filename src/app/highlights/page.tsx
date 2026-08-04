@@ -264,6 +264,30 @@ export default function HighlightsPage() {
                 title={activePlayer.title}
               />
             </div>
+
+            {/* Modal Footer with Direct Link Fallback */}
+            <div className="p-4 bg-zinc-950 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <span className="text-zinc-400">
+                إذا ظهرت لك رسالة حظر من المصدر، يمكنك الفتح مباشرة:
+              </span>
+              {(() => {
+                let directUrl = activePlayer.iframeUrl;
+                const ytMatch = directUrl.match(/\/embed\/([a-zA-Z0-9_-]+)/);
+                if (ytMatch && ytMatch[1]) {
+                  directUrl = `https://www.youtube.com/watch?v=${ytMatch[1]}`;
+                }
+                return (
+                  <a
+                    href={directUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition shadow-md shrink-0"
+                  >
+                    <span>مشاهدة الفيديو مباشرة على المصدر ↗</span>
+                  </a>
+                );
+              })()}
+            </div>
           </div>
         </div>
       )}
