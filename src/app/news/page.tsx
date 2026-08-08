@@ -10,6 +10,9 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "أحدث الأخبار الرياضية كورة لايف | يلا شوت",
   description: "تابع أحدث أخبار كرة القدم الأوروبية والعربية المترجمة والمحدثة لحظة بلحظة على يلا شوت.",
+  alternates: {
+    canonical: "/news",
+  },
 };
 
 export default async function NewsArchivePage() {

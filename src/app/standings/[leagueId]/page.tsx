@@ -32,6 +32,9 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     return {
       title: titleText,
       description: descText,
+      alternates: {
+        canonical: `/standings/${leagueId}`,
+      },
     };
   } catch {
     return {

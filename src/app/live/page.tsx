@@ -12,6 +12,9 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "مباريات البث المباشر | يلا شوت لايف",
   description: "جدول مباريات اليوم التي يتوفر لها بث مباشر وحصري على موقع يلا شوت لايف بجودة عالية وبدون تقطيع.",
+  alternates: {
+    canonical: "/live",
+  },
 };
 
 export default async function LiveMatchesPage() {

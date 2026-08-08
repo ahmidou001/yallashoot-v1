@@ -27,6 +27,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${article.headline_ar} | يلا شوت - أخبار الرياضة`,
     description: article.body_ar.slice(0, 150),
+    alternates: {
+      canonical: `/news/${article.slug || id}`,
+    },
     openGraph: {
       title: article.headline_ar,
       description: article.body_ar.slice(0, 150),
