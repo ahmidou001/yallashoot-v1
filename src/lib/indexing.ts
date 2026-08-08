@@ -7,8 +7,8 @@ const INDEXNOW_KEY = process.env.INDEXNOW_KEY || "c7a84e912b3446fa9817e08920bc8b
  * Generate Google OAuth2 Access Token from Service Account Key via Node.js native crypto
  */
 async function getGoogleAccessToken(): Promise<string | null> {
-  const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-  let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+  let clientEmail = process.env.GOOGLE_CLIENT_EMAIL?.trim().replace(/^"|"$/g, "");
+  let privateKey = process.env.GOOGLE_PRIVATE_KEY?.trim().replace(/^"|"$/g, "");
 
   if (!clientEmail || !privateKey) {
     console.log("[Google Indexing API] Skipped: GOOGLE_CLIENT_EMAIL or GOOGLE_PRIVATE_KEY not set in env.");
