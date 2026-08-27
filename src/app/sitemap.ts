@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.yallahsoot.com";
+  const baseUrl = "https://www.yallahsoot.com";
 
   // Priority Leagues for Standings SEO
   const leagueIds = [5930, 572, 7, 11, 649, 557, 8935, 17, 25, 35, 624, 623];
@@ -16,13 +16,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch recent news articles for dynamic news sitemap inclusion
   let newsUrls: MetadataRoute.Sitemap = [];
   try {
-    const res = await fetch(`${baseUrl}/api/news?limit=20`, { cache: "no-store" });
+    const res = await fetch(`${baseUrl}/api/news?limit=100`, { cache: "no-store" });
     if (res.ok) {
       const json = await res.json();
       if (Array.isArray(json.data)) {
         newsUrls = json.data.map((article: any) => ({
           url: `${baseUrl}/news/${article.slug || article._id}`,
-          lastModified: article.published_at || article.updated_at || new Date(),
+          lastModified: article.published_at || article.created_at || new Date(),
           changeFrequency: "weekly" as const,
           priority: 0.7,
         }));
@@ -47,6 +47,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/news`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/highlights`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
@@ -79,3 +85,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...newsUrls,
   ];
 }
+

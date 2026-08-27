@@ -30,6 +30,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/news/${article.slug || id}`,
     },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
       title: article.headline_ar,
       description: article.body_ar.slice(0, 150),
@@ -79,8 +83,39 @@ export default async function NewsArticlePage({ params }: PageProps) {
     }
   );
 
+  const newsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": article.headline_ar,
+    "description": article.body_ar.slice(0, 150),
+    "image": article.image_url ? [article.image_url] : [],
+    "datePublished": article.published_at || article.created_at,
+    "dateModified": article.published_at || article.created_at,
+    "author": [{
+      "@type": "Organization",
+      "name": article.source || "يلا شوت لايف",
+      "url": "https://www.yallahsoot.com"
+    }],
+    "publisher": {
+      "@type": "Organization",
+      "name": "يلا شوت لايف",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.yallahsoot.com/fav-icon.svg"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.yallahsoot.com/news/${article.slug || id}`
+    }
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8" dir="rtl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(newsJsonLd) }}
+      />
       {/* Breadcrumb Navigation */}
       <div className="mb-6 flex items-center justify-between">
         <Link

@@ -39,6 +39,10 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
       alternates: {
         canonical: `/match/${slug}`,
       },
+      robots: {
+        index: true,
+        follow: true,
+      },
       openGraph: {
         title: titleText,
         description: descText,
@@ -49,6 +53,9 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     console.error("Metadata generation error:", error);
     return {
       title: "تفاصيل المباراة - يلا شوت لايف",
+      alternates: {
+        canonical: `/match/${slug}`,
+      },
     };
   }
 }
@@ -72,8 +79,30 @@ export default async function MatchPage({ params }: RouteParams) {
     notFound();
   }
 
+  const { homeCompetitor, awayCompetitor, startTime } = detailsData.game;
+  const matchJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    "name": `${homeCompetitor.name} ضد ${awayCompetitor.name}`,
+    "startDate": startTime ? new Date(startTime).toISOString() : undefined,
+    "homeTeam": {
+      "@type": "SportsTeam",
+      "name": homeCompetitor.name
+    },
+    "awayTeam": {
+      "@type": "SportsTeam",
+      "name": awayCompetitor.name
+    },
+    "eventStatus": detailsData.game.statusGroup === 4 ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled",
+    "url": `https://www.yallahsoot.com/match/${slug}`
+  };
+
   return (
     <div className="bg-zinc-950 min-h-screen text-zinc-100">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(matchJsonLd) }}
+      />
       <MatchDetailsClient
         initialDetails={detailsData}
         gameId={id}

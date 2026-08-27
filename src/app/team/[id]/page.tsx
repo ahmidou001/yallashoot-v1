@@ -14,11 +14,56 @@ import {
 } from "@/services/api";
 import TeamDetailsClient from "@/components/TeamDetailsClient";
 
+import { Metadata } from "next";
+
 interface TeamPageProps {
   params: Promise<{ id: string }>;
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: TeamPageProps): Promise<Metadata> {
+  const { id: teamId } = await params;
+  try {
+    const profileRes = await getCompetitorProfile(teamId);
+    if (!profileRes || !profileRes.competitors || profileRes.competitors.length === 0) {
+      return {
+        title: "الفريق غير موجود - يلا شوت لايف",
+      };
+    }
+    const team = profileRes.competitors[0];
+    const teamName = team.name || "الفريق";
+    const titleText = `فريق ${teamName} - النتائج والتشكيلة ومباريات اليوم | يلا شوت`;
+    const descText = `متابعة مباريات نادي ${teamName} اليوم مباشرة، جداول الترتيب، قائمة اللاعبين، والنتائج الأخيرة مع تغطية شاملة وحصرية.`;
+
+    return {
+      title: titleText,
+      description: descText,
+      alternates: {
+        canonical: `/team/${teamId}`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+      },
+      openGraph: {
+        title: titleText,
+        description: descText,
+        type: "website",
+        images: team.id
+          ? [`https://imagecache.365scores.com/image/upload/f_auto,w_300,h_300,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${team.id}`]
+          : [],
+      },
+    };
+  } catch {
+    return {
+      title: "تفاصيل الفريق - يلا شوت لايف",
+      alternates: {
+        canonical: `/team/${teamId}`,
+      },
+    };
+  }
+}
 
 export default async function TeamPage({ params }: TeamPageProps) {
   const { id: teamId } = await params;
@@ -89,18 +134,33 @@ export default async function TeamPage({ params }: TeamPageProps) {
       }
     }
 
+    const teamJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "name": team.name,
+      "url": `https://www.yallahsoot.com/team/${teamId}`,
+      "logo": `https://imagecache.365scores.com/image/upload/f_auto,w_300,h_300,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${team.id}`,
+      "sport": "Football"
+    };
+
     return (
-      <TeamDetailsClient
-        team={team}
-        squad={squadRes || { squads: [] }}
-        transfers={transfersRes || { transfers: [], athletes: [], competitors: [] }}
-        games={[...(resultsRes?.games || []), ...(fixturesRes?.games || [])]}
-        standings={standings}
-        stats={statsRes?.stats || null}
-        seo={seoRes}
-        related={relatedRes || { competitors: [] }}
-        brackets={brackets}
-      />
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(teamJsonLd) }}
+        />
+        <TeamDetailsClient
+          team={team}
+          squad={squadRes || { squads: [] }}
+          transfers={transfersRes || { transfers: [], athletes: [], competitors: [] }}
+          games={[...(resultsRes?.games || []), ...(fixturesRes?.games || [])]}
+          standings={standings}
+          stats={statsRes?.stats || null}
+          seo={seoRes}
+          related={relatedRes || { competitors: [] }}
+          brackets={brackets}
+        />
+      </>
     );
   } catch (error) {
     console.error(`Error loading team page for ID ${teamId}:`, error);

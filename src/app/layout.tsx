@@ -15,7 +15,7 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.yallahsoot.com"),
+  metadataBase: new URL("https://www.yallahsoot.com"),
   title: {
     default: "يلا شوت لايف - نتائج المباريات والبث المباشر",
     template: "%s | يلا شوت لايف",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Kora Live Team" }],
   manifest: "/manifest.json",
   alternates: {
-    canonical: "/",
+    canonical: "./",
   },
   openGraph: {
     type: "website",
