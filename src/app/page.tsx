@@ -1289,7 +1289,7 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
         {(() => {
           const matchSlug = generateMatchSlug(match.homeCompetitor, match.awayCompetitor, match.id);
           return (
-            <div className="w-full grid grid-cols-4 gap-2 mt-8 pt-6 border-t border-zinc-800/85">
+            <div className="w-full grid grid-cols-3 gap-2 mt-8 pt-6 border-t border-zinc-800/85">
               <Link
                 href={`/match/${matchSlug}`}
                 className="flex flex-col items-center justify-center p-2 rounded-xl bg-zinc-850 hover:bg-zinc-800 border border-zinc-800/50 text-[10px] font-bold text-zinc-350 hover:text-emerald-400 transition"
@@ -1310,13 +1310,6 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
               >
                 <ArrowLeftRight className="h-4.5 w-4.5 mb-1" />
                 <span>الإحصائيات</span>
-              </Link>
-              <Link
-                href={`/standings/${match.competitionId}`}
-                className="flex flex-col items-center justify-center p-2 rounded-xl bg-zinc-850 hover:bg-zinc-800 border border-zinc-800/50 text-[10px] font-bold text-zinc-350 hover:text-emerald-400 transition"
-              >
-                <Award className="h-4.5 w-4.5 mb-1" />
-                <span>خروج المغلوب</span>
               </Link>
             </div>
           );

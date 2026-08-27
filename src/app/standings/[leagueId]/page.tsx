@@ -135,10 +135,8 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
   visibleTabs.push("scorers");
   visibleTabs.push("results");
   visibleTabs.push("fixtures");
-  if (hasBrackets) visibleTabs.push("knockout");
 
   const tabColsClass = 
-    visibleTabs.length === 5 ? "grid-cols-3 sm:grid-cols-5" :
     visibleTabs.length === 4 ? "grid-cols-2 sm:grid-cols-4" :
     "grid-cols-3";
 
@@ -272,19 +270,7 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
             >
               المباريات القادمة
             </Link>
-            {hasBrackets && (
-              <Link
-                href={`/standings/${leagueId}?tab=knockout`}
-                className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${
-                  visibleTabs.length === 5 ? "col-span-2 sm:col-span-1" : ""
-                } ${activeTab === "knockout"
-                    ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
-                    : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
-                  }`}
-              >
-                خروج المغلوب
-              </Link>
-            )}
+
           </div>
 
           {/* Active Tab Content Area */}
@@ -574,9 +560,7 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
               </div>
             )}
 
-            {activeTab === "knockout" && (
-              <StandingsBrackets brackets={brackets} leagueId={numLeagueId} />
-            )}
+
           </div>
 
         </div>
