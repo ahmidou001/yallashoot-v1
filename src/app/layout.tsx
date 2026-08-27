@@ -5,6 +5,7 @@ import Providers from "@/components/providers";
 import Header from "@/components/Header";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import PwaInstallPrompt from "@/components/PwaInstallPrompt";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -97,6 +98,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`h-full antialiased ${cairo.variable}`}>
       <head>
+        <GoogleAnalytics />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://imagecache.365scores.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://imagecache.365scores.com" />
