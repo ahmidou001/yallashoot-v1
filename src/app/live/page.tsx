@@ -10,10 +10,20 @@ import { generateMatchSlug } from "@/lib/matchSlug";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "مباريات البث المباشر | يلا شوت لايف",
-  description: "جدول مباريات اليوم التي يتوفر لها بث مباشر وحصري على موقع يلا شوت لايف بجودة عالية وبدون تقطيع.",
+  title: "بث مباشر للمباريات اليوم | جدول المباريات والنتائج الحية لحظة بلحظة",
+  description: "تابع البث المباشر لأهم مباريات اليوم وجدول النتائج الحية لحظة بلحظة لجميع الدوريات العالمية والبطولات العربية مع تغطية حصرية وإحصائيات دقيقة ومباشرة الآن.",
   alternates: {
-    canonical: "/live",
+    canonical: "https://www.yallahsoot.com/live",
+  },
+  openGraph: {
+    title: "بث مباشر للمباريات اليوم | يلا شوت",
+    description: "تابع البث المباشر لأهم مباريات اليوم وجدول النتائج الحية لحظة بلحظة لجميع الدوريات العالمية والبطولات العربية مع تغطية حصرية وإحصائيات دقيقة ومباشرة الآن.",
+    url: "https://www.yallahsoot.com/live",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

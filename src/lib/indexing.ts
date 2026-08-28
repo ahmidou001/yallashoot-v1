@@ -2,6 +2,83 @@ import crypto from "crypto";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.yallahsoot.com";
 const INDEXNOW_KEY = process.env.INDEXNOW_KEY || "c7a84e912b3446fa9817e08920bc8b20";
+const INDEXNOW_HOST = "www.yallahsoot.com";
+const INDEXNOW_KEY_LOCATION = "https://www.yallahsoot.com/c7a84e912b3446fa9817e08920bc8b20.txt";
+
+export interface IndexNowResponse {
+  success: boolean;
+  status?: number;
+  message?: string;
+}
+
+/**
+ * Submit URLs to IndexNow API (Bing, Yandex, etc.) for instant crawl indexing.
+ * Handles timeouts and catches errors safely without failing calling procedures.
+ */
+export async function submitToIndexNow(urlList: string[]): Promise<IndexNowResponse> {
+  if (!urlList || !Array.isArray(urlList) || urlList.length === 0) {
+    return { success: false, message: "urlList must be a non-empty array of strings" };
+  }
+
+  // Format URLs to ensure full absolute URLs with exact host
+  const formattedUrlList = urlList.map((url) => {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      return url;
+    }
+    const cleanPath = url.startsWith("/") ? url : `/${url}`;
+    return `https://${INDEXNOW_HOST}${cleanPath}`;
+  });
+
+  const payload = {
+    host: INDEXNOW_HOST,
+    key: INDEXNOW_KEY,
+    keyLocation: INDEXNOW_KEY_LOCATION,
+    urlList: formattedUrlList,
+  };
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s safety timeout
+
+    const res = await fetch("https://api.indexnow.org/indexnow", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (res.ok || res.status === 200 || res.status === 202) {
+      console.log(`[IndexNow] Successfully submitted ${formattedUrlList.length} URL(s) to IndexNow.`);
+      return {
+        success: true,
+        status: res.status,
+        message: "URLs submitted successfully to IndexNow",
+      };
+    } else {
+      const errText = await res.text().catch(() => "");
+      console.error(`[IndexNow] Error response (${res.status}):`, errText);
+      return {
+        success: false,
+        status: res.status,
+        message: `IndexNow API returned HTTP ${res.status}: ${errText}`,
+      };
+    }
+  } catch (error: any) {
+    if (error?.name === "AbortError") {
+      console.error("[IndexNow] Request timed out after 10000ms");
+      return { success: false, message: "IndexNow API request timed out" };
+    }
+    console.error("[IndexNow] Exception occurred during submission:", error);
+    return {
+      success: false,
+      message: error?.message || "Failed to submit URLs to IndexNow",
+    };
+  }
+}
 
 /**
  * Generate Google OAuth2 Access Token from Service Account Key via Node.js native crypto
@@ -96,38 +173,12 @@ export async function notifyGoogleIndexing(url: string, type: "URL_UPDATED" | "U
 }
 
 /**
- * Notify IndexNow API (Bing, Yandex, Seznam) to instantly crawl URLs
+ * Notify IndexNow API (Bing, Yandex, Seznam) - backward compatible wrapper around submitToIndexNow
  */
 export async function notifyIndexNow(urls: string | string[]): Promise<boolean> {
   const urlList = Array.isArray(urls) ? urls : [urls];
-  const host = new URL(SITE_URL).hostname;
-
-  const payload = {
-    host,
-    key: INDEXNOW_KEY,
-    keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
-    urlList,
-  };
-
-  try {
-    const res = await fetch("https://api.indexnow.org/indexnow", {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify(payload),
-    });
-
-    if (res.ok || res.status === 202) {
-      console.log(`[IndexNow Bing API] Successfully notified Bing/Yandex for ${urlList.length} URLs.`);
-      return true;
-    } else {
-      const errText = await res.text();
-      console.error("[IndexNow Bing API] Error response:", errText);
-      return false;
-    }
-  } catch (err) {
-    console.error("[IndexNow Bing API] Exception:", err);
-    return false;
-  }
+  const res = await submitToIndexNow(urlList);
+  return res.success;
 }
 
 /**
