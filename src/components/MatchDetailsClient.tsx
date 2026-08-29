@@ -7,7 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { 
   Activity, BarChart3, Users, History, Award, 
   RefreshCw, ChevronLeft, Calendar, ShieldAlert,
-  Play, MessageSquare
+  Play
 } from "lucide-react";
 import PitchLineups from "./PitchLineups";
 import SecurePlayer from "./SecurePlayer";
@@ -311,7 +311,6 @@ export default function MatchDetailsClient({
           { id: "details", label: "التفاصيل", icon: Award },
           { id: "h2h", label: "المواجهات المباشرة", icon: History },
           { id: "standings", label: "الترتيب", icon: Award },
-          { id: "comments", label: "مساحة الزوار", icon: MessageSquare },
         ].map((tab) => {
           const Icon = tab.icon;
           const isSelected = activeTab === tab.id;
@@ -1071,48 +1070,6 @@ export default function MatchDetailsClient({
                 <p className="text-xs text-zinc-500">لا يتوفر ترتيب الدوري لهذه البطولة حالياً.</p>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Tab 6: Comments (مساحة الزوار) */}
-        {activeTab === "comments" && (
-          <div className="space-y-6 animate-fadeIn">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 sm:p-8 shadow-xl">
-              <h3 className="text-sm font-extrabold text-zinc-400 uppercase tracking-wider mb-6 flex items-center gap-2 border-b border-zinc-850 pb-4">
-                <MessageSquare className="h-4 w-4 text-emerald-400" />
-                مساحة تعليقات الزوار
-              </h3>
-              
-              <div className="space-y-3 mb-6">
-                <div className="p-4 bg-zinc-950/40 border border-zinc-850 rounded-xl">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-xs text-emerald-400">ياسين الفاسي</span>
-                    <span className="text-[10px] text-zinc-500">منذ ساعة</span>
-                  </div>
-                  <p className="text-xs text-zinc-300">مباراة للتاريخ، مبروك للأرجنتين وهاردلك لسويسرا!</p>
-                </div>
-                <div className="p-4 bg-zinc-950/40 border border-zinc-850 rounded-xl">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-xs text-emerald-400">عمر الشريف</span>
-                    <span className="text-[10px] text-zinc-500">منذ 45 دقيقة</span>
-                  </div>
-                  <p className="text-xs text-zinc-300">أداء سويسرا كان ممتازا حتى طرد اللاعب، قرارات الحكم صحيحة.</p>
-                </div>
-              </div>
-              
-              <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
-                <textarea
-                  placeholder="اكتب تعليقك هنا..."
-                  className="w-full min-h-[90px] p-4 text-xs bg-zinc-950 border border-zinc-850 rounded-xl text-zinc-200 focus:outline-none focus:border-emerald-500 resize-none font-medium"
-                />
-                <button
-                  type="button"
-                  className="bg-emerald-600 hover:bg-emerald-500 text-zinc-950 font-bold px-5 py-2.5 rounded-xl text-xs transition duration-200 cursor-pointer"
-                >
-                  إرسال التعليق
-                </button>
-              </form>
-            </div>
           </div>
         )}
 

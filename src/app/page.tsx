@@ -46,23 +46,23 @@ async function fetchScorers(competitionId: string): Promise<any> {
 }
 
 const PRIORITY_LEAGUE_IDS = [
-  5930, // FIFA World Cup (كأس العالم)
-  329,  // UEFA European Championship (اليورو)
-  167,  // Africa Cup of Nations (كأس أمم أفريقيا)
-  572,  // UEFA Champions League (دوري أبطال أوروبا)
-  573,  // UEFA Europa League (الدوري الأوروبي)
-  7685, // UEFA Conference League (دوري المؤتمر الأوروبي)
-  7,    // Premier League England (الدوري الإنجليزي الممتاز)
-  11,   // La Liga Spain (الدوري الإسباني)
-  557,  // Botola Pro Morocco (البطولة الاحترافية المغربية)
-  649,  // Saudi Pro League (الدوري السعودي للمحترفين)
-  8935, // Egyptian Premier League (الدوري المصري الممتاز)
-  17,   // Serie A Italy (الدوري الإيطالي)
-  25,   // Bundesliga Germany (الدوري الألماني)
-  35,   // Ligue 1 France (الدوري الفرنسي)
-  624,  // CAF Champions League (دوري أبطال أفريقيا)
-  623,  // AFC Champions League (دوري أبطال آسيا)
-  321,  // International Friendlies (المباريات الوديّة الدوليّة)
+  572,  // دوري أبطال أوروبا (UEFA Champions League)
+  7,    // الدوري الإنجليزي الممتاز (Premier League)
+  11,   // الدوري الإسباني (La Liga)
+  35,   // الدوري الفرنسي (Ligue 1)
+  17,   // الدوري الإيطالي (Serie A)
+  25,   // الدوري الألماني (Bundesliga)
+  557,  // الدوري المغربي (Botola Pro Morocco)
+  649,  // الدوري السعودي (Saudi Pro League)
+  8935, // الدوري المصري (Egyptian Premier League)
+  5930, // كأس العالم (FIFA World Cup)
+  624,  // دوري أبطال أفريقيا (CAF Champions League)
+  623,  // دوري أبطال آسيا (AFC Champions League)
+  329,  // كأس أمم أوروبا (Euro)
+  167,  // كأس أمم إفريقيا (AFCON)
+  573,  // الدوري الأوروبي (UEFA Europa League)
+  7685, // دوري المؤتمر الأوروبي
+  321,  // المباريات الودية الدولية
   131,  // الدوري النرويجي الممتاز
   640,  // كأس الأرجنتين
   237,  // الدوري الأمريكي MLS
@@ -108,6 +108,21 @@ export default function HomePage() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [calendarDate, setCalendarDate] = useState(() => new Date());
   const calendarRef = useRef<HTMLDivElement>(null);
+
+  // Load favorited leagues from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("yallah_favorite_leagues");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setFavorites(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load user favorite leagues from localStorage", e);
+    }
+  }, []);
 
   // Click outside to close calendar
   useEffect(() => {
@@ -185,8 +200,21 @@ export default function HomePage() {
     
     // Sort priority
     result.sort((a, b) => {
-      const idxA = PRIORITY_LEAGUE_IDS.indexOf(a.competition.id);
-      const idxB = PRIORITY_LEAGUE_IDS.indexOf(b.competition.id);
+      const idA = a.competition.id;
+      const idB = b.competition.id;
+      const isFavA = favorites.includes(idA);
+      const isFavB = favorites.includes(idB);
+
+      // 1. Favorited competitions always go first!
+      if (isFavA && !isFavB) return -1;
+      if (!isFavA && isFavB) return 1;
+      if (isFavA && isFavB) {
+        return favorites.indexOf(idA) - favorites.indexOf(idB);
+      }
+
+      // 2. Default ordering using PRIORITY_LEAGUE_IDS
+      const idxA = PRIORITY_LEAGUE_IDS.indexOf(idA);
+      const idxB = PRIORITY_LEAGUE_IDS.indexOf(idB);
       if (idxA > -1 && idxB > -1) return idxA - idxB;
       if (idxA > -1) return -1;
       if (idxB > -1) return 1;
@@ -198,10 +226,10 @@ export default function HomePage() {
 
   const groupedCompetitions = getGroupedGames();
   const priorityCompetitions = groupedCompetitions.filter((item) =>
-    PRIORITY_LEAGUE_IDS.includes(item.competition.id)
+    favorites.includes(item.competition.id) || PRIORITY_LEAGUE_IDS.includes(item.competition.id)
   );
   const otherCompetitions = groupedCompetitions.filter((item) =>
-    !PRIORITY_LEAGUE_IDS.includes(item.competition.id)
+    !favorites.includes(item.competition.id) && !PRIORITY_LEAGUE_IDS.includes(item.competition.id)
   );
   const liveCount = data?.games?.filter((g) => g.statusGroup === 3).length || 0;
 
@@ -233,9 +261,16 @@ export default function HomePage() {
   const countryGroupings = getGroupedByCountry();
 
   const toggleFavorite = (id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((fid) => fid !== id) : [...prev, id]
-    );
+    setFavorites((prev) => {
+      const isFav = prev.includes(id);
+      const updated = isFav ? prev.filter((fid) => fid !== id) : [id, ...prev];
+      try {
+        localStorage.setItem("yallah_favorite_leagues", JSON.stringify(updated));
+      } catch (e) {
+        console.error("Failed to save favorite leagues to localStorage", e);
+      }
+      return updated;
+    });
   };
 
   const getScorerImageUrl = (scorer: any) => {
@@ -477,8 +512,25 @@ export default function HomePage() {
                                     <span className="text-[10px] text-zinc-300 font-bold mt-0.5">{countryName}</span>
                                   </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                  <Star className="h-3.5 w-3.5 text-sky-500 fill-sky-500" />
+                                <div className="flex items-center gap-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      toggleFavorite(competition.id);
+                                    }}
+                                    title={favorites.includes(competition.id) ? "إلغاء التفضيل" : "تفضيل هذه البطولة وترتيبها في الأعلى"}
+                                    className="p-1.5 rounded-lg hover:bg-zinc-800 transition cursor-pointer group/star flex items-center"
+                                  >
+                                    <Star
+                                      className={`h-4 w-4 transition-transform group-hover/star:scale-125 ${
+                                        favorites.includes(competition.id)
+                                          ? "text-amber-400 fill-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                                          : "text-zinc-500 fill-none hover:text-amber-400"
+                                      }`}
+                                    />
+                                  </button>
                                   <MoreHorizontal className="h-4 w-4 text-zinc-300 hover:text-zinc-100 transition cursor-pointer" />
                                 </div>
                               </div>
@@ -595,7 +647,27 @@ export default function HomePage() {
                                     <span className="text-[10px] text-zinc-300 font-bold mt-0.5">{countryName}</span>
                                   </div>
                                 </div>
-                                <MoreHorizontal className="h-4 w-4 text-zinc-300 hover:text-zinc-100 transition cursor-pointer" />
+                                <div className="flex items-center gap-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      toggleFavorite(competition.id);
+                                    }}
+                                    title={favorites.includes(competition.id) ? "إلغاء التفضيل" : "تفضيل هذه البطولة وترتيبها في الأعلى"}
+                                    className="p-1.5 rounded-lg hover:bg-zinc-800 transition cursor-pointer group/star flex items-center"
+                                  >
+                                    <Star
+                                      className={`h-4 w-4 transition-transform group-hover/star:scale-125 ${
+                                        favorites.includes(competition.id)
+                                          ? "text-amber-400 fill-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                                          : "text-zinc-500 fill-none hover:text-amber-400"
+                                      }`}
+                                    />
+                                  </button>
+                                  <MoreHorizontal className="h-4 w-4 text-zinc-300 hover:text-zinc-100 transition cursor-pointer" />
+                                </div>
                               </div>
                             );
                           })()}
@@ -727,32 +799,54 @@ export default function HomePage() {
                                 href={`/match/${slug}`}
                                 className="block p-3 rounded-xl bg-zinc-900 border border-zinc-850 hover:bg-zinc-850/20 hover:border-zinc-800 transition"
                               >
-                                <div className="flex justify-between items-center text-xs">
-                                  <span className="font-mono text-[10px] bg-zinc-850 px-2 py-0.5 rounded text-zinc-300 font-bold">
-                                    {game.statusGroup === 3 ? `${game.gameTime}'` : formatTime(game.startTime)}
-                                  </span>
-                                  <div className="flex items-center gap-3">
-                                    <div className="flex items-center gap-1.5 font-bold text-zinc-300">
-                                      <span>{game.homeCompetitor.name}</span>
-                                      <img
-                                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
-                                        alt=""
-                                        width={16}
-                                        height={16}
-                                        className="h-4 w-4 object-contain"
-                                      />
-                                    </div>
-                                    <span className="text-zinc-400 font-medium">vs</span>
-                                    <div className="flex items-center gap-1.5 font-bold text-zinc-300">
-                                      <img
-                                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
-                                        alt=""
-                                        width={16}
-                                        height={16}
-                                        className="h-4 w-4 object-contain"
-                                      />
-                                      <span>{game.awayCompetitor.name}</span>
-                                    </div>
+                                <div className="flex items-center justify-between gap-2 text-xs">
+                                  {/* Home Competitor (Outer right logo, name towards center) */}
+                                  <div className="flex-1 flex items-center justify-start gap-2 min-w-0">
+                                    <img
+                                      src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
+                                      alt={game.homeCompetitor.name}
+                                      width={18}
+                                      height={18}
+                                      className="h-4.5 w-4.5 object-contain shrink-0"
+                                      loading="lazy"
+                                    />
+                                    <span className="font-bold text-zinc-200 truncate text-xs">
+                                      {game.homeCompetitor.name}
+                                    </span>
+                                  </div>
+
+                                  {/* Center: Time or Score */}
+                                  <div className="flex flex-col items-center justify-center shrink-0 min-w-[55px] px-1 text-center">
+                                    {game.statusGroup === 3 ? (
+                                      <span className="rounded-full bg-red-950/90 border border-red-500/40 px-2 py-0.5 text-[9px] font-black text-red-300 animate-pulse font-mono">
+                                        مباشر {game.gameTime}&apos;
+                                      </span>
+                                    ) : game.statusGroup === 4 ? (
+                                      <div className="flex items-center gap-1 font-mono text-[10px] bg-zinc-850 border border-zinc-800 px-2 py-0.5 rounded-full text-zinc-200 font-bold">
+                                        <span>{game.homeCompetitor.score}</span>
+                                        <span className="text-zinc-400">:</span>
+                                        <span>{game.awayCompetitor.score}</span>
+                                      </div>
+                                    ) : (
+                                      <span className="font-mono text-[10px] bg-zinc-850 border border-zinc-800 px-2 py-0.5 rounded-full text-zinc-300 font-bold">
+                                        {formatTime(game.startTime)}
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  {/* Away Competitor (Name towards center, outer left logo) */}
+                                  <div className="flex-1 flex items-center justify-end gap-2 min-w-0">
+                                    <span className="font-bold text-zinc-200 truncate text-xs text-left">
+                                      {game.awayCompetitor.name}
+                                    </span>
+                                    <img
+                                      src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
+                                      alt={game.awayCompetitor.name}
+                                      width={18}
+                                      height={18}
+                                      className="h-4.5 w-4.5 object-contain shrink-0"
+                                      loading="lazy"
+                                    />
                                   </div>
                                 </div>
                               </Link>

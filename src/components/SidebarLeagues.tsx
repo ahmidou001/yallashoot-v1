@@ -13,20 +13,20 @@ interface LeagueItem {
 }
 
 const POPULAR_LEAGUES: LeagueItem[] = [
-  { id: 5930, name: "كأس العالم", country: "دولي", logoColor: "from-blue-600 to-sky-700" },
   { id: 572, name: "دوري أبطال أوروبا", country: "أوروبا", logoColor: "from-blue-750 to-indigo-950" },
   { id: 7, name: "الدوري الإنجليزي", country: "إنجلترا", logoColor: "from-purple-600 to-indigo-700" },
   { id: 11, name: "الدوري الإسباني", country: "إسبانيا", logoColor: "from-red-600 to-orange-500" },
-  { id: 649, name: "الدوري السعودي", country: "السعودية", logoColor: "from-green-600 to-yellow-600" },
-  { id: 624, name: "دوري أبطال أفريقيا", country: "أفريقيا", logoColor: "from-amber-600 to-yellow-750" },
+  { id: 35, name: "الدوري الفرنسي", country: "فرنسا", logoColor: "from-cyan-600 to-blue-800" },
+  { id: 17, name: "الدوري الإيطالي", country: "إيطاليا", logoColor: "from-blue-600 to-cyan-500" },
+  { id: 25, name: "الدوري الألماني", country: "ألمانيا", logoColor: "from-red-650 to-red-800" },
   { id: 557, name: "الدوري المغربي", country: "المغرب", logoColor: "from-emerald-600 to-green-800" },
+  { id: 649, name: "الدوري السعودي", country: "السعودية", logoColor: "from-green-600 to-yellow-600" },
   { id: 8935, name: "الدوري المصري", country: "مصر", logoColor: "from-red-700 to-zinc-800" },
+  { id: 5930, name: "كأس العالم", country: "دولي", logoColor: "from-blue-600 to-sky-700" },
+  { id: 624, name: "دوري أبطال أفريقيا", country: "أفريقيا", logoColor: "from-amber-600 to-yellow-750" },
   { id: 623, name: "دوري أبطال آسيا", country: "آسيا", logoColor: "from-indigo-600 to-purple-800" },
   { id: 329, name: "كأس أمم أوروبا", country: "أوروبا", logoColor: "from-blue-600 to-indigo-800" },
   { id: 167, name: "كأس أمم إفريقيا", country: "أفريقيا", logoColor: "from-green-600 to-emerald-800" },
-  { id: 17, name: "الدوري الإيطالي", country: "إيطاليا", logoColor: "from-blue-600 to-cyan-500" },
-  { id: 25, name: "الدوري الألماني", country: "ألمانيا", logoColor: "from-red-650 to-red-800" },
-  { id: 35, name: "الدوري الفرنسي", country: "فرنسا", logoColor: "from-cyan-600 to-blue-800" },
   { id: 573, name: "الدوري الأوروبي", country: "أوروبا", logoColor: "from-orange-500 to-yellow-600" },
 ];
 
