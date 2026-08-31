@@ -123,24 +123,20 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
     setTimeout(() => setIsRefreshing(false), 1200);
   }, []);
 
-  // Initialize HLS — no more client-side fetch, signed URL comes from SSR
+  // Keep currentUrlRef updated with latest signedUrl for background retries
+  useEffect(() => {
+    currentUrlRef.current = signedUrl;
+  }, [signedUrl]);
+
+  // Extract stable base stream URL (without token parameters)
+  const streamBaseUrl = signedUrl ? signedUrl.split("?")[0] : "";
+
+  // Initialize HLS — only re-runs if the base stream URL changes or component unmounts
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !signedUrl) return;
+    if (!video || !streamBaseUrl) return;
 
-    const getBaseUrl = (url: string) => (url ? url.split("?")[0] : "");
-    const newBaseUrl = getBaseUrl(signedUrl);
-
-    // If HLS is already loaded and playing the same base stream URL,
-    // just update currentUrlRef without tearing down the stream!
-    if (hlsRef.current && loadedBaseUrlRef.current === newBaseUrl) {
-      currentUrlRef.current = signedUrl;
-      return;
-    }
-
-    loadedBaseUrlRef.current = newBaseUrl;
     let cancelled = false;
-    currentUrlRef.current = signedUrl;
 
     // ── Spinner safety timeout: stop spinning after 15s if nothing plays ──
     if (spinnerTimeoutRef.current) clearTimeout(spinnerTimeoutRef.current);
@@ -411,7 +407,7 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
         video.load();
       }
     };
-  }, [signedUrl, refreshSignedUrl]);
+  }, [streamBaseUrl]);
 
   // DevTools detection bypass to improve performance and remove user-unfriendly traps
   useEffect(() => {
