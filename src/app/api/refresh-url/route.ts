@@ -24,12 +24,8 @@ export async function POST(request: NextRequest) {
 
     // Extract real User-Agent from browser request (critical for Nginx MD5 match)
     const userAgent = request.headers.get("user-agent") || "";
-    const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
-    const secret = process.env.STREAM_SECRET_KEY;
-
-    // Handle 24/7 Main Stream refresh
-    if (slug === "main-stream-247") {
-      await dbConnect();
+    // Helper to fetch and sign the 24/7 main stream as fallback
+    const getMainStreamUrl = async () => {
       const mongoose = require("mongoose");
       const StreamSchema = new mongoose.Schema(
         { outputUrl: String, isMainStream: Boolean, status: String },
@@ -38,9 +34,7 @@ export async function POST(request: NextRequest) {
       const Stream = mongoose.models.Stream || mongoose.model("Stream", StreamSchema);
       const mainStream = await Stream.findOne({ isMainStream: true }).lean();
 
-      if (!mainStream || !mainStream.outputUrl) {
-        return NextResponse.json({ error: "Main stream not active" }, { status: 404 });
-      }
+      if (!mainStream || !mainStream.outputUrl) return null;
 
       let cleanUrl = mainStream.outputUrl.replace("stream.chofmatch.live", streamDomain);
       try {
@@ -50,11 +44,19 @@ export async function POST(request: NextRequest) {
         cleanUrl = urlObj.toString();
       } catch {}
 
-      let signedUrl = cleanUrl;
       if (cleanUrl.includes(".m3u8") && secret && cleanUrl.includes(streamDomain)) {
-        signedUrl = signSecureStreamUrl(cleanUrl, secret, userAgent);
+        return signSecureStreamUrl(cleanUrl, secret, userAgent);
       }
+      return cleanUrl;
+    };
 
+    // Handle 24/7 Main Stream refresh request
+    if (slug === "main-stream-247") {
+      await dbConnect();
+      const signedUrl = await getMainStreamUrl();
+      if (!signedUrl) {
+        return NextResponse.json({ error: "Main stream not active" }, { status: 404 });
+      }
       return NextResponse.json({ url: signedUrl }, {
         headers: {
           "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -80,30 +82,30 @@ export async function POST(request: NextRequest) {
       .sort({ _id: -1 })
       .lean();
 
-    if (!liveMatchDoc) {
-      return NextResponse.json({ error: "Match not found" }, { status: 404 });
-    }
-
-    const match = (liveMatchDoc as any).matches.find(
+    const match = liveMatchDoc ? (liveMatchDoc as any).matches.find(
       (m: any) => m.slug === slug || String(m.id) === String(id) || String(m.id) === String(slug)
-    );
-    if (!match) {
-      return NextResponse.json({ error: "Match not found" }, { status: 404 });
-    }
+    ) : null;
 
     // Get all available stream URLs (primary + alternates)
     const allUrls: string[] = [];
-    if (match.streamUrl && match.streamUrl.trim() !== "" && match.streamUrl !== "غير محدد") {
-      allUrls.push(match.streamUrl);
-    }
-    if (Array.isArray(match.alternateStreamUrls)) {
-      match.alternateStreamUrls.forEach((u: string) => {
-        if (u && u.trim() !== "") allUrls.push(u);
-      });
+    if (match) {
+      if (match.streamUrl && match.streamUrl.trim() !== "" && match.streamUrl !== "غير محدد") {
+        allUrls.push(match.streamUrl);
+      }
+      if (Array.isArray(match.alternateStreamUrls)) {
+        match.alternateStreamUrls.forEach((u: string) => {
+          if (u && u.trim() !== "") allUrls.push(u);
+        });
+      }
     }
 
     const rawUrl = allUrls[serverIndex] || allUrls[0];
     if (!rawUrl) {
+      // Fall back seamlessly to 24/7 Main Stream if match has no custom stream!
+      const fallbackSignedUrl = await getMainStreamUrl();
+      if (fallbackSignedUrl) {
+        return NextResponse.json({ url: fallbackSignedUrl });
+      }
       return NextResponse.json({ error: "Stream not available" }, { status: 404 });
     }
 

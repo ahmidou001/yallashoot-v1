@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RefreshCw, Radio, Play } from "lucide-react";
 import VideoPlayer from "./VideoPlayer";
 
@@ -25,12 +25,18 @@ export default function StreamSection({
 }: StreamSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isActivated, setIsActivated] = useState(false);
+  const [isActivated, setIsActivated] = useState(true);
 
-  // Client-side fetched stream URL (fetched on click, not at SSR time)
+  // Client-side fetched stream URL (fetched on click or mount)
   const [signedUrl, setSignedUrl] = useState<string | null>(null);
   const [isFetchingUrl, setIsFetchingUrl] = useState(false);
   const [fetchError, setFetchError] = useState(false);
+
+  // Auto-fetch stream on mount or slug change
+  useEffect(() => {
+    if (servers && servers.length > 0) return;
+    fetchSignedUrl(0);
+  }, [slug]);
 
   // Total number of servers: either from legacy `servers` prop or `serverCount`
   const totalServers = servers && servers.length > 0 ? servers.length : serverCount;

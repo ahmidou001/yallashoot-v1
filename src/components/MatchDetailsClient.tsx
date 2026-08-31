@@ -102,7 +102,11 @@ export default function MatchDetailsClient({
     refetchInterval: isLive ? 30000 : false,
   });
 
-  const activeStreamData = fetchedStreamData || streamData;
+  const activeStreamData = fetchedStreamData || streamData || {
+    hasStream: true,
+    streamType: "hls" as const,
+    serverCount: 1,
+  };
 
   // 1. Query for Match Details & Lineups
   const { data: detailsData } = useQuery<GameDetailsResponse>({

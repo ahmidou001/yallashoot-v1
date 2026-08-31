@@ -26,7 +26,35 @@ export async function GET(
 
     const doc = await LiveMatch.findOne({ $or: queryOr }).sort({ _id: -1 }).lean();
 
+    const getMainStreamFallback = async () => {
+      const mongoose = require("mongoose");
+      const StreamSchema = new mongoose.Schema(
+        { outputUrl: String, isMainStream: Boolean, status: String },
+        { strict: false }
+      );
+      const Stream = mongoose.models.Stream || mongoose.model("Stream", StreamSchema);
+      const mainStream = await Stream.findOne({ isMainStream: true }).lean();
+
+      if (!mainStream || !mainStream.outputUrl) return null;
+
+      const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
+      const secret = process.env.STREAM_SECRET_KEY;
+      const userAgent = request.headers.get("user-agent") || "";
+      let signedUrl = mainStream.outputUrl.replace("stream.chofmatch.live", streamDomain);
+      if (signedUrl.includes(".m3u8") && secret && signedUrl.includes(streamDomain)) {
+        signedUrl = signSecureStreamUrl(signedUrl, secret, userAgent);
+      }
+      return signedUrl;
+    };
+
     if (!doc) {
+      const fallbackUrl = await getMainStreamFallback();
+      if (fallbackUrl) {
+        return NextResponse.json({
+          success: true,
+          data: { gameId, streamType: "hls", streamUrl: fallbackUrl },
+        });
+      }
       return NextResponse.json({ success: false, message: "No active stream found for this match" }, { status: 404 });
     }
 
@@ -35,6 +63,19 @@ export async function GET(
     const streamUrlRaw = match?.streamUrl;
 
     if (!streamUrlRaw || streamUrlRaw === "غير محدد" || streamUrlRaw.trim() === "") {
+      const fallbackUrl = await getMainStreamFallback();
+      if (fallbackUrl) {
+        return NextResponse.json({
+          success: true,
+          data: {
+            gameId,
+            homeTeam: match?.teamHome?.name || "",
+            awayTeam: match?.teamAway?.name || "",
+            streamType: "hls",
+            streamUrl: fallbackUrl,
+          },
+        });
+      }
       return NextResponse.json({ success: false, message: "No active stream found for this match" }, { status: 404 });
     }
 
