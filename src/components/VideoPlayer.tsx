@@ -45,9 +45,9 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
     setIsBuffering(val);
   }, []);
   const [volume, setVolume] = useState(1);
-  // Start unmuted since user click is forced
-  const [isMuted, setIsMuted] = useState(false);
-  const [showUnmuteHint, setShowUnmuteHint] = useState(false);
+  // Start muted by default to guarantee instant autoplay across all mobile and desktop browsers
+  const [isMuted, setIsMuted] = useState(true);
+  const [showUnmuteHint, setShowUnmuteHint] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [controlsLocked, setControlsLocked] = useState(false);
@@ -229,15 +229,15 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
             }));
             setQualities(availableQualities.reverse());
 
-            // Autoplay now that we have a user gesture from the first click!
+            // Autoplay muted for instant, unblocked stream start
             if (video) {
-              video.muted = false;
+              video.muted = true;
               video.play()
                 .then(() => {
                   setIsPlaying(true);
                 })
                 .catch((err) => {
-                  console.log("[VideoPlayer] Autoplay blocked, requiring click:", err);
+                  console.log("[VideoPlayer] Autoplay fallback:", err);
                 });
             }
           },
@@ -531,8 +531,15 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
 
   if (streamError) {
     return (
-      <div className="flex h-full w-full items-center justify-center bg-[#0e0e12]">
-        <p className="text-sm text-white/30">حدث خطأ في تحميل البث</p>
+      <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-[#0e0e12]">
+        <p className="text-sm text-white/40">حدث خطأ في تحميل البث</p>
+        <button
+          onClick={() => handleRefresh()}
+          className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all cursor-pointer flex items-center gap-1.5"
+        >
+          <RefreshCw className="w-3.5 h-3.5" />
+          إعادة المحاولة
+        </button>
       </div>
     );
   }

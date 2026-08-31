@@ -27,6 +27,42 @@ export async function POST(request: NextRequest) {
     const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
     const secret = process.env.STREAM_SECRET_KEY;
 
+    // Handle 24/7 Main Stream refresh
+    if (slug === "main-stream-247") {
+      await dbConnect();
+      const mongoose = require("mongoose");
+      const StreamSchema = new mongoose.Schema(
+        { outputUrl: String, isMainStream: Boolean, status: String },
+        { strict: false }
+      );
+      const Stream = mongoose.models.Stream || mongoose.model("Stream", StreamSchema);
+      const mainStream = await Stream.findOne({ isMainStream: true }).lean();
+
+      if (!mainStream || !mainStream.outputUrl) {
+        return NextResponse.json({ error: "Main stream not active" }, { status: 404 });
+      }
+
+      let cleanUrl = mainStream.outputUrl.replace("stream.chofmatch.live", streamDomain);
+      try {
+        const urlObj = new URL(cleanUrl);
+        urlObj.searchParams.delete("md5");
+        urlObj.searchParams.delete("expires");
+        cleanUrl = urlObj.toString();
+      } catch {}
+
+      let signedUrl = cleanUrl;
+      if (cleanUrl.includes(".m3u8") && secret && cleanUrl.includes(streamDomain)) {
+        signedUrl = signSecureStreamUrl(cleanUrl, secret, userAgent);
+      }
+
+      return NextResponse.json({ url: signedUrl }, {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          Pragma: "no-cache",
+        },
+      });
+    }
+
     const id = extractIdFromSlug(slug);
     const queryOr: any[] = [
       { "matches.slug": slug },
