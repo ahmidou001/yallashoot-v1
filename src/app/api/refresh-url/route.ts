@@ -24,6 +24,9 @@ export async function POST(request: NextRequest) {
 
     // Extract real User-Agent from browser request (critical for Nginx MD5 match)
     const userAgent = request.headers.get("user-agent") || "";
+    const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
+    const secret = process.env.STREAM_SECRET_KEY;
+
     // Helper to fetch and sign the 24/7 main stream as fallback
     const getMainStreamUrl = async () => {
       const mongoose = require("mongoose");
