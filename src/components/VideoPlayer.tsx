@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import Hls, { type ManifestParsedData, type ErrorData } from "hls.js";
 import {
   Settings,
@@ -20,6 +21,7 @@ interface VideoPlayerProps {
 }
 
 export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProps) {
+  const pathname = usePathname();
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hlsRef = useRef<Hls | null>(null);
@@ -356,58 +358,44 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
     };
     video.addEventListener("playing", onPlaying, { once: true });
 
-    // Load CDNBye script dynamically if not already loaded
+    // Load CDNBye script dynamically if not already present in DOM
     const win = window as any;
-    if (typeof window !== "undefined" && !win.P2PEngineHls) {
-      const existingScript = document.getElementById("cdnbye-p2p-script") as HTMLScriptElement;
-      if (!existingScript) {
-        const script = document.createElement("script");
-        script.id = "cdnbye-p2p-script";
-        script.src = "/hlsjs-p2p-engine.min.js";
-        script.async = true;
-        script.onload = () => {
-          if (!cancelled) {
-            console.log("[P2P] CDNBye library loaded dynamically.");
-            initStream();
-          }
-        };
-        script.onerror = () => {
-          if (!cancelled) {
-            console.error("[P2P] Failed to load CDNBye, falling back to standard HLS.");
-            initStream();
-          }
-        };
-        document.body.appendChild(script);
-      } else {
-        existingScript.addEventListener("load", () => {
-          if (!cancelled) {
-            initStream();
-          }
-        });
-        existingScript.addEventListener("error", () => {
-          if (!cancelled) {
-            initStream();
-          }
-        });
-      }
-    } else {
+    if (typeof window !== "undefined" && (win.P2PEngineHls || document.getElementById("cdnbye-p2p-script"))) {
       initStream();
+    } else {
+      const script = document.createElement("script");
+      script.id = "cdnbye-p2p-script";
+      script.src = "/hlsjs-p2p-engine.min.js";
+      script.async = true;
+      script.onload = () => {
+        if (!cancelled) {
+          initStream();
+        }
+      };
+      script.onerror = () => {
+        if (!cancelled) {
+          initStream();
+        }
+      };
+      document.body.appendChild(script);
     }
 
     return () => {
       cancelled = true;
       video.removeEventListener("playing", onPlaying);
-      if (hlsRef.current) hlsRef.current.destroy();
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
       if (retryTimeoutRef.current) clearTimeout(retryTimeoutRef.current);
       if (spinnerTimeoutRef.current) clearTimeout(spinnerTimeoutRef.current);
       if (stuckRetryTimeoutRef.current) clearTimeout(stuckRetryTimeoutRef.current);
-      // Clear video source on unmount for security
       if (video) {
         video.removeAttribute("src");
         video.load();
       }
     };
-  }, [streamBaseUrl]);
+  }, [streamBaseUrl, pathname]);
 
   // DevTools detection bypass to improve performance and remove user-unfriendly traps
   useEffect(() => {
