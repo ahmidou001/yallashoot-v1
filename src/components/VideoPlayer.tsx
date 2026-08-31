@@ -127,6 +127,17 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
     const video = videoRef.current;
     if (!video || !signedUrl) return;
 
+    const getBaseUrl = (url: string) => (url ? url.split("?")[0] : "");
+    const newBaseUrl = getBaseUrl(signedUrl);
+
+    // If HLS is already loaded and playing the same base stream URL,
+    // just update currentUrlRef without tearing down the stream!
+    if (hlsRef.current && loadedBaseUrlRef.current === newBaseUrl) {
+      currentUrlRef.current = signedUrl;
+      return;
+    }
+
+    loadedBaseUrlRef.current = newBaseUrl;
     let cancelled = false;
     currentUrlRef.current = signedUrl;
 
@@ -148,27 +159,20 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
       performance.mark("player:hls-init");
 
       if (Hls.isSupported()) {
-        // ── Fix #3: Optimized hls.js config for minimum TTFF ──
+        // ── Fix #3: Optimized hls.js config for smooth continuous playback ──
         const hls = new Hls({
-          // Player sizing
           capLevelToPlayerSize: true,
-
-          // Assume 5 Mbps — prevents starting at lowest quality
           abrEwmaDefaultEstimate: 5_000_000,
-
-          // Buffer tuning for fast TTFF
-          maxBufferLength: 10,
-          maxMaxBufferLength: 30,
-          maxBufferSize: 30 * 1000 * 1000,
-
-          // Live stream: stay close to live edge
-          liveSyncDurationCount: 2,
-          liveMaxLatencyDurationCount: 5,
-
-          // Fast retries
-          fragLoadingMaxRetry: 3,
-          manifestLoadingMaxRetry: 3,
-          levelLoadingMaxRetry: 3,
+          maxBufferLength: 30,
+          maxMaxBufferLength: 60,
+          maxBufferSize: 60 * 1024 * 1024,
+          liveSyncDurationCount: 3,
+          liveMaxLatencyDurationCount: 10,
+          fragLoadingMaxRetry: 6,
+          manifestLoadingMaxRetry: 6,
+          levelLoadingMaxRetry: 6,
+          fragLoadingRetryDelay: 1000,
+          manifestLoadingRetryDelay: 1000,
           p2pConfig: {
             logLevel: 'none',
             token: 'ZRIuQBfvg',

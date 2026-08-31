@@ -164,7 +164,7 @@ export default function HomePage() {
       const json = await res.json();
       return json.success ? json.data : null;
     },
-    refetchInterval: 15000,
+    refetchInterval: 60000,
   });
 
   // 4. Query for 4 Latest Summaries

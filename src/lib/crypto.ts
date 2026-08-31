@@ -62,10 +62,9 @@ export function signSecureStreamUrl(
   if (!url) return url;
   try {
     const urlObj = new URL(url);
-    const path = urlObj.pathname;
-
-    // Calculate expiration timestamp
-    const expires = Math.ceil(Date.now() / 1000) + expiresInSeconds;
+    // Calculate expiration timestamp rounded to 5-minute (300s) windows for URL stability
+    const currentSec = Math.floor(Date.now() / 1000 / 300) * 300;
+    const expires = currentSec + expiresInSeconds;
 
     // The string to hash: expires + path + userAgent + secret
     const stringToHash = `${expires}${path}${userAgent}${secret}`;
