@@ -27,9 +27,14 @@ export async function GET(request: Request) {
       ];
     }
 
-    const highlights = await Highlight.find(query)
-      .sort({ isFeatured: -1, createdAt: -1 })
-      .lean();
+    const limit = searchParams.get("limit") ? parseInt(searchParams.get("limit")!, 10) : undefined;
+
+    let queryExec = Highlight.find(query).sort({ isFeatured: -1, createdAt: -1 });
+    if (limit && limit > 0) {
+      queryExec = queryExec.limit(limit);
+    }
+
+    const highlights = await queryExec.lean();
 
     return NextResponse.json({ success: true, data: highlights });
   } catch (error: any) {

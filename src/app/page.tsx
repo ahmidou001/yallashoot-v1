@@ -6,10 +6,11 @@ import Link from "next/link";
 import { 
   Calendar, Play, Tv, RefreshCw, AlertCircle, Award, 
   ChevronLeft, ChevronRight, Star, Trophy, Clock, 
-  ArrowLeftRight, Flame, BookOpen, Heart, Info, ChevronDown, MoreHorizontal 
+  ArrowLeftRight, Flame, BookOpen, Heart, Info, ChevronDown, MoreHorizontal, Film, Radio, X, Sparkles 
 } from "lucide-react";
 import SidebarLeagues from "@/components/SidebarLeagues";
 import CompetitionTeamsHeaderBar from "@/components/CompetitionTeamsHeaderBar";
+import VideoPlayer from "@/components/VideoPlayer";
 import { GamesResponse, Game, Competition } from "@/types/api";
 import { useSettings } from "@/components/providers";
 import { generateMatchSlug } from "@/lib/matchSlug";
@@ -87,7 +88,7 @@ export default function HomePage() {
   });
 
   const [filterLiveOnly, setFilterLiveOnly] = useState(false);
-  const [activeScorersLeague, setActiveScorersLeague] = useState<string>("5930");
+  const [activeSummaryModal, setActiveSummaryModal] = useState<any>(null);
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
   const [openCountry, setOpenCountry] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
@@ -154,10 +155,28 @@ export default function HomePage() {
     queryFn: fetchFeaturedGames,
   });
 
-  // 3. Query for scorers
-  const { data: scorersData, isLoading: isScorersLoading } = useQuery({
-    queryKey: ["scorers", activeScorersLeague],
-    queryFn: () => fetchScorers(activeScorersLeague),
+  // 3. Query for 24/7 Main Live Stream
+  const { data: mainStreamData } = useQuery({
+    queryKey: ["mainStream"],
+    queryFn: async () => {
+      const res = await fetch("/api/main-stream");
+      if (!res.ok) return null;
+      const json = await res.json();
+      return json.success ? json.data : null;
+    },
+    refetchInterval: 15000,
+  });
+
+  // 4. Query for 4 Latest Summaries
+  const { data: latestSummaries, isLoading: isSummariesLoading } = useQuery({
+    queryKey: ["latestSummaries"],
+    queryFn: async () => {
+      const res = await fetch("/api/highlights?limit=4");
+      if (!res.ok) return [];
+      const json = await res.json();
+      return json.success ? json.data : [];
+    },
+    refetchInterval: 60000,
   });
 
   // Navigate Date Handler
@@ -868,6 +887,63 @@ export default function HomePage() {
         {/* ============================================================ */}
         <div className="lg:col-span-8 space-y-8">
           
+          {/* 24/7 Main Live Stream Section */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 shadow-2xl overflow-hidden relative">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3.5 mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="relative flex h-3 w-3">
+                  {mainStreamData?.outputUrl && (mainStreamData.status === "live" || mainStreamData.status === "starting") ? (
+                    <>
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                    </>
+                  ) : (
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-zinc-500" />
+                  )}
+                </div>
+                <h2 className="font-black text-sm sm:text-base text-zinc-100 flex items-center gap-2">
+                  <Tv className="h-4.5 w-4.5 text-emerald-400" />
+                  البث المباشر الرئيسي 24/7
+                </h2>
+                {mainStreamData?.label && (
+                  <span className="hidden sm:inline-block text-xs font-bold text-zinc-400 bg-zinc-800 px-2.5 py-1 rounded-full border border-zinc-700">
+                    {mainStreamData.label}
+                  </span>
+                )}
+              </div>
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-[11px] font-black tracking-wider uppercase shadow-xs">
+                <Flame className="w-3.5 h-3.5 text-emerald-400" />
+                24/7 MAIN STREAM
+              </span>
+            </div>
+
+            {mainStreamData && mainStreamData.outputUrl && (mainStreamData.status === "live" || mainStreamData.status === "starting") ? (
+              <div className="relative aspect-video bg-black rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl">
+                <VideoPlayer signedUrl={mainStreamData.outputUrl} slug="main-stream-247" />
+              </div>
+            ) : (
+              <div className="relative p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border border-zinc-850 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4 text-right">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                    <Radio className="h-6 w-6 animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-extrabold text-zinc-200">البث المباشر الرئيسي 24/7</h3>
+                    <p className="text-xs text-zinc-400 mt-1">
+                      القناة الصوتية والرئيسية متوفرة عند انطلاق المباريات المباشرة. يمكنك متابعة نتائج اليوم وأحدث الملخصات أدناه.
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0">
+                  <span className="px-3.5 py-1.5 rounded-xl bg-zinc-850 border border-zinc-800 text-xs font-extrabold text-zinc-400">
+                    جاهز للتغطية 🟢
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* 1. Hero Featured Slider / Match Banner */}
           {featuredGames && featuredGames.length > 0 ? (
             <FeaturedMatchHero matches={featuredGames} formatTime={formatTime} />
@@ -875,95 +951,81 @@ export default function HomePage() {
             <div className="h-64 bg-zinc-900 rounded-2xl animate-pulse" />
           )}
 
-          {/* 2. Top Scorers Stats Widget */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
-            <div className="flex items-center justify-between border-b border-zinc-800 pb-3.5 mb-4">
-              <h3 className="font-extrabold text-sm sm:text-base text-zinc-150 flex items-center gap-2">
-                <Trophy className="h-4.5 w-4.5 text-yellow-500" />
-                هدافي البطولات
-              </h3>
-              <span className="text-xs font-bold text-zinc-300">الأهداف</span>
+          {/* 2. 4 Last Summaries Section (Replaces Top Scorers) */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3.5">
+              <h2 className="font-extrabold text-sm sm:text-base text-zinc-150 flex items-center gap-2">
+                <Film className="h-4.5 w-4.5 text-emerald-400" />
+                أحدث ملخصات وأهداف المباريات
+              </h2>
+              <Link
+                href="/highlights"
+                className="text-xs font-bold text-emerald-400 hover:text-emerald-350 transition flex items-center gap-1"
+              >
+                عرض جميع الملخصات &rarr;
+              </Link>
             </div>
 
-            {/* Horizontal Tabs */}
-            <div className="flex border-b border-zinc-850 mb-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-2">
-              {[
-                { id: "5930", label: "كأس العالم" },
-                { id: "572", label: "دوري الأبطال" },
-                { id: "7", label: "الدوري الإنجليزي" },
-                { id: "11", label: "الدوري الإسباني" }
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveScorersLeague(tab.id)}
-                  aria-label={`عرض هدافي ${tab.label}`}
-                  className={`px-4 py-2 border-b-2 font-bold text-xs whitespace-nowrap transition cursor-pointer ${
-                    activeScorersLeague === tab.id
-                      ? "border-emerald-500 text-emerald-400"
-                      : "border-transparent text-zinc-300 hover:text-zinc-100"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Scorer List */}
-            {isScorersLoading ? (
-              <div className="space-y-2 py-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-12 bg-zinc-850 rounded-xl animate-pulse" />
+            {isSummariesLoading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="h-48 bg-zinc-850 rounded-2xl animate-pulse" />
                 ))}
               </div>
-            ) : scorersData?.stats && scorersData.stats.length > 0 ? (
-              <div className="space-y-3">
-                {scorersData.stats.slice(0, 3).map((scorer: any, idx: number) => (
-                  <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-850/20 transition">
-                    <div className="flex items-center gap-3">
-                      {/* Rank badge */}
-                      <span className="flex h-6 w-6 items-center justify-center rounded bg-zinc-800 text-[11px] font-black text-zinc-300 font-mono">
-                        {idx + 1}
-                      </span>
-                      {/* Player face */}
-                      <img
-                        src={getScorerImageUrl(scorer)}
-                        alt={scorer.name}
-                        width={32}
-                        height={32}
-                        className="h-8 w-8 rounded-full border border-zinc-700 bg-zinc-900 object-cover"
-                        loading="lazy"
-                      />
-                      <div className="flex flex-col text-right">
-                        <span className="text-xs sm:text-sm font-extrabold text-zinc-150">{scorer.name}</span>
-                        <span className="text-[10px] text-zinc-400 font-medium">{scorer.teamName}</span>
+            ) : latestSummaries && latestSummaries.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {latestSummaries.map((summary: any) => (
+                  <div
+                    key={summary._id}
+                    onClick={() => setActiveSummaryModal(summary)}
+                    className="group cursor-pointer bg-zinc-950 border border-zinc-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 flex flex-col justify-between"
+                  >
+                    {/* Thumbnail */}
+                    <div className="relative aspect-video bg-black overflow-hidden">
+                      {summary.thumbnailUrl ? (
+                        <img
+                          src={summary.thumbnailUrl}
+                          alt={summary.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = "none";
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-900 text-zinc-600">
+                          <Film className="w-10 h-10" />
+                        </div>
+                      )}
+
+                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                        <div className="w-11 h-11 rounded-full bg-emerald-500/90 text-zinc-950 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                          <Play className="w-5 h-5 fill-current ml-0.5" />
+                        </div>
                       </div>
+
+                      {summary.competition && (
+                        <span className="absolute top-2.5 right-2.5 bg-zinc-950/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30 text-[10px] font-black px-2 py-0.5 rounded-full">
+                          {summary.competition}
+                        </span>
+                      )}
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${scorer.teamId}`}
-                        alt={scorer.teamName}
-                        width={20}
-                        height={20}
-                        className="h-5 w-5 object-contain"
-                        loading="lazy"
-                      />
-                      <span className="text-xs sm:text-sm font-black text-zinc-300 font-mono bg-zinc-850 px-2.5 py-0.5 rounded">
-                        {scorer.value}
-                      </span>
+                    {/* Info */}
+                    <div className="p-3.5 space-y-1.5 flex-1 flex flex-col justify-between">
+                      <h3 className="font-extrabold text-xs sm:text-sm text-zinc-150 group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug">
+                        {summary.title}
+                      </h3>
+
+                      <div className="flex items-center justify-between text-[10px] text-zinc-400 pt-2 border-t border-zinc-900 font-mono">
+                        <span>{new Date(summary.createdAt).toLocaleDateString("ar-EG")}</span>
+                        <span className="text-emerald-400 font-bold group-hover:underline">مشاهدة الملخص ↗</span>
+                      </div>
                     </div>
                   </div>
                 ))}
-
-                <Link
-                  href={`/standings/${activeScorersLeague}`}
-                  className="block text-center text-xs font-bold text-emerald-400 hover:text-emerald-350 transition-all pt-2.5"
-                >
-                  عرض جدول الترتيب الكامل
-                </Link>
               </div>
             ) : (
-              <div className="text-center py-6 text-zinc-400 text-xs">لا تتوفر إحصائيات لهذه البطولة حالياً.</div>
+              <div className="text-center py-8 text-zinc-400 text-xs">لا تتوفر ملخصات حديثة حالياً.</div>
             )}
           </div>
 
@@ -1137,6 +1199,40 @@ export default function HomePage() {
               </div>
 
             </div>
+
+            {/* Summary Video Modal Player */}
+            {activeSummaryModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+                <div className="relative w-full max-w-3xl bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="flex items-center justify-between px-5 py-3.5 border-b border-zinc-800 bg-zinc-950">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400">
+                        <Play className="w-4 h-4 fill-current" />
+                      </div>
+                      <h3 className="text-xs sm:text-sm font-black text-zinc-100 line-clamp-1">
+                        {activeSummaryModal.title}
+                      </h3>
+                    </div>
+                    <button
+                      onClick={() => setActiveSummaryModal(null)}
+                      className="p-1.5 text-zinc-400 hover:text-zinc-100 rounded-xl hover:bg-zinc-800 transition"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="relative w-full bg-black aspect-video">
+                    <iframe
+                      src={activeSummaryModal.iframeUrl}
+                      className="w-full h-full border-0"
+                      allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
+                      allowFullScreen
+                      title={activeSummaryModal.title}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Footer Institutional & Legal Links Bar */}
             <div className="border-t border-zinc-800 pt-5 flex items-center justify-center text-xs font-bold text-zinc-400">
