@@ -79,21 +79,82 @@ export default async function MatchPage({ params }: RouteParams) {
     notFound();
   }
 
-  const { homeCompetitor, awayCompetitor, startTime } = detailsData.game;
+  const { homeCompetitor, awayCompetitor, startTime, venue, competitionDisplayName, competitionName } = detailsData.game;
+  const compName = competitionDisplayName || competitionName || "مباراة كرة قدم";
+  const venueName = venue?.name || "الملعب الرئيسي";
+  const venueCity = venue?.city || "غير محدد";
+
+  const startIso = startTime ? new Date(startTime).toISOString() : new Date().toISOString();
+  const endIso = startTime
+    ? new Date(new Date(startTime).getTime() + 2 * 60 * 60 * 1000).toISOString()
+    : new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
+
+  const homeLogo = `https://imagecache.365scores.com/image/upload/f_auto,w_300,h_300,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${homeCompetitor.id}`;
+  const awayLogo = `https://imagecache.365scores.com/image/upload/f_auto,w_300,h_300,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${awayCompetitor.id}`;
+
   const matchJsonLd = {
     "@context": "https://schema.org",
     "@type": "SportsEvent",
-    "name": `${homeCompetitor.name} ضد ${awayCompetitor.name}`,
-    "startDate": startTime ? new Date(startTime).toISOString() : undefined,
+    "name": `مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name}`,
+    "description": `متابعة البث المباشر والتغطية الحية لمباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} اليوم في ${compName}.`,
+    "startDate": startIso,
+    "endDate": endIso,
+    "eventStatus": detailsData.game.statusGroup === 4
+      ? "https://schema.org/EventCompleted"
+      : "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": venueName,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": venueCity,
+        "addressCountry": "Global"
+      }
+    },
+    "image": [
+      homeLogo,
+      awayLogo
+    ],
     "homeTeam": {
       "@type": "SportsTeam",
-      "name": homeCompetitor.name
+      "name": homeCompetitor.name,
+      "url": `https://www.yallahsoot.com/team/${homeCompetitor.id}`,
+      "logo": homeLogo
     },
     "awayTeam": {
       "@type": "SportsTeam",
-      "name": awayCompetitor.name
+      "name": awayCompetitor.name,
+      "url": `https://www.yallahsoot.com/team/${awayCompetitor.id}`,
+      "logo": awayLogo
     },
-    "eventStatus": detailsData.game.statusGroup === 4 ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled",
+    "performer": [
+      {
+        "@type": "SportsTeam",
+        "name": homeCompetitor.name,
+        "url": `https://www.yallahsoot.com/team/${homeCompetitor.id}`,
+        "image": homeLogo
+      },
+      {
+        "@type": "SportsTeam",
+        "name": awayCompetitor.name,
+        "url": `https://www.yallahsoot.com/team/${awayCompetitor.id}`,
+        "image": awayLogo
+      }
+    ],
+    "organizer": {
+      "@type": "Organization",
+      "name": compName,
+      "url": "https://www.yallahsoot.com"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://www.yallahsoot.com/match/${slug}`,
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "validFrom": startIso
+    },
     "url": `https://www.yallahsoot.com/match/${slug}`
   };
 
