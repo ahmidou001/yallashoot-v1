@@ -34,6 +34,7 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
   const stuckRetryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Ref mirror of isBuffering to avoid stale closures inside setTimeout
   const isBufferingRef = useRef(!!signedUrl);
+  const loadedBaseUrlRef = useRef<string>("");
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isBuffering, setIsBuffering] = useState(!!signedUrl);

@@ -62,6 +62,7 @@ export function signSecureStreamUrl(
   if (!url) return url;
   try {
     const urlObj = new URL(url);
+    const path = urlObj.pathname;
     // Calculate expiration timestamp rounded to 5-minute (300s) windows for URL stability
     const currentSec = Math.floor(Date.now() / 1000 / 300) * 300;
     const expires = currentSec + expiresInSeconds;
