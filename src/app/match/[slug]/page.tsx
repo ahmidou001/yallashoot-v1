@@ -79,7 +79,8 @@ export default async function MatchPage({ params }: RouteParams) {
     notFound();
   }
 
-  const { homeCompetitor, awayCompetitor, startTime, venue, competitionDisplayName, competitionName } = detailsData.game;
+  const gameAny = detailsData.game as any;
+  const { homeCompetitor, awayCompetitor, startTime, venue, competitionDisplayName, competitionName } = gameAny;
   const compName = competitionDisplayName || competitionName || "مباراة كرة قدم";
   const venueName = venue?.name || "الملعب الرئيسي";
   const venueCity = venue?.city || "غير محدد";
