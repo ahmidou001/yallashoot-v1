@@ -26,6 +26,13 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     if (!data || !data.game) {
       return {
         title: "المباراة غير موجودة - يلا شوت لايف",
+        alternates: {
+          canonical: `/match/${slug}`,
+        },
+        robots: {
+          index: false,
+          follow: true,
+        },
       };
     }
 

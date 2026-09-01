@@ -22,6 +22,13 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     if (!data || !data.standings || data.standings.length === 0) {
       return {
         title: "جدول ترتيب الدوري - يلا شوت لايف",
+        alternates: {
+          canonical: `/standings/${leagueId}`,
+        },
+        robots: {
+          index: true,
+          follow: true,
+        },
       };
     }
 
@@ -35,10 +42,21 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
       alternates: {
         canonical: `/standings/${leagueId}`,
       },
+      robots: {
+        index: true,
+        follow: true,
+      },
     };
   } catch {
     return {
       title: "ترتيب الدوري - يلا شوت لايف",
+      alternates: {
+        canonical: `/standings/${leagueId}`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+      },
     };
   }
 }
@@ -234,7 +252,7 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
           <div className={`grid ${tabColsClass} gap-2 sm:gap-3 bg-zinc-900/20 p-1.5 rounded-2xl border border-zinc-900`}>
             {hasStandings && (
               <Link
-                href={`/standings/${leagueId}?tab=standings`}
+                href={`/standings/${leagueId}`}
                 className={`py-3 px-4 rounded-xl text-xs sm:text-sm font-black text-center transition cursor-pointer ${activeTab === "standings"
                     ? "bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/10"
                     : "bg-zinc-900/60 hover:bg-zinc-850/80 border border-zinc-850 text-zinc-300 hover:text-white"
@@ -280,7 +298,7 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                 {/* Live Table Toggle */}
                 <div className="flex justify-end bg-zinc-900/30 border border-zinc-800/60 rounded-2xl p-4 shadow-md">
                   <Link
-                    href={`/standings/${leagueId}?live=${!isLive}`}
+                    href={isLive ? `/standings/${leagueId}` : `/standings/${leagueId}?live=true`}
                     className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-[10px] sm:text-xs font-bold transition-all ${isLive
                         ? "bg-emerald-950/60 text-emerald-400 border-emerald-500/40"
                         : "bg-zinc-900 border-zinc-850 text-zinc-350 hover:bg-zinc-800"

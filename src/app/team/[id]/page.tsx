@@ -29,6 +29,13 @@ export async function generateMetadata({ params }: TeamPageProps): Promise<Metad
     if (!profileRes || !profileRes.competitors || profileRes.competitors.length === 0) {
       return {
         title: "الفريق غير موجود - يلا شوت لايف",
+        alternates: {
+          canonical: `/team/${teamId}`,
+        },
+        robots: {
+          index: false,
+          follow: true,
+        },
       };
     }
     const team = profileRes.competitors[0];
