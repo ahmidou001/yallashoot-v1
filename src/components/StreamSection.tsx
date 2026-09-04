@@ -39,7 +39,8 @@ export default function StreamSection({
   }, [slug]);
 
   // Total number of servers: either from legacy `servers` prop or `serverCount`
-  const totalServers = servers && servers.length > 0 ? servers.length : serverCount;
+  const totalServers =
+    servers && servers.length > 0 ? servers.length : serverCount;
 
   /**
    * Fetch the signed stream URL from the API.
@@ -94,16 +95,20 @@ export default function StreamSection({
   // Resolve the current stream URL
   const currentSignedUrl =
     servers && servers.length > 0
-      ? servers[activeIndex]?.signedUrl ?? null
+      ? (servers[activeIndex]?.signedUrl ?? null)
       : signedUrl;
 
   // Server tab labels
   const serverLabels = Array.from({ length: totalServers }, (_, i) =>
-    i === 0 ? "خادم 1" : `خادم ${i + 1}`
+    i === 0 ? "خادم 1" : `خادم ${i + 1}`,
   );
 
-  const isLive = matchStatus === "live" || matchStatus === "inprogress" || totalServers > 0;
-  const isFinished = (matchStatus === "finished" || matchStatus === "ended") && totalServers === 0;
+  const isFinished = matchStatus === "finished" || matchStatus === "ended";
+  const isLive =
+    !isFinished &&
+    (matchStatus === "live" ||
+      matchStatus === "inprogress" ||
+      totalServers > 0);
 
   return (
     <div>
@@ -150,23 +155,42 @@ export default function StreamSection({
               <Radio className="h-5 w-5" />
             </div>
             <h3 className="text-sm font-bold text-white/80">انتهت المباراة</h3>
-            <p className="text-xs text-white/40 font-medium">البث المباشر غير متوفر حالياً بعد نهاية المباراة.</p>
+            <p className="text-xs text-white/40 font-medium">
+              البث المباشر غير متوفر حالياً بعد نهاية المباراة.
+            </p>
           </div>
         ) : !isLive ? (
           /* ── Coming soon match placeholder ── */
           <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-3.5 bg-[#080a0f] text-center px-4">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(10,166,116,0.04)_0%,transparent_70%)] pointer-events-none" />
-            
+
             <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/5 bg-white/3 shadow-[0_4px_20px_rgba(0,0,0,0.3)] text-primary">
-              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg
+                className="h-6 w-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
             </div>
             <div className="relative space-y-1">
-              <h3 className="text-sm font-bold text-white">المباراة لم تبدأ بعد</h3>
+              <h3 className="text-sm font-bold text-white">
+                المباراة لم تبدأ بعد
+              </h3>
               <p className="text-xs text-white/50">
-                ستبدأ المباراة عند الساعة <span className="font-bold text-primary font-mono">{matchTime || "—"}</span>
+                ستبدأ المباراة عند الساعة{" "}
+                <span className="font-bold text-primary font-mono">
+                  {matchTime || "—"}
+                </span>
               </p>
               <p className="text-[11px] text-white/35 max-w-[280px] mx-auto leading-normal">
-                سيتوفر البث المباشر والقنوات الناقلة تلقائياً فور اقتراب موعد المباراة.
+                سيتوفر البث المباشر والقنوات الناقلة تلقائياً فور اقتراب موعد
+                المباراة.
               </p>
             </div>
           </div>
@@ -183,7 +207,9 @@ export default function StreamSection({
             {/* LIVE badge */}
             <div className="relative flex items-center gap-1.5 rounded-full bg-red-500/10 border border-red-500/20 px-3 py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
-              <span className="text-[11px] font-bold text-red-400 tracking-widest">LIVE</span>
+              <span className="text-[11px] font-bold text-red-400 tracking-widest">
+                LIVE
+              </span>
             </div>
 
             {/* Play button */}
