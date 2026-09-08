@@ -162,14 +162,20 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
         const hls = new Hls({
           capLevelToPlayerSize: true,
           abrEwmaDefaultEstimate: 5_000_000,
-          maxBufferLength: 30,
-          maxMaxBufferLength: 60,
-          maxBufferSize: 60 * 1024 * 1024,
-          liveSyncDurationCount: 3,
-          liveMaxLatencyDurationCount: 10,
-          fragLoadingMaxRetry: 6,
-          manifestLoadingMaxRetry: 6,
-          levelLoadingMaxRetry: 6,
+          enableWorker: true,
+          lowLatencyMode: false,
+          maxBufferLength: 60,
+          maxMaxBufferLength: 120,
+          maxBufferSize: 100 * 1024 * 1024, // 100MB buffer memory
+          backBufferLength: 60,
+          liveSyncDurationCount: 4, // 16-20s safe cushion from live edge to prevent stuttering
+          liveMaxLatencyDurationCount: 12,
+          fragLoadingTimeOut: 20000,
+          manifestLoadingTimeOut: 15000,
+          levelLoadingTimeOut: 15000,
+          fragLoadingMaxRetry: 8,
+          manifestLoadingMaxRetry: 8,
+          levelLoadingMaxRetry: 8,
           fragLoadingRetryDelay: 1000,
           manifestLoadingRetryDelay: 1000,
           p2pConfig: {
