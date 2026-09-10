@@ -37,8 +37,21 @@ export default function TeamDetailsClient({
 }: TeamDetailsClientProps) {
   const [activeTab, setActiveTab] = useState("overview");
   const [matchesSubTab, setMatchesSubTab] = useState("fixtures");
-  const [isFollowed, setIsFollowed] = useState(false);
-  const [followCount, setFollowCount] = useState(team.popularityRank || 86200);
+  const [statsViewMode, setStatsViewMode] = useState<"cards" | "table">("cards");
+  const [selectedCompetitionId, setSelectedCompetitionId] = useState<number | null>(null);
+  const [isCompDropdownOpen, setIsCompDropdownOpen] = useState(false);
+  const compDropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // Close competition dropdown on outside click
+  React.useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (compDropdownRef.current && !compDropdownRef.current.contains(e.target as Node)) {
+        setIsCompDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const bracketsScrollRef = React.useRef<HTMLDivElement>(null);
   const scrollBrackets = (direction: "left" | "right") => {
@@ -349,15 +362,64 @@ export default function TeamDetailsClient({
     return fixturesList[0];
   }, [fixturesList]);
 
+  // Initial default competition ID from server stats
+  const initialCompetitionId = stats?.competitions?.[0]?.id;
+
+  // Dynamically fetch statistics if user selects a different competition
+  const { data: dynamicStatsData, isFetching: isStatsLoading } = useQuery({
+    queryKey: ["competitorStats", team.id, selectedCompetitionId],
+    queryFn: async () => {
+      if (!selectedCompetitionId) return null;
+      const res = await fetch(`/api/competitor-stats?teamId=${team.id}&competitionId=${selectedCompetitionId}`);
+      if (!res.ok) throw new Error("Failed to fetch competitor stats");
+      const json = await res.json();
+      return json.data;
+    },
+    enabled: activeTab === "stats" && !!selectedCompetitionId && selectedCompetitionId !== initialCompetitionId,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const currentStats = (selectedCompetitionId && selectedCompetitionId !== initialCompetitionId && dynamicStatsData)
+    ? dynamicStatsData
+    : stats;
+
+  // Competitions list in competitor stats
+  const statsCompetitions = React.useMemo(() => {
+    return stats?.competitions || currentStats?.competitions || [];
+  }, [stats, currentStats]);
+
+  const activeCompetition = React.useMemo(() => {
+    if (selectedCompetitionId) {
+      return statsCompetitions.find((c: any) => c.id === selectedCompetitionId) || statsCompetitions[0] || null;
+    }
+    return statsCompetitions[0] || null;
+  }, [statsCompetitions, selectedCompetitionId]);
+
+  // Countries lookup map
+  const countriesMap = React.useMemo(() => {
+    const map = new Map<number, string>();
+    const list = [
+      ...(stats?.countries || []),
+      ...(currentStats?.countries || []),
+      ...(squad?.countries || [])
+    ];
+    list.forEach((c: any) => {
+      if (c?.id && c?.name) map.set(c.id, c.name);
+    });
+    return map;
+  }, [stats, currentStats, squad]);
+
   // Categories in competitor stats
   const statCategories = React.useMemo(() => {
-    if (stats && Array.isArray(stats.athletesStats)) {
-      return stats.athletesStats.map((cat: any) => {
+    const rawList = currentStats?.stats?.athletesStats || currentStats?.athletesStats || stats?.stats?.athletesStats || stats?.athletesStats || [];
+    if (Array.isArray(rawList)) {
+      return rawList.map((cat: any) => {
         let arabicName = cat.name;
         if (cat.id === 1) arabicName = "الأهداف";
         else if (cat.id === 10) arabicName = "التمريرات الحاسمة";
         else if (cat.id === 3) arabicName = "البطاقات الصفراء";
         else if (cat.id === 4) arabicName = "البطاقات الحمراء";
+        else if (cat.id === 13 || cat.name?.includes("متوقعة")) arabicName = "أهداف متوقعة";
 
         return {
           id: cat.id,
@@ -367,21 +429,7 @@ export default function TeamDetailsClient({
       });
     }
     return [];
-  }, [stats]);
-
-  const activeStatCategory = React.useMemo(() => {
-    return statCategories.find((c: any) => c.id === selectedStatTypeId) || statCategories[0] || null;
-  }, [statCategories, selectedStatTypeId]);
-
-  const handleFollowToggle = () => {
-    if (isFollowed) {
-      setIsFollowed(false);
-      setFollowCount((prev: number) => prev - 1);
-    } else {
-      setIsFollowed(true);
-      setFollowCount((prev: number) => prev + 1);
-    }
-  };
+  }, [currentStats, stats]);
 
   const teamColor = team.color || "#075C9C";
 
@@ -426,35 +474,15 @@ export default function TeamDetailsClient({
               </div>
 
               <div>
-                <h1 className="text-3xl sm:text-4xl font-black text-white drop-shadow-md mb-2 flex items-center justify-center sm:justify-start gap-3">
+                <h1 className="text-3xl sm:text-4xl font-black text-white drop-shadow-md flex items-center justify-center sm:justify-start gap-3">
                   {team.name}
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-gray-800 text-gray-400 rounded-full">
-                    {team.symbolicName}
-                  </span>
+                  {team.symbolicName && (
+                    <span className="text-xs font-semibold px-2.5 py-1 bg-gray-800 text-gray-400 rounded-full">
+                      {team.symbolicName}
+                    </span>
+                  )}
                 </h1>
-                <div className="text-gray-400 text-sm sm:text-base flex flex-wrap items-center justify-center sm:justify-start gap-4">
-                  <span className="flex items-center gap-1.5">
-                    <Shield className="w-4.5 h-4.5 text-gray-500" />
-                    {team.type === 2 ? "منتخب وطني" : `تأسس في ${team.createdAt ? new Date(team.createdAt).getFullYear() : "غير معروف"}`}
-                  </span>
-                  <span>•</span>
-                  <span>{followCount.toLocaleString()} متابع</span>
-                </div>
               </div>
-            </div>
-
-            {/* Actions (Follow button) */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleFollowToggle}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold transition-all duration-300 cursor-pointer ${isFollowed
-                    ? "bg-transparent border border-green-500 text-green-500"
-                    : "bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-900/20 active:scale-95"
-                  }`}
-              >
-                <Star className={`w-5 h-5 ${isFollowed ? "fill-green-500" : ""}`} />
-                {isFollowed ? "متابع" : "متابعة"}
-              </button>
             </div>
           </div>
 
@@ -744,40 +772,68 @@ export default function TeamDetailsClient({
                       href={`/match/${slug}`}
                       className="block bg-[#131722]/90 border border-gray-800/60 rounded-2xl p-4 sm:p-6 hover:border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-black/20"
                     >
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="text-xs text-gray-500 font-semibold">{game.competitionDisplayName}</div>
+                      <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-3">
+                        {/* 1. Right: Competition Name (md:col-span-2) */}
+                        <div className="col-span-1 md:col-span-2 text-right">
+                          <span className="text-xs text-gray-500 font-semibold truncate block">
+                            {game.competitionDisplayName}
+                          </span>
+                        </div>
 
-                        <div className="flex items-center gap-6 justify-center w-full sm:w-auto">
-                          <div className="flex items-center gap-3 text-right">
-                            <span className="font-extrabold text-sm sm:text-base">{game.homeCompetitor.name}</span>
-                            <img src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`} className="w-8 h-8 object-contain" alt="" />
+                        {/* 2. Center Match Block (md:col-span-8): Perfect 12-col subgrid */}
+                        <div className="col-span-1 md:col-span-8 grid grid-cols-12 items-center">
+                          {/* Home Team (col-span-5): Logo on outer right, name on inner */}
+                          <div className="col-span-5 flex items-center justify-start gap-2.5 min-w-0">
+                            <img
+                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.homeCompetitor.id}`}
+                              className="w-7 h-7 sm:w-8 sm:h-8 object-contain shrink-0"
+                              alt=""
+                              loading="lazy"
+                            />
+                            <span className="font-extrabold text-xs sm:text-sm text-zinc-100 truncate text-right">
+                              {game.homeCompetitor.name}
+                            </span>
                           </div>
 
-                          {matchesSubTab === "results" ? (
-                            <div className="flex items-center gap-2 font-black text-lg bg-gray-850 px-4 py-1.5 rounded-xl border border-gray-800 text-green-400">
-                              <span>{game.homeCompetitor.score}</span>
-                              <span className="text-gray-600 font-normal">-</span>
-                              <span>{game.awayCompetitor.score}</span>
-                            </div>
-                          ) : (
-                            <div className="text-center">
-                              <span className="block font-bold text-sm text-green-400">
-                                {toLatinNumerals(new Date(game.startTime).toLocaleTimeString("ar-EG-u-nu-latn", { hour: '2-digit', minute: '2-digit' }))}
-                              </span>
-                              <span className="block text-xxs text-gray-400 mt-0.5 whitespace-nowrap">
-                                {toLatinNumerals(new Date(game.startTime).toLocaleDateString("ar-EG-u-nu-latn", { month: 'short', day: 'numeric' }))}
-                              </span>
-                            </div>
-                          )}
+                          {/* Center Score / Time (col-span-2): Exactly centered! */}
+                          <div className="col-span-2 flex flex-col items-center justify-center text-center px-1">
+                            {matchesSubTab === "results" ? (
+                              <div className="flex items-center gap-1.5 font-black text-sm sm:text-base bg-gray-850 px-3 py-1 rounded-xl border border-gray-800 text-emerald-400 font-mono">
+                                <span>{game.homeCompetitor.score}</span>
+                                <span className="text-gray-600 font-normal">-</span>
+                                <span>{game.awayCompetitor.score}</span>
+                              </div>
+                            ) : (
+                              <div className="text-center">
+                                <span className="block font-bold text-xs sm:text-sm text-emerald-400 font-mono">
+                                  {toLatinNumerals(new Date(game.startTime).toLocaleTimeString("ar-EG-u-nu-latn", { hour: '2-digit', minute: '2-digit' }))}
+                                </span>
+                                <span className="block text-[10px] text-gray-400 mt-0.5 whitespace-nowrap font-mono">
+                                  {toLatinNumerals(new Date(game.startTime).toLocaleDateString("ar-EG-u-nu-latn", { month: 'short', day: 'numeric' }))}
+                                </span>
+                              </div>
+                            )}
+                          </div>
 
-                          <div className="flex items-center gap-3 text-left">
-                            <img src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`} className="w-8 h-8 object-contain" alt="" />
-                            <span className="font-extrabold text-sm sm:text-base">{game.awayCompetitor.name}</span>
+                          {/* Away Team (col-span-5): Name on inner, Logo on outer left */}
+                          <div className="col-span-5 flex items-center justify-end gap-2.5 min-w-0">
+                            <span className="font-extrabold text-xs sm:text-sm text-zinc-100 truncate text-left">
+                              {game.awayCompetitor.name}
+                            </span>
+                            <img
+                              src={`https://imagecache.365scores.com/image/upload/f_auto,w_40,h_40,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${game.awayCompetitor.id}`}
+                              className="w-7 h-7 sm:w-8 sm:h-8 object-contain shrink-0"
+                              alt=""
+                              loading="lazy"
+                            />
                           </div>
                         </div>
 
-                        <div className="text-xs font-semibold text-gray-400 bg-gray-850 border border-gray-800 px-3 py-1 rounded-full shrink-0">
-                          {game.statusText || "مجدولة"}
+                        {/* 3. Left: Status Badge (md:col-span-2) */}
+                        <div className="col-span-1 md:col-span-2 flex justify-start md:justify-end">
+                          <span className="text-xs font-semibold text-gray-400 bg-gray-850 border border-gray-800 px-3 py-1 rounded-full shrink-0">
+                            {game.statusText || "لم تبدأ"}
+                          </span>
                         </div>
                       </div>
                     </Link>
@@ -975,70 +1031,275 @@ export default function TeamDetailsClient({
 
         {activeTab === "stats" && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-[#131722]/90 border border-gray-800/60 rounded-2xl p-6 shadow-xl shadow-black/20">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Award className="w-6 h-6 text-yellow-500" />
-                  إحصائيات أداء اللاعبين الفردية
-                </h3>
+            <div className="lg:col-span-2 space-y-6">
+              {/* Competition Selector with custom dark dropdown */}
+              {activeCompetition && (
+                <div ref={compDropdownRef} className="relative">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (statsCompetitions.length > 1) {
+                        setIsCompDropdownOpen(!isCompDropdownOpen);
+                      }
+                    }}
+                    className={`w-full bg-[#131722]/90 border border-gray-800/70 rounded-2xl p-4 flex items-center justify-between shadow-xl shadow-black/20 transition ${
+                      statsCompetitions.length > 1 ? "hover:border-emerald-500/50 cursor-pointer" : "cursor-default"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${activeCompetition.id}`}
+                        alt={activeCompetition.name}
+                        className="w-8 h-8 object-contain rounded-lg bg-zinc-900 border border-zinc-800 p-1"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                      <span className="font-extrabold text-sm sm:text-base text-white">
+                        {activeCompetition.name}
+                      </span>
+                      {isStatsLoading && (
+                        <div className="w-4 h-4 border-2 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin shrink-0" />
+                      )}
+                    </div>
 
-                {/* Category selector dropdown */}
-                {statCategories.length > 0 && (
-                  <div className="relative inline-block w-48 text-xs sm:text-sm">
-                    <select
-                      value={selectedStatTypeId}
-                      onChange={(e) => setSelectedStatTypeId(Number(e.target.value))}
-                      className="w-full bg-gray-850 border border-gray-800 text-white rounded-xl px-3 py-2 cursor-pointer outline-none focus:border-green-500 transition-all font-bold appearance-none"
-                    >
-                      {statCategories.map((cat: any) => (
-                        <option key={cat.id} value={cat.id}>{cat.name}</option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-4.5 h-4.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" />
-                  </div>
-                )}
+                    {statsCompetitions.length > 1 && (
+                      <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-3 py-1.5 rounded-xl">
+                        <span>تغيير البطولة</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isCompDropdownOpen ? "rotate-180" : ""}`} />
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Dark Custom Dropdown Menu (Solves white background issue) */}
+                  {isCompDropdownOpen && statsCompetitions.length > 1 && (
+                    <div className="absolute top-full right-0 left-0 mt-2 z-50 rounded-2xl border border-zinc-750 bg-zinc-950/98 backdrop-blur-md p-2 shadow-2xl space-y-1 animate-fadeIn">
+                      {statsCompetitions.map((comp: any) => {
+                        const isSelected = comp.id === activeCompetition.id;
+                        return (
+                          <button
+                            key={comp.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedCompetitionId(comp.id);
+                              setIsCompDropdownOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between p-3 rounded-xl text-xs sm:text-sm font-bold transition cursor-pointer ${
+                              isSelected
+                                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                                : "text-zinc-200 hover:bg-zinc-900 hover:text-white"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <img
+                                src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${comp.id}`}
+                                alt=""
+                                className="w-6 h-6 object-contain rounded bg-zinc-900 border border-zinc-800 p-0.5"
+                              />
+                              <span>{comp.name}</span>
+                            </div>
+                            {isSelected && (
+                              <span className="text-emerald-400 text-xs font-black">✓ الحالي</span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* View Mode Toggle: Image 3 Cards vs Table */}
+              <div className="flex items-center justify-between gap-3 bg-[#131722]/60 border border-gray-800/40 rounded-xl p-2.5">
+                <span className="text-xs font-bold text-gray-400">طريقة عرض الإحصائيات:</span>
+                <div className="flex items-center gap-1 bg-gray-850 p-1 rounded-lg border border-gray-800 select-none">
+                  <button
+                    onClick={() => setStatsViewMode("cards")}
+                    className={`px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                      statsViewMode === "cards" ? "bg-emerald-500 text-zinc-950 font-black shadow-xs" : "text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    بطاقات اللاعبين
+                  </button>
+                  <button
+                    onClick={() => setStatsViewMode("table")}
+                    className={`px-3 py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                      statsViewMode === "table" ? "bg-emerald-500 text-zinc-950 font-black shadow-xs" : "text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    جدول تفصيلي
+                  </button>
+                </div>
               </div>
 
-              {activeStatCategory && activeStatCategory.rows.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {activeStatCategory.rows.map((row: any, index: number) => (
+              {/* Categories Display */}
+              {isStatsLoading ? (
+                <div className="py-24 flex flex-col items-center justify-center gap-4 bg-[#131722]/90 border border-gray-800/60 rounded-2xl shadow-xl shadow-black/20">
+                  <div className="w-10 h-10 border-3 border-emerald-500/20 border-t-emerald-400 rounded-full animate-spin" />
+                  <span className="text-xs sm:text-sm text-gray-300 font-bold">
+                    جاري تحميل إحصائيات {activeCompetition?.name}...
+                  </span>
+                </div>
+              ) : statCategories.length > 0 ? (
+                <div className="space-y-6">
+                  {statCategories.map((category) => (
                     <div
-                      key={index}
-                      className="bg-gray-800/20 border border-gray-800/40 rounded-xl p-4 flex items-center gap-4 hover:border-gray-700/60 transition-all duration-300"
+                      key={category.id}
+                      className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl overflow-hidden shadow-xl shadow-black/20"
                     >
-                      <div className="w-14 h-14 bg-gray-800 rounded-full overflow-hidden border border-gray-700 relative shrink-0">
-                        <img
-                          src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_athletes:default.png/v1/athletes/${row.entity.id}`}
-                          alt=""
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = "https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_athletes:default.png/v1/athletes/default";
-                          }}
-                        />
+                      {/* Category Header */}
+                      <div className="p-4 bg-gradient-to-l from-gray-850/50 to-transparent border-b border-gray-800/60 flex items-center justify-between">
+                        <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                          <Award className="w-5 h-5 text-emerald-400" />
+                          {category.name}
+                        </h3>
+                        <span className="text-xs text-gray-400 font-mono font-bold">
+                          {category.rows.length} لاعبين
+                        </span>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="block font-extrabold text-sm sm:text-base text-white truncate">{row.entity.name}</span>
-                        <span className="text-xxs text-gray-450 mt-0.5 block">{row.entity.positionName || "لاعب"}</span>
-                      </div>
-                      <div className="text-left shrink-0">
-                        <span className="block text-lg font-black text-green-400">{row.stats?.[0]?.value || "0"}</span>
-                        <span className="text-xxs text-gray-500 font-semibold">{activeStatCategory.name}</span>
-                      </div>
+
+                      {/* Image 3 Style Cards View: Player on RIGHT, Stat badge on LEFT */}
+                      {statsViewMode === "cards" ? (
+                        <div className="divide-y divide-gray-800/40">
+                          {category.rows.map((row: any, rIdx: number) => {
+                            const statValue = row.stats?.[0]?.value ?? "0";
+                            const countryName =
+                              countriesMap.get(row.entity.countryId) ||
+                              (row.entity.countryId === 16
+                                ? "بلجيكا"
+                                : row.entity.countryId === 2
+                                ? "إسبانيا"
+                                : row.entity.countryName || "");
+
+                            return (
+                              <div
+                                key={rIdx}
+                                className="flex items-center justify-between p-4 hover:bg-gray-800/20 transition-all group"
+                              >
+                                {/* Right Side (First child in RTL): Player Avatar + Info */}
+                                <div className="flex items-center gap-3.5 min-w-0 text-right">
+                                  {/* Circular Avatar on outer right edge */}
+                                  <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-gray-700/60 bg-zinc-900 shrink-0 shadow-md">
+                                    <img
+                                      src={`https://imagecache.365scores.com/image/upload/f_png,w_100,h_100,c_limit,q_auto:eco,dpr_2,d_Athletes:default.png,r_max,c_thumb,g_face,z_0.65/v${row.entity.imageVersion || 1}/Athletes/${row.entity.id}`}
+                                      alt={row.entity.name}
+                                      className="w-full h-full object-cover"
+                                      onError={(e) => {
+                                        e.currentTarget.src =
+                                          "https://imagecache.365scores.com/image/upload/f_auto,w_80,h_80,c_limit,q_auto:eco,d_Athletes:default.png/v1/Athletes/default";
+                                      }}
+                                      loading="lazy"
+                                    />
+                                  </div>
+
+                                  {/* Text Info: Name & Position, Nationality */}
+                                  <div className="flex flex-col min-w-0">
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span className="font-extrabold text-sm sm:text-base text-white group-hover:text-emerald-400 transition truncate">
+                                        {row.entity.name}
+                                      </span>
+                                      {row.entity.positionName && (
+                                        <span className="text-xs text-gray-400 font-medium">
+                                          {row.entity.positionName}
+                                        </span>
+                                      )}
+                                    </div>
+                                    {countryName && (
+                                      <span className="text-xs text-gray-400 font-semibold mt-0.5">
+                                        {countryName}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Left Side (Second child in RTL): Bold dark stat badge */}
+                                <div className="flex items-center justify-center min-w-[52px] px-3.5 py-2 rounded-xl bg-black/95 border border-zinc-800 text-white font-mono font-black text-sm sm:text-base shadow-inner group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition shrink-0">
+                                  {statValue}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        /* Table View */
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-right text-sm">
+                            <thead>
+                              <tr className="border-b border-gray-800/60 bg-gray-850/40 text-xs font-semibold text-gray-400">
+                                <th className="py-3 px-4 w-12 text-center">#</th>
+                                <th className="py-3 px-4">اللاعب</th>
+                                <th className="py-3 px-4">المركز</th>
+                                <th className="py-3 px-4">الجنسية</th>
+                                <th className="py-3 px-4 text-center font-bold text-emerald-400">
+                                  {category.name}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-800/40">
+                              {category.rows.map((row: any, rIdx: number) => {
+                                const countryName =
+                                  countriesMap.get(row.entity.countryId) ||
+                                  (row.entity.countryId === 16
+                                    ? "بلجيكا"
+                                    : row.entity.countryId === 2
+                                    ? "إسبانيا"
+                                    : row.entity.countryName || "");
+
+                                return (
+                                  <tr
+                                    key={rIdx}
+                                    className="hover:bg-gray-800/30 transition-colors group"
+                                  >
+                                    <td className="py-3 px-4 text-center text-xs text-gray-400 font-mono">
+                                      {rIdx + 1}
+                                    </td>
+                                    <td className="py-3 px-4">
+                                      <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full overflow-hidden border border-gray-700 bg-zinc-900 shrink-0">
+                                          <img
+                                            src={`https://imagecache.365scores.com/image/upload/f_png,w_80,h_80,c_limit,q_auto:eco,dpr_2,d_Athletes:default.png,r_max,c_thumb,g_face,z_0.65/v${row.entity.imageVersion || 1}/Athletes/${row.entity.id}`}
+                                            alt={row.entity.name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                              e.currentTarget.src =
+                                                "https://imagecache.365scores.com/image/upload/f_auto,w_80,h_80,c_limit,q_auto:eco,d_Athletes:default.png/v1/Athletes/default";
+                                            }}
+                                            loading="lazy"
+                                          />
+                                        </div>
+                                        <span className="font-bold text-white group-hover:text-emerald-400 transition">
+                                          {row.entity.name}
+                                        </span>
+                                      </div>
+                                    </td>
+                                    <td className="py-3 px-4 text-xs text-gray-400">{row.entity.positionName || "-"}</td>
+                                    <td className="py-3 px-4 text-xs text-gray-400">{countryName || "-"}</td>
+                                    <td className="py-3 px-4 text-center font-black font-mono text-emerald-400 text-sm">
+                                      {row.stats?.[0]?.value || "0"}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-10 text-gray-400 text-sm">
-                  لا تتوفر إحصائيات لهذه الفئة حالياً.
+                <div className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl p-10 text-center text-gray-400 text-sm">
+                  لا تتوفر إحصائيات للاعبين حالياً في {activeCompetition?.name || "هذه البطولة"}.
                 </div>
               )}
             </div>
 
             <div className="lg:col-span-1">
-              <div className="bg-[#131722]/80 border border-gray-800/60 p-6 rounded-2xl text-center text-gray-400">
-                <TrendingUp className="w-12 h-12 mx-auto text-gray-600 mb-3" />
-                <p className="text-xs leading-relaxed">
-                  يتم تحديث الإحصائيات الفردية للاعبين تلقائياً بعد نهاية كل مباراة في البطولات الرسمية.
+              <div className="bg-[#131722]/80 border border-gray-800/60 p-6 rounded-2xl text-center text-gray-400 shadow-xl shadow-black/20">
+                <TrendingUp className="w-12 h-12 mx-auto text-emerald-400 mb-3" />
+                <h4 className="text-sm font-bold text-white mb-2">إحصائيات مباشرة ومحدثة</h4>
+                <p className="text-xs leading-relaxed text-zinc-400">
+                  يتم تحديث الإحصائيات الفردية للاعبين (الأهداف، الأهداف المتوقعة، التمريرات، والبطاقات) تلقائياً بعد نهاية كل مباراة في البطولات الرسمية.
                 </p>
               </div>
             </div>

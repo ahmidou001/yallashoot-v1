@@ -296,14 +296,18 @@ export async function getCompetitorStandingsTable(teamId: string | number): Prom
 /**
  * 14. Competitor Statistics (/stats/)
  */
-export async function getCompetitorStats(teamId: string | number): Promise<any> {
+export async function getCompetitorStats(
+  teamId: string | number,
+  competitionId?: string | number
+): Promise<any> {
   return fetchFrom365Scores<any>(
     "/stats/",
     {
       competitors: String(teamId),
       withSeasons: "true",
+      ...(competitionId ? { competitions: String(competitionId) } : {}),
     },
-    { next: { revalidate: 3600 } }
+    { next: { revalidate: 1800 } }
   );
 }
 

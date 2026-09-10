@@ -536,20 +536,24 @@ export default function HomePage() {
                             const countryName = (data?.countries || []).find((c) => c.id === competition.countryId)?.name || (competition.countryId === 19 ? "أوروبا" : "دولي");
                             return (
                               <div className="flex items-center justify-between bg-zinc-850/50 px-4 py-3 border-b border-zinc-800/70">
-                                <div className="flex items-center gap-2.5">
+                                <Link
+                                  href={`/standings/${competition.id}`}
+                                  className="group/league flex items-center gap-2.5 hover:opacity-90 transition cursor-pointer"
+                                  title={`عرض جدول ترتيب ${competition.name}`}
+                                >
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
                                     alt={competition.name}
                                     width={28}
                                     height={28}
-                                    className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1"
+                                    className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1 group-hover/league:border-emerald-500/40 transition"
                                     loading="lazy"
                                   />
                                   <div className="flex flex-col text-right">
-                                    <span className="text-xs font-black text-zinc-150 leading-tight">{competition.name}</span>
+                                    <span className="text-xs font-black text-zinc-150 leading-tight group-hover/league:text-emerald-400 transition">{competition.name}</span>
                                     <span className="text-[10px] text-zinc-300 font-bold mt-0.5">{countryName}</span>
                                   </div>
-                                </div>
+                                </Link>
                                 <div className="flex items-center gap-1.5">
                                   <button
                                     type="button"
@@ -671,20 +675,24 @@ export default function HomePage() {
                             const countryName = (data?.countries || []).find((c) => c.id === competition.countryId)?.name || (competition.countryId === 19 ? "أوروبا" : "دولي");
                             return (
                               <div className="flex items-center justify-between bg-zinc-850/50 px-4 py-3 border-b border-zinc-800/70">
-                                <div className="flex items-center gap-2.5">
+                                <Link
+                                  href={`/standings/${competition.id}`}
+                                  className="group/league flex items-center gap-2.5 hover:opacity-90 transition cursor-pointer"
+                                  title={`عرض جدول ترتيب ${competition.name}`}
+                                >
                                   <img
                                     src={`https://imagecache.365scores.com/image/upload/f_auto,w_60,h_60,c_limit,q_auto:eco,d_competitions:default.png/v1/competitions/${competition.id}`}
                                     alt={competition.name}
                                     width={28}
                                     height={28}
-                                    className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1"
+                                    className="h-7 w-7 object-contain rounded-lg bg-zinc-850 border border-zinc-750 p-1 group-hover/league:border-emerald-500/40 transition"
                                     loading="lazy"
                                   />
                                   <div className="flex flex-col text-right">
-                                    <span className="text-xs font-black text-zinc-150 leading-tight">{competition.name}</span>
+                                    <span className="text-xs font-black text-zinc-150 leading-tight group-hover/league:text-emerald-400 transition">{competition.name}</span>
                                     <span className="text-[10px] text-zinc-300 font-bold mt-0.5">{countryName}</span>
                                   </div>
-                                </div>
+                                </Link>
                                 <div className="flex items-center gap-1.5">
                                   <button
                                     type="button"

@@ -162,7 +162,7 @@ export default async function TeamPage({ params }: TeamPageProps) {
           transfers={transfersRes || { transfers: [], athletes: [], competitors: [] }}
           games={[...(resultsRes?.games || []), ...(fixturesRes?.games || [])]}
           standings={standings}
-          stats={statsRes?.stats || null}
+          stats={statsRes || null}
           seo={seoRes}
           related={relatedRes || { competitors: [] }}
           brackets={brackets}

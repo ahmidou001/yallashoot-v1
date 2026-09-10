@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Tv, Home, Award, Settings, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Tv, Home, Award, Settings, ChevronLeft, ChevronRight, Play, Newspaper } from "lucide-react";
 import { useSettings, TimezoneOption, TimeFormatOption, ThemeOption } from "./providers";
 
 export default function Header() {
@@ -101,6 +101,17 @@ export default function Header() {
             >
               <Award className="h-4 w-4" />
               جداول الترتيب
+            </Link>
+            <Link
+              href="/news"
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                pathname.startsWith("/news")
+                  ? "bg-zinc-900 text-emerald-400 border border-zinc-800"
+                  : "text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900/50"
+              }`}
+            >
+              <Newspaper className="h-4 w-4" />
+              الأخبار
             </Link>
           </nav>
         </div>
