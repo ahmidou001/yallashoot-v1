@@ -1,36 +1,18 @@
-# خطة تنفيذ: تحسين SEO صفحة المباريات (Match Details Page) بمحتوى غني بالكلمات المفتاحية
+# Implementation Plan: Match Page & UI Refinements
 
-## نظرة عامة (Overview)
-إضافة نص تحليلي وتقديمي ديناميكي لكل مباراة (Dynamic Match Preview Article) في صفحة تفاصيل المباراة (`/match/[slug]`) يحتوي بشكل طبيعي وذكي على الكلمات المفتاحية الأكثر بحثاً (يلا شوت، Yalla Shoot، بث مباشر، yallashoot، القنوات الناقلة، التشكيلة، اسم الفريقين والبطولة) مع تحديث وسوم الـ Metadata وعناوين الـ Title والـ Schema لتصدر نتائج البحث في Google و Bing.
+## Overview
+Decomposition of the 6 requested tasks for match dates, commentator fallbacks, 3D lineup pitch matching Image 2, preventing tab scroll-jumps, header alignment with Image 4, and tab ordering.
 
-## القرارات المعمارية (Architecture Decisions)
-1. **تجنب حشو الكلمات (No Keyword Stuffing):** لن نقوم بوضع كلمات مفتاحية عشوائية حتى لا يعاقبنا جوجل بـ Spam، بل سننشئ قالباً تحريرياً رياضياً ذكياً يتغير تلقائياً حسب بيانات كل مباراة (اسم الفريق المضيف، الضيف، البطولة، التوقيت، القناة الناقلة، والمعلق).
-2. **العرض المتجاوب مع الثيم:** تصميم المقال والفقرات بتصميم داكن فاخر (Dark Zinc & Emerald) يتناسق 100% مع واجهة الموقع، ويكون خفيفاً وسريعاً على الهواتف والأجهزة المحمولة.
-3. **تحديث العنوان الفوقي (Dynamic Title & Meta):** تضمين "يلا شوت | Yalla Shoot" في العنوان الرئيسي لصفحة كل مباراة.
+## Task List
 
----
+### Phase 1: Core Logic & Dates
+- [ ] Task 1: Fix `getDateLabel` in `src/app/page.tsx` so matches today display "اليوم" instead of "غداً".
+- [ ] Task 2: Implement commentator fallback selector in `src/components/MatchDetailsClient.tsx` with deterministic list.
 
-## قائمة المهام (Task List)
+### Phase 2: Navigation & Lineup 3D
+- [ ] Task 3: Overhaul `src/components/PitchLineups.tsx` to match Image 2 with 3D perspective pitch, team toggles, formation capsule, circular avatars with top-right number badges, coach card, and substitutes.
+- [ ] Task 4: Fix scroll-to-top jumping on tab change in `src/components/MatchDetailsClient.tsx` using `{ scroll: false }` and local tab state.
+- [ ] Task 5: Reorder tabs in `src/components/MatchDetailsClient.tsx` to match exact sequence: (التفاصيل، أحداث المباراة، ملخص المباراة، الإحصائيات، التشكيلة، المواجهات المباشرة، الترتيب).
 
-### المرحلة 1: تحسين الـ Metadata والعناوين
-- [ ] **المهمة 1:** تحديث دالة `generateMetadata` في `src/app/match/[slug]/page.tsx` لتضمين كلمات "يلا شوت | Yalla Shoot" واسم الفريقين والبطولة في الـ Title والـ Description.
-
-### المرحلة 2: إنشاء مكوّن التقديم الرياضي الغني بالكلمات
-- [ ] **المهمة 2:** إنشاء مكوّن فرعي `MatchSeoArticle` يحتوي على نص تقديمي ديناميكي يتضمن:
-  - اسم الفريقين والبطولة والقناة والمعلق.
-  - عبارات "بث مباشر"، "يلا شوت Yalla Shoot"، "yallashoot"، "مباريات اليوم".
-  - وسوم دلالية سريعة (Hashtags/Pills).
-
-### المرحلة 3: الدمج في واجهة صفحة المباراة
-- [ ] **المهمة 3:** إدراج هذا المكوّن داخل تبويب "التفاصيل" (Details Tab) في `src/components/MatchDetailsClient.tsx` ليكون واضحاً للمستخدمين ومحركات البحث.
-
-### المرحلة 4: الفحص والتحقق
-- [ ] **المهمة 4:** اختبار الـ Build والتأكد من توافق TypeScript وعدم وجود أي أخطاء، ثم رفع التحديث إلى GitHub/Vercel.
-
----
-
-## المخاطر والحلول (Risks and Mitigations)
-| الخطر | التأثير | خطة التعامل معه |
-|---|---|---|
-| عقوبة Google لحشو الكلمات (Keyword Stuffing) | مرتفع | صياغة النصوص بأسلوب صحفي مفيد ومرن يتغير مع كل مباراة بدلاً من تكرار كلمات جامدة |
-| التأثير على سرعة تحميل الصفحة | منخفض | المحتوى خفيف جداً (نصوص فقط) ولا يتطلب أي طلبات شبكة إضافية |
+### Phase 3: Verification
+- [ ] Task 6: Run Next.js production build (`npm run build`) to ensure 0 TypeScript or lint issues.

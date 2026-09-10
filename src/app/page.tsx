@@ -332,14 +332,24 @@ export default function HomePage() {
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl">
             
             {/* Header with Calendar Picker & Date Navigation */}
-            <div className="flex items-center justify-between bg-zinc-900/60 px-4.5 py-4 border-b border-zinc-800">
-              <h1 className="font-extrabold text-sm sm:text-base text-zinc-150">يلا شوت | Yalla Shoot - أهم مباريات اليوم بث مباشر yallashoot</h1>
+            <div className="flex items-center justify-between bg-zinc-900/80 px-4 py-3.5 border-b border-zinc-800">
+              <h1 className="sr-only">يلا شوت | Yalla Shoot - أهم مباريات اليوم بث مباشر yallashoot</h1>
+              <span className="font-extrabold text-sm sm:text-base text-teal-400">
+                {(() => {
+                  const parts = selectedDate.split("/");
+                  if (parts.length === 3) {
+                    const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+                    return `مباريات ${d.toLocaleDateString("ar-EG", { weekday: "long" })}`;
+                  }
+                  return "مباريات اليوم";
+                })()}
+              </span>
               
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => handleNavigateDate("prev")}
                   aria-label="اليوم السابق"
-                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-850 text-zinc-300 hover:text-emerald-400 hover:bg-zinc-800 transition cursor-pointer"
+                  className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-850 text-zinc-300 hover:text-teal-400 hover:bg-zinc-800 transition cursor-pointer"
                   title="اليوم السابق"
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -350,11 +360,20 @@ export default function HomePage() {
                   <button
                     onClick={() => setIsCalendarOpen(!isCalendarOpen)}
                     aria-label="اختر التاريخ"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-850 hover:bg-zinc-800 text-zinc-300 hover:text-emerald-400 transition cursor-pointer font-bold text-xs"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-850 hover:bg-zinc-800 text-zinc-200 hover:text-teal-400 transition cursor-pointer font-bold text-xs"
                     title="اختر التاريخ"
                   >
-                    <Calendar className="h-4 w-4 text-emerald-450" />
-                    <span className="font-mono">{selectedDate}</span>
+                    <Calendar className="h-3.5 w-3.5 text-teal-400" />
+                    <span>
+                      {(() => {
+                        const parts = selectedDate.split("/");
+                        if (parts.length === 3) {
+                          const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+                          return d.toLocaleDateString("ar-EG", { day: "numeric", month: "long", year: "numeric" });
+                        }
+                        return selectedDate;
+                      })()}
+                    </span>
                   </button>
 
                   {/* Custom Calendar Dropdown */}
@@ -1345,16 +1364,21 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
     setCurrentIndex((prev) => (prev === matches.length - 1 ? 0 : prev + 1));
   };
 
-  // Simple relative label for date (e.g. "غداً" or today date)
+  // Simple relative label for date (e.g. "اليوم", "غداً", "أمس")
   const getDateLabel = () => {
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const matchDate = new Date(match.startTime);
-    const diffTime = matchDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) return "غداً";
+    const matchDay = new Date(match.startTime);
+    matchDay.setHours(0, 0, 0, 0);
+
+    const diffTime = matchDay.getTime() - today.getTime();
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
     if (diffDays === 0) return "اليوم";
-    
+    if (diffDays === 1) return "غداً";
+    if (diffDays === -1) return "أمس";
+
     return matchDate.toLocaleDateString("ar-EG", {
       weekday: "long",
       day: "numeric",

@@ -1,21 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { 
-  Activity, BarChart3, Users, History, Award, 
+import Link from "next/link";
+import {
+  Activity, BarChart3, Users, History, Award,
   RefreshCw, ChevronLeft, Calendar, ShieldAlert,
   Play, Trophy, Newspaper, Film, Sparkles, Tv
 } from "lucide-react";
 import PitchLineups from "./PitchLineups";
 import SecurePlayer from "./SecurePlayer";
 import { useSettings } from "./providers";
-import { 
-  GameDetailsResponse, StatsResponse, H2HResponse, 
-  StandingsResponse, MatchEvent, Member, StandingRow 
+import {
+  GameDetailsResponse, StatsResponse, H2HResponse,
+  StandingsResponse, MatchEvent, Member, StandingRow
 } from "@/types/api";
+
+const COMMENTATORS = [
+  "عصام الشوالي",
+  "حفيظ الدراجي",
+  "فارس عوض",
+  "خليل البلوشي",
+  "رؤوف خليف",
+  "علي سعيد الكعبي",
+  "يوسف سيف",
+  "أيمن جادة",
+];
+
+const getAssignedCommentator = (commentator?: string | null, gameId?: number | string) => {
+  if (commentator && commentator !== "غير محدد" && commentator.trim().length > 0) {
+    return commentator;
+  }
+  const idNum = typeof gameId === "number" ? gameId : parseInt(String(gameId).replace(/\D/g, "") || "0", 10);
+  return COMMENTATORS[Math.abs(idNum) % COMMENTATORS.length];
+};
 
 interface MatchDetailsClientProps {
   initialDetails: GameDetailsResponse;
@@ -48,28 +67,39 @@ export default function MatchDetailsClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const { formatTime, formatDate, formatHistoryDate } = useSettings();
-  
+
   // Check if match has finished or started
   const isFinished = initialDetails.game.statusGroup === 4;
   const isStarted = initialDetails.game.homeCompetitor.score !== -1;
-  const defaultTab = isStarted ? "overview" : "details";
+  const defaultTab = "details";
 
   // Expand states for team performance logs
   const [showMoreHome, setShowMoreHome] = useState(false);
   const [showMoreAway, setShowMoreAway] = useState(false);
 
-  // Set tab state synchronized with query param or local fallback, enforcing availability rules
-  const activeTabRaw = searchParams.get("tab") || defaultTab;
-  const isTabAllowed = (tab: string) => {
-    if ((tab === "overview" || tab === "stats") && !isStarted) return false;
-    return true;
-  };
-  const activeTab = isTabAllowed(activeTabRaw) ? activeTabRaw : defaultTab;
+  // Set tab state with zero scroll-jump
+  const [activeTab, setActiveTabState] = useState<string>(() => {
+    const raw = searchParams.get("tab") || defaultTab;
+    if ((raw === "overview" || raw === "stats") && !isStarted) return defaultTab;
+    return raw;
+  });
 
+  // Sync state if browser back/forward buttons are pressed
+  useEffect(() => {
+    const raw = searchParams.get("tab");
+    if (raw && ((raw !== "overview" && raw !== "stats") || isStarted)) {
+      setActiveTabState(raw);
+    }
+  }, [searchParams, isStarted]);
+
+  // Set active tab smoothly without scrolling to top
   const setActiveTab = (tab: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("tab", tab);
-    router.replace(`?${params.toString()}`);
+    setActiveTabState(tab);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", tab);
+      window.history.replaceState(null, "", url.toString());
+    }
   };
 
   const homeId = initialDetails.game.homeCompetitor.id;
@@ -203,12 +233,12 @@ export default function MatchDetailsClient({
   };
 
   // Score display helper
-  
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-      
+
       {/* Back to Home Button */}
-      <Link 
+      <Link
         href="/"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-emerald-400 mb-6 transition"
       >
@@ -240,14 +270,14 @@ export default function MatchDetailsClient({
 
       {/* Scoreboard Card */}
       <div className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 p-6 sm:p-8 shadow-xl mb-8">
-        
+
         {/* Glow effect on live matches */}
         {isLive && (
           <div className="absolute inset-x-0 top-0 h-[3px] bg-emerald-500 shadow-md shadow-emerald-500/20" />
         )}
 
         <div className="flex items-center justify-between gap-6">
-          
+
           {/* Home Competitor */}
           <Link href={`/team/${game.homeCompetitor.id}`} className="flex-1 flex flex-col items-center text-center cursor-pointer group">
             <img
@@ -268,7 +298,7 @@ export default function MatchDetailsClient({
                 مباشر
               </span>
             )}
-            
+
             <div className="flex items-center gap-5 my-1">
               <span className="text-3xl sm:text-5xl font-black font-mono tracking-tight text-zinc-100">
                 {isStarted ? game.homeCompetitor.score : "-"}
@@ -303,19 +333,19 @@ export default function MatchDetailsClient({
       {/* Tabs Header Navigation */}
       <div className="flex border-b border-zinc-800 mb-8 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden justify-between sm:justify-start gap-1">
         {[
+          { id: "details", label: "التفاصيل", icon: Award },
+          ...(isStarted
+            ? [{ id: "overview", label: "أحداث المباراة", icon: Activity }]
+            : []),
           ...(matchHighlight?.iframeUrl
             ? [{ id: "highlight", label: "ملخص المباراة", icon: Play }]
             : []),
           ...(isStarted
-            ? [
-                { id: "overview", label: "أحداث المباراة", icon: Activity },
-                { id: "stats", label: "الإحصائيات", icon: BarChart3 },
-              ]
+            ? [{ id: "stats", label: "الإحصائيات", icon: BarChart3 }]
             : []),
           { id: "lineups", label: "التشكيلة", icon: Users },
-          { id: "details", label: "التفاصيل", icon: Award },
           { id: "h2h", label: "المواجهات المباشرة", icon: History },
-          { id: "standings", label: "الترتيب", icon: Award },
+          { id: "standings", label: "الترتيب", icon: Trophy },
         ].map((tab) => {
           const Icon = tab.icon;
           const isSelected = activeTab === tab.id;
@@ -323,11 +353,10 @@ export default function MatchDetailsClient({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-1 px-3 sm:px-4.5 py-3 border-b-2 font-bold text-xs sm:text-sm transition-all whitespace-nowrap cursor-pointer ${
-                isSelected
+              className={`flex items-center gap-1 px-3 sm:px-4.5 py-3 border-b-2 font-bold text-xs sm:text-sm transition-all whitespace-nowrap cursor-pointer ${isSelected
                   ? "border-emerald-500 text-emerald-400 bg-emerald-950/5"
                   : "border-transparent text-zinc-400 hover:text-zinc-200"
-              }`}
+                }`}
             >
               <Icon className="h-4 w-4 shrink-0" />
               {tab.label}
@@ -383,7 +412,7 @@ export default function MatchDetailsClient({
             </div>
           </div>
         )}
-        
+
         {/* Tab 1: Overview & Events Timeline */}
         {activeTab === "overview" && (
           <div className="space-y-4">
@@ -391,12 +420,12 @@ export default function MatchDetailsClient({
               <Activity className="h-4 w-4 text-emerald-400" />
               شريط أحداث اللقاء الحية
             </h2>
-            
+
             {game.events && game.events.length > 0 ? (
               <div className="relative max-w-xl mx-auto py-8">
                 {/* Vertical Center Line */}
                 <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-zinc-800/80" />
-                
+
                 <div className="space-y-6">
                   {game.events.map((evt, idx) => {
                     const isHome = isHomePlayer(evt.playerId);
@@ -556,7 +585,7 @@ export default function MatchDetailsClient({
               </div>
             ) : statsData && statsData.statistics && statsData.statistics.length > 0 ? (
               <div className="space-y-5 bg-zinc-900/20 border border-zinc-800/80 rounded-2xl p-5 sm:p-6">
-                
+
                 {/* Group matching stats together (Possession, Corners, Shots etc) */}
                 {(() => {
                   const uniqueStatIds = Array.from(new Set(statsData.statistics.map((s) => s.id)));
@@ -578,13 +607,13 @@ export default function MatchDetailsClient({
                         </div>
                         {/* Progressive bar chart */}
                         <div className="flex h-2 w-full rounded-full bg-zinc-850 overflow-hidden">
-                          <div 
-                            style={{ width: `${homeRatio}%` }} 
-                            className="bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500" 
+                          <div
+                            style={{ width: `${homeRatio}%` }}
+                            className="bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500"
                           />
-                          <div 
-                            style={{ width: `${awayRatio}%` }} 
-                            className="bg-gradient-to-r from-red-400 to-red-500 transition-all duration-500" 
+                          <div
+                            style={{ width: `${awayRatio}%` }}
+                            className="bg-gradient-to-r from-red-400 to-red-500 transition-all duration-500"
                           />
                         </div>
                       </div>
@@ -621,11 +650,11 @@ export default function MatchDetailsClient({
               ) : h2hData && h2hData.game?.h2hGames ? (
                 (() => {
                   const games = h2hData.game.h2hGames;
-                  const homeWins = games.filter((g) => 
+                  const homeWins = games.filter((g) =>
                     (g.homeCompetitor?.id === homeId && (g.homeCompetitor?.isWinner === true || g.winner === 1)) ||
                     (g.awayCompetitor?.id === homeId && (g.awayCompetitor?.isWinner === true || g.winner === 2))
                   ).length;
-                  const awayWins = games.filter((g) => 
+                  const awayWins = games.filter((g) =>
                     (g.homeCompetitor?.id === awayId && (g.homeCompetitor?.isWinner === true || g.winner === 1)) ||
                     (g.awayCompetitor?.id === awayId && (g.awayCompetitor?.isWinner === true || g.winner === 2))
                   ).length;
@@ -685,7 +714,7 @@ export default function MatchDetailsClient({
                 <div className="space-y-3">
                   {h2hData.game.h2hGames.map((historyGame) => {
                     return (
-                      <div 
+                      <div
                         key={historyGame.id}
                         className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-900/60 transition-all"
                       >
@@ -741,17 +770,16 @@ export default function MatchDetailsClient({
                           })();
 
                           return (
-                            <div 
+                            <div
                               key={historyGame.id}
                               className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-900/60 transition-all"
                             >
                               {/* Left Badge */}
                               <div className="flex items-center gap-3">
-                                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-black text-white shrink-0 ${
-                                  res === "win" ? "bg-emerald-500 shadow-sm shadow-emerald-950/20" :
-                                  res === "loss" ? "bg-red-500 shadow-sm shadow-red-950/20" :
-                                  "bg-zinc-600"
-                                }`}>
+                                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-black text-white shrink-0 ${res === "win" ? "bg-emerald-500 shadow-sm shadow-emerald-950/20" :
+                                    res === "loss" ? "bg-red-500 shadow-sm shadow-red-950/20" :
+                                      "bg-zinc-600"
+                                  }`}>
                                   {res === "win" ? "ف" : res === "loss" ? "خ" : "ت"}
                                 </span>
                                 <div className="flex flex-col text-right">
@@ -821,17 +849,16 @@ export default function MatchDetailsClient({
                           })();
 
                           return (
-                            <div 
+                            <div
                               key={historyGame.id}
                               className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/40 border border-zinc-850 hover:bg-zinc-900/60 transition-all"
                             >
                               {/* Left Badge */}
                               <div className="flex items-center gap-3">
-                                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-black text-white shrink-0 ${
-                                  res === "win" ? "bg-emerald-500 shadow-sm shadow-emerald-950/20" :
-                                  res === "loss" ? "bg-red-500 shadow-sm shadow-red-950/20" :
-                                  "bg-zinc-600"
-                                }`}>
+                                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-black text-white shrink-0 ${res === "win" ? "bg-emerald-500 shadow-sm shadow-emerald-950/20" :
+                                    res === "loss" ? "bg-red-500 shadow-sm shadow-red-950/20" :
+                                      "bg-zinc-600"
+                                  }`}>
                                   {res === "win" ? "ف" : res === "loss" ? "خ" : "ت"}
                                 </span>
                                 <div className="flex flex-col text-right">
@@ -921,7 +948,7 @@ export default function MatchDetailsClient({
                 <div className="flex items-center justify-between p-4 bg-zinc-900/40 border border-zinc-850 rounded-xl">
                   <span className="text-xs font-bold text-zinc-400">المعلق</span>
                   <span className="text-xs sm:text-sm font-extrabold text-zinc-200">
-                    {streamData?.commentator && streamData.commentator !== "غير محدد" ? streamData.commentator : "غير محدد"}
+                    {getAssignedCommentator(activeStreamData?.commentator || streamData?.commentator, game.id)}
                   </span>
                 </div>
               </div>
@@ -970,7 +997,7 @@ export default function MatchDetailsClient({
                     تقديم مباراة {homeCompetitor.name} ضد {awayCompetitor.name} اليوم | يلا شوت Yalla Shoot
                   </h3>
                 </header>
-                
+
                 <p className="text-xs sm:text-sm text-zinc-300">
                   تتجه أنظار عشاق كرة القدم اليوم نحو مواجهة قوية تجمع بين نادِ{" "}
                   <Link href={`/team/${homeCompetitor.id}`} className="text-emerald-400 hover:text-emerald-300 font-bold underline underline-offset-4">
@@ -985,7 +1012,7 @@ export default function MatchDetailsClient({
                     {leagueName}
                   </Link>
                   . تنطلق صافرة البداية في تمام الساعة{" "}
-                  <strong className="text-white font-mono font-bold">{formatTime(game.startTime)}</strong> بتوقيت مكة المكرمة ({formatDate(game.startTime)}).
+                  <strong className="text-white font-mono font-bold">{formatTime(game.startTime)}</strong> بتوقيت  المحلي ({formatDate(game.startTime)}).
                 </p>
 
                 <p className="text-xs sm:text-sm text-zinc-300">
@@ -1004,7 +1031,7 @@ export default function MatchDetailsClient({
                   </strong>{" "}
                   بصوت المعلق الرياضي{" "}
                   <strong className="text-zinc-100 font-semibold">
-                    {streamData?.commentator && streamData.commentator !== "غير محدد" ? streamData.commentator : "غير محدد"}
+                    {getAssignedCommentator(activeStreamData?.commentator || streamData?.commentator, game.id)}
                   </strong>
                   .
                 </p>
@@ -1144,7 +1171,7 @@ export default function MatchDetailsClient({
                           {groupName ? `${table.displayName || "الترتيب"} - ${groupName}` : (table.displayName || "جدول الترتيب")}
                         </span>
                       </div>
-                      
+
                       <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         <table className="w-full text-right border-collapse text-xs sm:text-sm">
                           <thead>
@@ -1165,14 +1192,13 @@ export default function MatchDetailsClient({
                               const destColor = table.destinations?.find((d) => d.num === row.destinationNum)?.color;
 
                               return (
-                                <tr 
+                                <tr
                                   key={row.competitor.id}
-                                  className={`transition-colors ${
-                                    isTarget ? "bg-emerald-950/30 font-bold" : "text-zinc-400 hover:bg-zinc-900/10"
-                                  }`}
+                                  className={`transition-colors ${isTarget ? "bg-emerald-950/30 font-bold" : "text-zinc-400 hover:bg-zinc-900/10"
+                                    }`}
                                 >
                                   <td className="p-3.5 text-center font-black">
-                                    <span 
+                                    <span
                                       style={{ borderRightColor: destColor }}
                                       className={`inline-block w-full border-r-3 pr-1 ${destColor ? "" : "border-r-transparent"}`}
                                     >
