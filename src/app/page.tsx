@@ -12,7 +12,7 @@ import SidebarLeagues from "@/components/SidebarLeagues";
 import CompetitionTeamsHeaderBar from "@/components/CompetitionTeamsHeaderBar";
 import VideoPlayer from "@/components/VideoPlayer";
 import { GamesResponse, Game, Competition } from "@/types/api";
-import { useSettings } from "@/components/providers";
+import { useSettings, toLatinNumerals } from "@/components/providers";
 import { generateMatchSlug } from "@/lib/matchSlug";
 
 // Fetch functions
@@ -369,9 +369,9 @@ export default function HomePage() {
                         const parts = selectedDate.split("/");
                         if (parts.length === 3) {
                           const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-                          return d.toLocaleDateString("ar-EG", { day: "numeric", month: "long", year: "numeric" });
+                          return toLatinNumerals(d.toLocaleDateString("ar-EG-u-nu-latn", { day: "numeric", month: "long", year: "numeric" }));
                         }
-                        return selectedDate;
+                        return toLatinNumerals(selectedDate);
                       })()}
                     </span>
                   </button>
@@ -1036,7 +1036,7 @@ export default function HomePage() {
                       </h3>
 
                       <div className="flex items-center justify-between text-[10px] text-zinc-400 pt-2 border-t border-zinc-900 font-mono">
-                        <span>{new Date(summary.createdAt).toLocaleDateString("ar-EG")}</span>
+                        <span>{toLatinNumerals(new Date(summary.createdAt).toLocaleDateString("ar-EG-u-nu-latn"))}</span>
                         <span className="text-emerald-400 font-bold group-hover:underline">مشاهدة الملخص ↗</span>
                       </div>
                     </div>
@@ -1106,10 +1106,10 @@ export default function HomePage() {
                         <span>•</span>
                         <span className="font-mono">
                           {article.published_at || article.created_at
-                            ? new Date(article.published_at || article.created_at).toLocaleDateString("ar-MA", {
+                            ? toLatinNumerals(new Date(article.published_at || article.created_at).toLocaleTimeString("ar-EG-u-nu-latn", {
                                 hour: "2-digit",
                                 minute: "2-digit",
-                              })
+                              }))
                             : "مباشر"}
                         </span>
                       </div>
@@ -1127,23 +1127,32 @@ export default function HomePage() {
           {/* 5. SEO Text & Footer Widgets Block */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl space-y-6">
             
-            {/* Expandable SEO block */}
-            <div className="border-b border-zinc-800 pb-5">
-              <h4 className="font-extrabold text-sm text-zinc-200 mb-2">كرة القدم على يلا شوت لايف</h4>
-              <p className={`text-xs text-zinc-300 leading-relaxed transition-all duration-300 ${isSeoExpanded ? "line-clamp-none" : "line-clamp-3"}`}>
-                موقع يلا شوت لايف يقدم تغطية شاملة وحية لكافة مباريات كرة القدم المحلية والدولية. نوفر نتائج مباشرة، إحصائيات تفصيلية عن الفرق واللاعبين، بالإضافة لترتيب الهدافين وجداول المجموعات في كأس العالم 2026 ودوري أبطال أوروبا. بفضل التحديثات اللحظية وسرعة الخوادم، يمكنك البقاء على اطلاع مستمر بجدول مباريات اليوم وتوقيتات اللقاءات بمختلف المناطق الزمنية.
+            {/* SEO Semantic Article Block for Search Engines (Bing / Google) - Replaces previous top text per user request */}
+            <article className="rounded-2xl border border-zinc-800/80 bg-zinc-950/50 p-5 sm:p-6 text-zinc-300 space-y-4 text-xs sm:text-sm leading-relaxed">
+              <header>
+                <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  يلا شوت | Yalla Shoot - أهم مباريات اليوم بث مباشر جوال
+                </h2>
+              </header>
+              <p>
+                يقدم موقع <strong className="text-white font-bold">يلا شوت (Yalla Shoot)</strong> الرسمي عبر منصة <span className="text-emerald-400 font-semibold">yallashoot</span> خدمة متابعة أهم مباريات اليوم بث مباشر بدون تقطيع، مع تغطية شاملة ودقيقة لكافة الدوريات والبطولات العالمية والعربية مثل الدوري الإنجليزي الممتاز، دوري أبطال أوروبا، الدوري الإسباني، والدوري السعودي والمغربي.
               </p>
-              <button
-                onClick={() => setIsSeoExpanded(!isSeoExpanded)}
-                aria-label="قراءة المزيد عن يلا شوت"
-                className="mt-2 text-xs font-black text-emerald-400 hover:text-emerald-350 cursor-pointer"
-              >
-                {isSeoExpanded ? "اقرأ أقل" : "اقرأ المزيد"}
-              </button>
-            </div>
+              <p>
+                من خلال موقع <strong className="text-white">يلاشوت (yalla shoot live)</strong>، يمكنك الاطلاع لحظة بلحظة على جدول مواعيد المباريات، التشكيلات الرسمية للفرق، نتائج المباريات الحية، وإحصائيات المواجهات المباشرة بأعلى سرعة وكفاءة للأجهزة المحمولة والجوال.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-2 text-[11px] font-semibold text-zinc-400">
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># يلا شوت</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># Yalla Shoot</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># yallashoot</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># مباريات اليوم بث مباشر</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># يلاشوت حصري</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># كورة لايف</span>
+              </div>
+            </article>
 
             {/* 3-Column Footer sub-grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right pt-2 border-t border-zinc-800/80">
               
               {/* Col 1: Information & Legal Links */}
               <div className="space-y-3">
@@ -1253,30 +1262,6 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* SEO Semantic Article Block for Search Engines (Bing / Google) */}
-            <article className="rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-5 sm:p-6 text-zinc-300 space-y-4 text-xs sm:text-sm leading-relaxed">
-              <header>
-                <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-                  يلا شوت | Yalla Shoot - أهم مباريات اليوم بث مباشر جوال
-                </h2>
-              </header>
-              <p>
-                يقدم موقع <strong className="text-white font-bold">يلا شوت (Yalla Shoot)</strong> الرسمي عبر منصة <span className="text-emerald-400 font-semibold">yallashoot</span> خدمة متابعة أهم مباريات اليوم بث مباشر بدون تقطيع، مع تغطية شاملة ودقيقة لكافة الدوريات والبطولات العالمية والعربية مثل الدوري الإنجليزي الممتاز، دوري أبطال أوروبا، الدوري الإسباني، والدوري السعودي والمغربي.
-              </p>
-              <p>
-                من خلال موقع <strong className="text-white">يلاشوت (yalla shoot live)</strong>، يمكنك الاطلاع لحظة بلحظة على جدول مواعيد المباريات، التشكيلات الرسمية للفرق، نتائج المباريات الحية، وإحصائيات المواجهات المباشرة بأعلى سرعة وكفاءة للأجهزة المحمولة والجوال.
-              </p>
-              <div className="flex flex-wrap gap-2 pt-2 text-[11px] font-semibold text-zinc-400">
-                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># يلا شوت</span>
-                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># Yalla Shoot</span>
-                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># yallashoot</span>
-                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># مباريات اليوم بث مباشر</span>
-                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># يلاشوت حصري</span>
-                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># كورة لايف</span>
-              </div>
-            </article>
-
             {/* Footer Institutional & Legal Links Bar */}
             <div className="border-t border-zinc-800 pt-5 flex items-center justify-center text-xs font-bold text-zinc-400">
               <p>© {new Date().getFullYear()} يلا شوت لايف yallahsoot.com - جميع الحقوق محفوظة.</p>
@@ -1379,11 +1364,11 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
     if (diffDays === 1) return "غداً";
     if (diffDays === -1) return "أمس";
 
-    return matchDate.toLocaleDateString("ar-EG", {
+    return toLatinNumerals(matchDate.toLocaleDateString("ar-EG-u-nu-latn", {
       weekday: "long",
       day: "numeric",
       month: "long"
-    });
+    }));
   };
 
   return (
@@ -1506,11 +1491,11 @@ function FeaturedMatchHero({ matches, formatTime }: FeaturedMatchHeroProps) {
               <div className="text-zinc-300 text-[10px] sm:text-xs font-semibold mt-5 text-center select-text max-w-lg leading-relaxed bg-zinc-850/40 px-4 py-1.5 rounded-xl border border-zinc-800/40 group-hover/card-content:border-zinc-700 transition-colors">
                 {(() => {
                   const matchDate = new Date(match.startTime);
-                  const dateStr = matchDate.toLocaleDateString("ar-EG-u-nu-latn", {
+                  const dateStr = toLatinNumerals(matchDate.toLocaleDateString("ar-EG-u-nu-latn", {
                     weekday: "long",
                     day: "numeric",
                     month: "long"
-                  });
+                  }));
                   const timeStr = formatTime(match.startTime);
                   const venueStr = match.venue?.name;
                   

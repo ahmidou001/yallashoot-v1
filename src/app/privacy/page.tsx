@@ -2,6 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, Shield, Lock, Eye, Cookie, FileText } from "lucide-react";
+import { toLatinNumerals } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "سياسة الخصوصية - يلا شوت لايف",
@@ -41,7 +42,7 @@ export default function PrivacyPage() {
           سياسة الخصوصية - يلا شوت لايف (yallahsoot.com)
         </h1>
         <p className="text-xs sm:text-sm text-zinc-400">
-          آخر تحديث: {new Date().toLocaleDateString("ar-MA", { year: "numeric", month: "long", day: "numeric" })}
+          آخر تحديث: {toLatinNumerals(new Date().toLocaleDateString("ar-EG-u-nu-latn", { year: "numeric", month: "long", day: "numeric" }))}
         </p>
       </div>
 

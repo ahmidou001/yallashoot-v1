@@ -4,6 +4,7 @@ import connectDB from "@/lib/db";
 import Article from "@/models/Article";
 import { Metadata } from "next";
 import NewsImage from "@/components/NewsImage";
+import { toLatinNumerals } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -76,10 +77,10 @@ export default async function NewsArchivePage() {
                 </h3>
                 <div className="flex items-center justify-between text-[10px] text-zinc-550 font-bold select-none border-t border-zinc-850 pt-2.5">
                   <span className="font-mono">
-                    {new Date(article.published_at || article.created_at).toLocaleDateString("ar-MA", {
+                    {toLatinNumerals(new Date(article.published_at || article.created_at).toLocaleDateString("ar-EG-u-nu-latn", {
                       day: "numeric",
                       month: "short",
-                    })}
+                    }))}
                   </span>
                   <span className="text-emerald-400 group-hover:underline">اقرأ الخبر كامل &larr;</span>
                 </div>

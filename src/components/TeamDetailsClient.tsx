@@ -10,6 +10,7 @@ import {
   ChevronUp, Newspaper, Network, ChevronLeft, ChevronRight
 } from "lucide-react";
 import { generateMatchSlug } from "@/lib/matchSlug";
+import { toLatinNumerals } from "@/components/providers";
 
 interface TeamDetailsClientProps {
   team: any;
@@ -554,7 +555,7 @@ export default function TeamDetailsClient({
 
                     <div className="mt-6 text-xs text-gray-500 font-semibold flex items-center gap-1">
                       <Calendar className="w-4 h-4 text-gray-600" />
-                      {new Date(nextMatch.startTime).toLocaleDateString("ar-MA", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                      {toLatinNumerals(new Date(nextMatch.startTime).toLocaleDateString("ar-EG-u-nu-latn", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }))}
                     </div>
                   </div>
                 </div>
@@ -761,10 +762,10 @@ export default function TeamDetailsClient({
                           ) : (
                             <div className="text-center">
                               <span className="block font-bold text-sm text-green-400">
-                                {new Date(game.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })}
+                                {toLatinNumerals(new Date(game.startTime).toLocaleTimeString("ar-EG-u-nu-latn", { hour: '2-digit', minute: '2-digit' }))}
                               </span>
                               <span className="block text-xxs text-gray-400 mt-0.5 whitespace-nowrap">
-                                {new Date(game.startTime).toLocaleDateString("ar-MA", { month: 'short', day: 'numeric' })}
+                                {toLatinNumerals(new Date(game.startTime).toLocaleDateString("ar-EG-u-nu-latn", { month: 'short', day: 'numeric' }))}
                               </span>
                             </div>
                           )}
@@ -951,10 +952,10 @@ export default function TeamDetailsClient({
                         <span>{item.source}</span>
                         <span className="font-mono">
                           {item.published_at || item.created_at
-                            ? new Date(item.published_at || item.created_at).toLocaleDateString("ar-MA", {
+                            ? toLatinNumerals(new Date(item.published_at || item.created_at).toLocaleDateString("ar-EG-u-nu-latn", {
                               day: "numeric",
                               month: "short",
-                            })
+                            }))
                             : "مباشر"}
                         </span>
                       </div>
@@ -1129,7 +1130,7 @@ export default function TeamDetailsClient({
                         <div>
                           <span className="block font-bold text-sm sm:text-base text-white">{item.athlete?.name}</span>
                           <span className="text-xxs text-gray-500 block mt-0.5">
-                            {new Date(item.time).toLocaleDateString("ar-MA", { year: 'numeric', month: 'short', day: 'numeric' })}
+                            {toLatinNumerals(new Date(item.time).toLocaleDateString("ar-EG-u-nu-latn", { year: 'numeric', month: 'short', day: 'numeric' }))}
                           </span>
                         </div>
                       </div>
@@ -1192,7 +1193,7 @@ export default function TeamDetailsClient({
                         <div>
                           <span className="block font-bold text-sm sm:text-base text-white">{item.athlete?.name}</span>
                           <span className="text-xxs text-gray-500 block mt-0.5">
-                            {new Date(item.time).toLocaleDateString("ar-MA", { year: 'numeric', month: 'short', day: 'numeric' })}
+                            {toLatinNumerals(new Date(item.time).toLocaleDateString("ar-EG-u-nu-latn", { year: 'numeric', month: 'short', day: 'numeric' }))}
                           </span>
                         </div>
                       </div>

@@ -2,6 +2,9 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { toLatinNumerals } from "@/lib/utils";
+
+export { toLatinNumerals };
 
 export type TimezoneOption = "auto" | "Saudi" | "Egypt" | "Morocco" | "UTC";
 export type TimeFormatOption = "12" | "24";
@@ -98,6 +101,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     localStorage.setItem("setting_theme", t);
   };
 
+
   // Helper to resolve timezone name for toLocaleString/toLocaleTimeString options
   const getTimeZoneName = () => {
     if (timezone === "Saudi") return "Asia/Riyadh";
@@ -109,32 +113,35 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   const formatTime = (dateInput: Date | string) => {
     const d = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-    return d.toLocaleTimeString("ar-EG-u-nu-latn", {
+    const formatted = d.toLocaleTimeString("ar-EG-u-nu-latn", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: timeFormat === "12",
       timeZone: getTimeZoneName(),
     });
+    return toLatinNumerals(formatted);
   };
 
   const formatDate = (dateInput: Date | string) => {
     const d = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-    return d.toLocaleDateString("ar-EG-u-nu-latn", {
+    const formatted = d.toLocaleDateString("ar-EG-u-nu-latn", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
       timeZone: getTimeZoneName(),
     });
+    return toLatinNumerals(formatted);
   };
 
   const formatHistoryDate = (dateInput: Date | string) => {
     const d = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-    return d.toLocaleDateString("ar-EG-u-nu-latn", {
+    const formatted = d.toLocaleDateString("ar-EG-u-nu-latn", {
       year: "numeric",
       month: "short",
       day: "numeric",
       timeZone: getTimeZoneName(),
     });
+    return toLatinNumerals(formatted);
   };
 
   return (

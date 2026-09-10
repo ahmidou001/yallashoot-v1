@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useRef } from "react";
 import Link from "next/link";
 import { Trophy, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { toLatinNumerals } from "@/components/providers";
 
 interface StandingsBracketsProps {
   brackets: any;
@@ -334,11 +335,11 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
                     const isWinner2 = finalGroup.toQualify === 2;
                     
                     const dateFormatted = gameRecord?.startTime 
-                      ? new Date(gameRecord.startTime).toLocaleDateString("ar-MA", { weekday: 'short', day: 'numeric', month: 'short' })
+                      ? toLatinNumerals(new Date(gameRecord.startTime).toLocaleDateString("ar-EG-u-nu-latn", { weekday: 'short', day: 'numeric', month: 'short' }))
                       : "الأحد, 19 يوليو";
                     
                     const timeFormatted = gameRecord?.startTime
-                      ? new Date(gameRecord.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })
+                      ? toLatinNumerals(new Date(gameRecord.startTime).toLocaleTimeString("ar-EG-u-nu-latn", { hour: '2-digit', minute: '2-digit' }))
                       : "08:00 م";
 
                     return (
@@ -439,11 +440,11 @@ export default function StandingsBrackets({ brackets, leagueId }: StandingsBrack
                     const isWinner2 = hasPlayed && score2 > score1;
 
                     const dateFormatted = gameRecord?.startTime 
-                      ? new Date(gameRecord.startTime).toLocaleDateString("ar-MA", { weekday: 'short', day: 'numeric', month: 'short' })
+                      ? toLatinNumerals(new Date(gameRecord.startTime).toLocaleDateString("ar-EG-u-nu-latn", { weekday: 'short', day: 'numeric', month: 'short' }))
                       : "السبت, 18 يوليو";
                     
                     const timeFormatted = gameRecord?.startTime
-                      ? new Date(gameRecord.startTime).toLocaleTimeString("ar-MA", { hour: '2-digit', minute: '2-digit' })
+                      ? toLatinNumerals(new Date(gameRecord.startTime).toLocaleTimeString("ar-EG-u-nu-latn", { hour: '2-digit', minute: '2-digit' }))
                       : "10:00 م";
 
                     return (

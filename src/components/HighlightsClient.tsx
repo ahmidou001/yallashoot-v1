@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Play, Search, Film, X, Trophy, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { toLatinNumerals } from "@/components/providers";
 
 interface HighlightItem {
   _id: string;
@@ -209,7 +210,7 @@ export default function HighlightsClient() {
 
                   <div className="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-850">
                     <span dir="ltr" className="font-mono">
-                      {new Date(item.createdAt).toLocaleDateString("ar-EG")}
+                      {toLatinNumerals(new Date(item.createdAt).toLocaleDateString("ar-EG-u-nu-latn"))}
                     </span>
                     {item.gameId && (
                       <Link

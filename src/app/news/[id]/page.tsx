@@ -5,6 +5,7 @@ import connectDB from "@/lib/db";
 import Article from "@/models/Article";
 import { Metadata } from "next";
 import NewsImage from "@/components/NewsImage";
+import { toLatinNumerals } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -72,15 +73,17 @@ export default async function NewsArticlePage({ params }: PageProps) {
     .limit(4)
     .lean();
 
-  const formattedDate = new Date(article.published_at || article.created_at).toLocaleDateString(
-    "ar-MA",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
+  const formattedDate = toLatinNumerals(
+    new Date(article.published_at || article.created_at).toLocaleDateString(
+      "ar-EG-u-nu-latn",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    )
   );
 
   const newsJsonLd = {

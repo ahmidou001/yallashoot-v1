@@ -6,6 +6,7 @@ import { Award, ChevronLeft, Trophy, Star, Clock, Play } from "lucide-react";
 import { getCompetitionStandings, getCompetitionGames, getCompetitionScorers, getCompetitionBrackets } from "@/services/api";
 import SidebarLeagues from "@/components/SidebarLeagues";
 import StandingsBrackets from "@/components/StandingsBrackets";
+import { toLatinNumerals } from "@/lib/utils";
 
 type RouteParams = {
   params: Promise<{ leagueId: string }>;
@@ -474,15 +475,15 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                       .sort((a: any, b: any) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
                       .map((game: any) => {
                         const gameDate = new Date(game.startTime);
-                        const dateStr = gameDate.toLocaleDateString("ar-EG-u-nu-latn", {
+                        const dateStr = toLatinNumerals(gameDate.toLocaleDateString("ar-EG-u-nu-latn", {
                           weekday: "long",
                           day: "numeric",
                           month: "long"
-                        });
-                        const timeStr = gameDate.toLocaleTimeString("ar-EG-u-nu-latn", {
+                        }));
+                        const timeStr = toLatinNumerals(gameDate.toLocaleTimeString("ar-EG-u-nu-latn", {
                           hour: "2-digit",
                           minute: "2-digit"
-                        });
+                        }));
                         return (
                           <div key={game.id} className="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-850 flex flex-col justify-between hover:border-zinc-800 transition">
                             <div className="flex justify-between items-center text-[10px] text-zinc-500 mb-3 border-b border-zinc-850 pb-2">
@@ -532,15 +533,15 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
                       .sort((a: any, b: any) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
                       .map((game: any) => {
                         const gameDate = new Date(game.startTime);
-                        const dateStr = gameDate.toLocaleDateString("ar-EG-u-nu-latn", {
+                        const dateStr = toLatinNumerals(gameDate.toLocaleDateString("ar-EG-u-nu-latn", {
                           weekday: "long",
                           day: "numeric",
                           month: "long"
-                        });
-                        const timeStr = gameDate.toLocaleTimeString("ar-EG-u-nu-latn", {
+                        }));
+                        const timeStr = toLatinNumerals(gameDate.toLocaleTimeString("ar-EG-u-nu-latn", {
                           hour: "2-digit",
                           minute: "2-digit"
-                        });
+                        }));
                         return (
                           <div key={game.id} className="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-850 flex flex-col justify-between hover:border-zinc-800 transition">
                             <div className="flex justify-between items-center text-[10px] text-zinc-500 mb-3 border-b border-zinc-850 pb-2">
