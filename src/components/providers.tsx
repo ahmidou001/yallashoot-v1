@@ -48,7 +48,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   const [timezone, setTimezoneState] = useState<TimezoneOption>("auto");
   const [timeFormat, setTimeFormatState] = useState<TimeFormatOption>("24");
-  const [theme, setThemeState] = useState<ThemeOption>("system");
+  const [theme, setThemeState] = useState<ThemeOption>("dark");
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -58,7 +58,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
     if (storedTimezone) setTimezoneState(storedTimezone);
     if (storedTimeFormat) setTimeFormatState(storedTimeFormat);
-    if (storedTheme) setThemeState(storedTheme);
+    if (storedTheme) {
+      setThemeState(storedTheme);
+    } else {
+      setThemeState("dark");
+    }
   }, []);
 
   // Update theme class on html element
