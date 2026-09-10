@@ -333,7 +333,7 @@ export default function HomePage() {
             
             {/* Header with Calendar Picker & Date Navigation */}
             <div className="flex items-center justify-between bg-zinc-900/60 px-4.5 py-4 border-b border-zinc-800">
-              <h1 className="font-extrabold text-sm sm:text-base text-zinc-150">يلا شوت - نتائج مباريات اليوم والبث المباشر</h1>
+              <h1 className="font-extrabold text-sm sm:text-base text-zinc-150">يلا شوت | Yalla Shoot - أهم مباريات اليوم بث مباشر yallashoot</h1>
               
               <div className="flex items-center gap-1.5">
                 <button
@@ -1233,6 +1233,30 @@ export default function HomePage() {
                 </div>
               </div>
             )}
+
+            {/* SEO Semantic Article Block for Search Engines (Bing / Google) */}
+            <article className="rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-5 sm:p-6 text-zinc-300 space-y-4 text-xs sm:text-sm leading-relaxed">
+              <header>
+                <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  يلا شوت | Yalla Shoot - أهم مباريات اليوم بث مباشر جوال
+                </h2>
+              </header>
+              <p>
+                يقدم موقع <strong className="text-white font-bold">يلا شوت (Yalla Shoot)</strong> الرسمي عبر منصة <span className="text-emerald-400 font-semibold">yallashoot</span> خدمة متابعة أهم مباريات اليوم بث مباشر بدون تقطيع، مع تغطية شاملة ودقيقة لكافة الدوريات والبطولات العالمية والعربية مثل الدوري الإنجليزي الممتاز، دوري أبطال أوروبا، الدوري الإسباني، والدوري السعودي والمغربي.
+              </p>
+              <p>
+                من خلال موقع <strong className="text-white">يلاشوت (yalla shoot live)</strong>، يمكنك الاطلاع لحظة بلحظة على جدول مواعيد المباريات، التشكيلات الرسمية للفرق، نتائج المباريات الحية، وإحصائيات المواجهات المباشرة بأعلى سرعة وكفاءة للأجهزة المحمولة والجوال.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-2 text-[11px] font-semibold text-zinc-400">
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># يلا شوت</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># Yalla Shoot</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># yallashoot</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># مباريات اليوم بث مباشر</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># يلاشوت حصري</span>
+                <span className="rounded-lg bg-zinc-800/80 px-2.5 py-1 text-zinc-300"># كورة لايف</span>
+              </div>
+            </article>
 
             {/* Footer Institutional & Legal Links Bar */}
             <div className="border-t border-zinc-800 pt-5 flex items-center justify-center text-xs font-bold text-zinc-400">

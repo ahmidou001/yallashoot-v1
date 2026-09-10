@@ -17,12 +17,28 @@ const cairo = Cairo({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.yallahsoot.com"),
   title: {
-    default: "يلا شوت لايف - نتائج المباريات والبث المباشر",
-    template: "%s | يلا شوت لايف",
+    default: "يلا شوت | Yalla Shoot | أهم مباريات اليوم بث مباشر | yallashoot يلاشوت",
+    template: "%s | يلا شوت - Yalla Shoot",
   },
-  description: "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات والتشكيلة الحية.",
-  keywords: ["يلا شوت", "يلا شوت لايف", "yallashoot", "مباريات اليوم", "بث مباشر", "تطبيق يلا شوت", "نتائج حية", "كرة القدم"],
-  authors: [{ name: "Kora Live Team" }],
+  description: "موقع يلا شوت (Yalla Shoot) الرسمي لمتابعة أهم مباريات اليوم بث مباشر بدون تقطيع، نتائج حية وجدول مباريات الدوريات والبطولات وتفاصيل المباريات عبر yallashoot حصرياً.",
+  keywords: [
+    "يلا شوت",
+    "Yalla Shoot",
+    "yallashoot",
+    "yalla shoot",
+    "yalla shoot live",
+    "يلاشوت",
+    "يلا شوت لايف",
+    "مباريات اليوم بث مباشر",
+    "أهم مباريات اليوم",
+    "بث مباشر",
+    "كورة لايف",
+    "نتائج المباريات",
+    "جدول مباريات اليوم",
+    "yallashoot.com",
+    "yallahsoot"
+  ],
+  authors: [{ name: "Yalla Shoot Team" }],
   manifest: "/manifest.json",
   alternates: {
     canonical: "./",
@@ -31,23 +47,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ar_MA",
     url: "https://www.yallahsoot.com",
-    title: "يلا شوت لايف - نتائج المباريات والبث المباشر",
-    description: "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات والتشكيلة الحية.",
-    siteName: "يلا شوت لايف",
+    title: "يلا شوت | Yalla Shoot | أهم مباريات اليوم بث مباشر | yallashoot يلاشوت",
+    description: "موقع يلا شوت (Yalla Shoot) لمتابعة أهم مباريات اليوم بث مباشر بدون تقطيع، نتائج حية وجدول المباريات عبر yallashoot.",
+    siteName: "يلا شوت - Yalla Shoot",
     images: [
       {
-        url: "/fav-icon.svg",
+        url: "/logo-512.png",
         width: 512,
         height: 512,
-        alt: "يلا شوت لايف",
+        type: "image/png",
+        alt: "يلا شوت | Yalla Shoot",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "يلا شوت لايف - نتائج المباريات والبث المباشر",
-    description: "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات وتفاصيل المباريات.",
-    images: ["/fav-icon.svg"],
+    title: "يلا شوت | Yalla Shoot | أهم مباريات اليوم بث مباشر | yallashoot",
+    description: "موقع يلا شوت (Yalla Shoot) لمتابعة أهم مباريات اليوم بث مباشر بدون تقطيع، نتائج حية وجدول المباريات.",
+    images: ["/logo-512.png"],
   },
   robots: {
     index: true,
@@ -63,11 +80,16 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "يلا شوت",
+    title: "يلا شوت - Yalla Shoot",
   },
   icons: {
-    icon: "/fav-icon.svg",
-    apple: "/fav-icon.svg",
+    icon: [
+      { url: "/logo-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/fav-icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/logo-512.png", sizes: "512x512", type: "image/png" },
+    ],
   },
 };
 
@@ -84,15 +106,44 @@ export default function RootLayout({
 }>) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "يلا شوت لايف",
-    "url": "https://www.yallahsoot.com",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://www.yallahsoot.com/news?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    },
-    "description": "موقع وتطبيق يلا شوت لايف لمتابعة نتائج مباريات كرة القدم مباشرة وجداول ترتيب الدوريات."
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.yallahsoot.com/#website",
+        "name": "يلا شوت | Yalla Shoot",
+        "alternateName": [
+          "yallashoot",
+          "yalla shoot",
+          "يلاشوت",
+          "يلا شوت لايف",
+          "yallahsoot",
+          "yalla shoot live"
+        ],
+        "url": "https://www.yallahsoot.com",
+        "description": "موقع يلا شوت (Yalla Shoot) الرسمي لمتابعة أهم مباريات اليوم بث مباشر بدون تقطيع، نتائج حية وجدول المباريات.",
+        "inLanguage": "ar",
+        "image": "https://www.yallahsoot.com/logo-512.png",
+        "thumbnailUrl": "https://www.yallahsoot.com/logo-512.png",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.yallahsoot.com/news?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SportsOrganization",
+        "@id": "https://www.yallahsoot.com/#organization",
+        "name": "يلا شوت - Yalla Shoot",
+        "url": "https://www.yallahsoot.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.yallahsoot.com/logo-512.png",
+          "width": 512,
+          "height": 512
+        },
+        "image": "https://www.yallahsoot.com/logo-512.png"
+      }
+    ]
   };
 
   return (
@@ -105,6 +156,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#10b981" />
+        
+        {/* Search Engine Snippet Thumbnail Tags (Bing & Google Rich Results) */}
+        <meta name="thumbnail" content="https://www.yallahsoot.com/logo-512.png" />
+        <link rel="image_src" href="https://www.yallahsoot.com/logo-512.png" />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
