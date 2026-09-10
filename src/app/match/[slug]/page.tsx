@@ -36,13 +36,28 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
       };
     }
 
-    const { homeCompetitor, awayCompetitor } = data.game;
-    const titleText = `بث مباشر مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} | نتائج المباريات والتشكيلة`;
-    const descText = `تابع التغطية المباشرة والبث المباشر لمباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} اليوم مع التشكيلة الرسمية والإحصائيات الحية لحظة بلحظة.`;
+    const gameAny = data.game as any;
+    const { homeCompetitor, awayCompetitor, competitionDisplayName, competitionName } = gameAny;
+    const compName = competitionDisplayName || competitionName || "مباراة اليوم";
+    const titleText = `بث مباشر مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} اليوم | يلا شوت Yalla Shoot`;
+    const descText = `شاهد بث مباشر مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} اليوم في ${compName} بجودة عالية وبدون تقطيع عبر يلا شوت (Yalla Shoot). تفاصيل التشكيلة، القنوات الناقلة، والنتيجة لحظة بلحظة على yallashoot.`;
 
     return {
       title: titleText,
       description: descText,
+      keywords: [
+        `مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name}`,
+        `بث مباشر مباراة ${homeCompetitor.name}`,
+        `بث مباشر ${awayCompetitor.name}`,
+        `مباراة ${homeCompetitor.name} اليوم`,
+        `مباراة ${awayCompetitor.name} اليوم`,
+        compName,
+        "يلا شوت",
+        "Yalla Shoot",
+        "yallashoot",
+        "بث مباشر",
+        "مباريات اليوم بث مباشر"
+      ],
       alternates: {
         canonical: `/match/${slug}`,
       },
@@ -54,6 +69,20 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
         title: titleText,
         description: descText,
         type: "video.other",
+        images: [
+          {
+            url: "/logo-512.png",
+            width: 512,
+            height: 512,
+            alt: `${homeCompetitor.name} ضد ${awayCompetitor.name} - يلا شوت`,
+          }
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: titleText,
+        description: descText,
+        images: ["/logo-512.png"],
       },
     };
   } catch (error) {

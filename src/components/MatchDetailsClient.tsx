@@ -7,7 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { 
   Activity, BarChart3, Users, History, Award, 
   RefreshCw, ChevronLeft, Calendar, ShieldAlert,
-  Play
+  Play, Trophy, Newspaper, Film, Sparkles, Tv
 } from "lucide-react";
 import PitchLineups from "./PitchLineups";
 import SecurePlayer from "./SecurePlayer";
@@ -121,6 +121,7 @@ export default function MatchDetailsClient({
   });
 
   const { game, competitions = [] } = detailsData;
+  const { homeCompetitor, awayCompetitor } = game;
   const members = game.members || [];
   const competition = competitions.find((c) => c.id === game.competitionId);
   const leagueName = competition?.name || "البطولة";
@@ -960,6 +961,164 @@ export default function MatchDetailsClient({
                   </div>
                 )}
               </div>
+
+              {/* Dynamic Match SEO Preview & Internal Linking Section */}
+              <article className="mt-8 rounded-2xl bg-zinc-950/60 border border-zinc-800 p-5 sm:p-7 text-zinc-300 space-y-4 shadow-xl leading-relaxed">
+                <header className="border-b border-zinc-800/80 pb-3">
+                  <h3 className="text-sm sm:text-base font-black text-white flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-emerald-400 shrink-0" />
+                    تقديم مباراة {homeCompetitor.name} ضد {awayCompetitor.name} اليوم | يلا شوت Yalla Shoot
+                  </h3>
+                </header>
+                
+                <p className="text-xs sm:text-sm text-zinc-300">
+                  تتجه أنظار عشاق كرة القدم اليوم نحو مواجهة قوية تجمع بين نادِ{" "}
+                  <Link href={`/team/${homeCompetitor.id}`} className="text-emerald-400 hover:text-emerald-300 font-bold underline underline-offset-4">
+                    {homeCompetitor.name}
+                  </Link>{" "}
+                  ومنافسه نادِ{" "}
+                  <Link href={`/team/${awayCompetitor.id}`} className="text-emerald-400 hover:text-emerald-300 font-bold underline underline-offset-4">
+                    {awayCompetitor.name}
+                  </Link>{" "}
+                  ضمن منافسات بطولة{" "}
+                  <Link href={`/standings/${game.competitionId}`} className="text-emerald-400 hover:text-emerald-300 font-bold underline underline-offset-4">
+                    {leagueName}
+                  </Link>
+                  . تنطلق صافرة البداية في تمام الساعة{" "}
+                  <strong className="text-white font-mono font-bold">{formatTime(game.startTime)}</strong> بتوقيت مكة المكرمة ({formatDate(game.startTime)}).
+                </p>
+
+                <p className="text-xs sm:text-sm text-zinc-300">
+                  يقدم موقع <strong className="text-white font-bold">يلا شوت (Yalla Shoot)</strong> الرسمي عبر منصة{" "}
+                  <span className="text-emerald-400 font-bold">yallashoot</span> متابعة حصرية للمباراة بدون تقطيع مع تغطية شاملة لجميع أحداث اللقاء لحظة بلحظة، وتحديث فوري للتشكيلة الرسمية وإحصائيات الاستحواذ والتسديدات.
+                </p>
+
+                <p className="text-xs sm:text-sm text-zinc-300">
+                  تُنقل المباراة عبر شاشة{" "}
+                  <strong className="text-zinc-100 font-semibold">
+                    {(() => {
+                      if (streamData?.channel && streamData.channel !== "غير محدد") return streamData.channel;
+                      if (game.tvNetworks && Array.isArray(game.tvNetworks) && game.tvNetworks.length > 0) return game.tvNetworks.map((n: any) => n.name).join(" - ");
+                      return "القنوات الرياضية الناقلة";
+                    })()}
+                  </strong>{" "}
+                  بصوت المعلق الرياضي{" "}
+                  <strong className="text-zinc-100 font-semibold">
+                    {streamData?.commentator && streamData.commentator !== "غير محدد" ? streamData.commentator : "غير محدد"}
+                  </strong>
+                  .
+                </p>
+
+                {/* Internal Links Navigation Hub */}
+                <div className="pt-4 border-t border-zinc-800/80">
+                  <h4 className="text-xs font-black text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <Trophy className="h-3.5 w-3.5 text-emerald-400" />
+                    روابط ذات صلة وتغطية إضافية
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                    <Link
+                      href={`/team/${homeCompetitor.id}`}
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-emerald-500/50 hover:bg-zinc-850 transition group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 transition">
+                        <Users className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                          نادي {homeCompetitor.name}
+                        </span>
+                        <span className="text-[10px] text-zinc-500">التشكيلة والنتائج السابقة</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href={`/team/${awayCompetitor.id}`}
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-emerald-500/50 hover:bg-zinc-850 transition group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 transition">
+                        <Users className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                          نادي {awayCompetitor.name}
+                        </span>
+                        <span className="text-[10px] text-zinc-500">التشكيلة والنتائج السابقة</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href={`/standings/${game.competitionId}`}
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-emerald-500/50 hover:bg-zinc-850 transition group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 transition">
+                        <Trophy className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                          ترتيب {leagueName}
+                        </span>
+                        <span className="text-[10px] text-zinc-500">جدول النقاط والمراكز</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/live"
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-emerald-500/50 hover:bg-zinc-850 transition group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 transition">
+                        <Tv className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                          مباريات اليوم بث مباشر
+                        </span>
+                        <span className="text-[10px] text-zinc-500">جدول المباريات الحية</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/highlights"
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-emerald-500/50 hover:bg-zinc-850 transition group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 transition">
+                        <Film className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                          ملخصات وأهداف
+                        </span>
+                        <span className="text-[10px] text-zinc-500">فيديوهات أهداف المباريات</span>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/news"
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-zinc-900 border border-zinc-800/80 hover:border-emerald-500/50 hover:bg-zinc-850 transition group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/10 transition">
+                        <Newspaper className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold text-zinc-200 truncate group-hover:text-emerald-400 transition">
+                          أخبار الرياضة
+                        </span>
+                        <span className="text-[10px] text-zinc-500">تقارير وأخبار حصرية</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Hashtags & Queries */}
+                <div className="flex flex-wrap gap-1.5 pt-2 text-[10px] sm:text-[11px] font-bold text-zinc-400">
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># مباراة {homeCompetitor.name} اليوم</span>
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># مباراة {awayCompetitor.name}</span>
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># بث مباشر {homeCompetitor.name}</span>
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># {homeCompetitor.name} ضد {awayCompetitor.name}</span>
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># يلا شوت</span>
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># Yalla Shoot</span>
+                  <span className="bg-zinc-900 px-2.5 py-1 rounded-lg border border-zinc-800 text-zinc-300"># yallashoot</span>
+                </div>
+              </article>
             </div>
           </div>
         )}
