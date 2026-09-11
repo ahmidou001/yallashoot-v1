@@ -85,7 +85,7 @@ export default function PwaInstallPrompt() {
 
   return (
     <>
-      {/* Sleek, Non-Intrusive Bottom Floating Action Badge (SofaScore / BeIN Sports Style) */}
+      {/* Sleek, Non-Intrusive Bottom Floating Action Badge */}
       {showWidget && (
         <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 flex items-center animate-fadeIn select-none">
           <div className="relative group">
