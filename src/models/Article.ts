@@ -15,6 +15,7 @@ export interface IArticle extends Document {
   status: "published" | "pending" | "draft";
   created_at: Date;
   published_at?: Date;
+  targetSite?: string;
 }
 
 const ArticleSchema = new Schema<IArticle>(
@@ -30,6 +31,7 @@ const ArticleSchema = new Schema<IArticle>(
     language: { type: String, default: "ar" },
     image_url: { type: String },
     source_image: { type: String },
+    targetSite: { type: String, default: "yallahsoot.com", index: true },
     status: {
       type: String,
       enum: ["published", "pending", "draft"],
@@ -44,6 +46,8 @@ const ArticleSchema = new Schema<IArticle>(
     collection: "articles",
   }
 );
+
+ArticleSchema.index({ original_url: 1, targetSite: 1 }, { unique: true, sparse: true });
 
 const Article: Model<IArticle> =
   mongoose.models.Article || mongoose.model<IArticle>("Article", ArticleSchema);

@@ -15,7 +15,11 @@ export async function GET(request: Request) {
     const tag = searchParams.get("tag") || searchParams.get("team");
 
     if (slug) {
-      const article = await Article.findOne({ slug, status: "published" }).lean();
+      const article = await Article.findOne({
+        slug,
+        status: "published",
+        targetSite: "yallahsoot.com",
+      }).lean();
       if (!article) {
         return NextResponse.json({ success: false, error: "المقال غير موجود" }, { status: 404 });
       }
@@ -23,7 +27,11 @@ export async function GET(request: Request) {
     }
 
     if (id) {
-      const article = await Article.findById(id).lean();
+      const article = await Article.findOne({
+        _id: id,
+        status: "published",
+        targetSite: "yallahsoot.com",
+      }).lean();
       if (!article) {
         return NextResponse.json({ success: false, error: "المقال غير موجود" }, { status: 404 });
       }
@@ -36,6 +44,7 @@ export async function GET(request: Request) {
 
       let teamArticles = await Article.find({
         status: "published",
+        targetSite: "yallahsoot.com",
         $or: [{ tags: { $in: [regex] } }, { headline_ar: regex }],
       })
         .sort({ published_at: -1, created_at: -1 })
@@ -44,7 +53,10 @@ export async function GET(request: Request) {
 
       // Fallback: If no articles match this team/tag, return latest general published sports news
       if (!teamArticles || teamArticles.length === 0) {
-        teamArticles = await Article.find({ status: "published" })
+        teamArticles = await Article.find({
+          status: "published",
+          targetSite: "yallahsoot.com",
+        })
           .sort({ published_at: -1, created_at: -1 })
           .limit(limit)
           .lean();
@@ -53,7 +65,10 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, data: teamArticles });
     }
 
-    const articles = await Article.find({ status: "published" })
+    const articles = await Article.find({
+      status: "published",
+      targetSite: "yallahsoot.com",
+    })
       .sort({ published_at: -1, created_at: -1 })
       .limit(limit)
       .lean();
