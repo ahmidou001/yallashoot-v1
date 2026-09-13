@@ -131,7 +131,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { url: signedUrl },
+      {
+        url: signedUrl,
+        serverIndex,
+        serverCount: Math.max(allUrls.length, 1),
+        servers: allUrls.map((_, i) => ({ id: i, label: `خادم ${i + 1}` })),
+      },
       {
         headers: {
           "Cache-Control": "no-store, no-cache, must-revalidate",

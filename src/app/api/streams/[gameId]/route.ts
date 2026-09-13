@@ -97,28 +97,46 @@ export async function GET(
     }
 
     // Auto-detect stream type
-    let streamType: "iframe" | "hls" | "youtube" | "other" = "iframe";
-    if (streamUrlRaw.includes(".m3u8")) {
-      streamType = "hls";
-    } else if (streamUrlRaw.includes("youtube.com") || streamUrlRaw.includes("youtu.be")) {
-      streamType = "youtube";
+    // Gather all valid server URLs
+    const allUrls: string[] = [];
+    if (streamUrlRaw && streamUrlRaw !== "غير محدد" && streamUrlRaw.trim() !== "") {
+      allUrls.push(streamUrlRaw.trim());
+    }
+    if (Array.isArray(match?.alternateStreamUrls)) {
+      match.alternateStreamUrls.forEach((u: string) => {
+        if (typeof u === "string" && u.trim() !== "" && u !== "غير محدد" && !allUrls.includes(u.trim())) {
+          allUrls.push(u.trim());
+        }
+      });
     }
 
-    // Nginx Secure URL Signing
     const streamDomain = process.env.VPS_STREAM_DOMAIN || "stream.yalashout.online";
     const secret = process.env.STREAM_SECRET_KEY;
     const userAgent = request.headers.get("user-agent") || "";
-    
-    let signedStreamUrl = streamUrlRaw;
-    const isSecureDomain = signedStreamUrl.includes("stream.chofmatch.live") || signedStreamUrl.includes(streamDomain);
 
-    if (isSecureDomain && secret) {
-      // Replace fallback domain if matching
-      signedStreamUrl = signedStreamUrl.replace("stream.chofmatch.live", streamDomain);
-      
-      // Perform MD5 secure link signing
-      signedStreamUrl = signSecureStreamUrl(signedStreamUrl, secret, userAgent);
-    }
+    const servers = allUrls.map((raw, idx) => {
+      let url = raw;
+      let sType: "iframe" | "hls" | "youtube" | "other" = "iframe";
+      if (url.includes(".m3u8")) {
+        sType = "hls";
+        if (url.includes("stream.chofmatch.live")) {
+          url = url.replace("stream.chofmatch.live", streamDomain);
+        }
+        if (secret && url.includes(streamDomain)) {
+          url = signSecureStreamUrl(url, secret, userAgent);
+        }
+      } else if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        sType = "youtube";
+      }
+      return {
+        id: idx,
+        label: `خادم ${idx + 1}`,
+        signedUrl: url,
+        streamType: sType,
+      };
+    });
+
+    const primaryServer = servers[0];
 
     return NextResponse.json(
       {
@@ -127,8 +145,10 @@ export async function GET(
           gameId,
           homeTeam: match.teamHome?.name || "",
           awayTeam: match.teamAway?.name || "",
-          streamType,
-          streamUrl: signedStreamUrl,
+          streamType: primaryServer?.streamType || "iframe",
+          streamUrl: primaryServer?.signedUrl || streamUrlRaw,
+          serverCount: servers.length,
+          servers,
           tokenRequired: !!token,
         },
       },

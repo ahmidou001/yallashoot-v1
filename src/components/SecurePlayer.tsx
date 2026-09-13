@@ -3,6 +3,12 @@
 import React from "react";
 import StreamSection from "./StreamSection";
 
+interface ServerItem {
+  id?: number;
+  label: string;
+  signedUrl: string;
+}
+
 interface SecurePlayerProps {
   gameId: string;
   matchSlug?: string;
@@ -17,7 +23,7 @@ interface SecurePlayerProps {
   matchTime?: string;
   serverCount?: number;
   iframeHtml?: string | null;
-  servers?: { label: string; signedUrl: string }[];
+  servers?: ServerItem[];
 }
 
 export default function SecurePlayer({

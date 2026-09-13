@@ -36,6 +36,12 @@ const getAssignedCommentator = (commentator?: string | null, gameId?: number | s
   return COMMENTATORS[Math.abs(idNum) % COMMENTATORS.length];
 };
 
+interface ServerItem {
+  id?: number;
+  label: string;
+  signedUrl: string;
+}
+
 interface MatchDetailsClientProps {
   initialDetails: GameDetailsResponse;
   gameId: string;
@@ -50,9 +56,10 @@ interface MatchDetailsClientProps {
     channel?: string | null;
     commentator?: string | null;
     serverCount?: number;
+    servers?: ServerItem[];
     iframeHtml?: string | null;
   } | null;
-  servers?: { label: string; signedUrl: string }[];
+  servers?: ServerItem[];
   highlightUrl?: string | null;
 }
 
@@ -125,7 +132,8 @@ export default function MatchDetailsClient({
         expires: json.data.expires as number | undefined,
         channel: json.data.channel || null,
         commentator: json.data.commentator || null,
-        serverCount: 1,
+        serverCount: json.data.serverCount || 1,
+        servers: json.data.servers || [],
         iframeHtml: json.data.iframeHtml || null,
       };
     },
@@ -137,7 +145,15 @@ export default function MatchDetailsClient({
   const activeStreamData = fetchedStreamData || streamData || {
     hasStream: true,
     streamType: "hls" as const,
+    streamUrl: undefined,
+    tokenRequired: false,
+    token: undefined,
+    expires: undefined,
+    channel: null,
+    commentator: null,
     serverCount: 1,
+    servers: [] as ServerItem[],
+    iframeHtml: null,
   };
 
   // 1. Query for Match Details & Lineups
@@ -269,7 +285,7 @@ export default function MatchDetailsClient({
             matchTime={formatTime(game.startTime)}
             serverCount={activeStreamData.serverCount || 1}
             iframeHtml={activeStreamData.iframeHtml}
-            servers={servers}
+            servers={activeStreamData.servers?.length ? activeStreamData.servers : servers}
           />
         </div>
       )}
