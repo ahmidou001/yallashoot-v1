@@ -56,7 +56,14 @@ export async function GET(request: NextRequest) {
       // Fallback: Return original 365scores data without stream indicators if DB is down
     }
 
-    return NextResponse.json({ success: true, data: gamesData });
+    return NextResponse.json(
+      { success: true, data: gamesData },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("GET games route error:", error);
     return NextResponse.json(

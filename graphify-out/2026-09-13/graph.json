@@ -17,19 +17,6 @@
       "source_location": "L12"
     },
     {
-      "id": "src_app_news_page_newsarchivepageprops",
-      "label": "NewsArchivePageProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "newsarchivepageprops",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L19"
-    },
-    {
       "id": "src_components_teamdetailsclient_teamdetailsclientprops",
       "label": "TeamDetailsClientProps",
       "_callable": true,
@@ -54,19 +41,6 @@
       "norm_label": "globalmongoose",
       "source_file": "src/lib/db.ts",
       "source_location": "L14"
-    },
-    {
-      "id": "src_models_article_iarticle",
-      "label": "IArticle",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "iarticle",
-      "source_file": "src/models/Article.ts",
-      "source_location": "L3"
     },
     {
       "id": "src_models_highlight_ihighlight",
@@ -212,19 +186,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_types_api_game",
-      "label": "Game",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "game",
-      "source_file": "src/types/api.ts",
-      "source_location": "L16"
-    },
-    {
       "id": "src_types_api_gamesresponse",
       "label": "GamesResponse",
       "_callable": true,
@@ -236,32 +197,6 @@
       "norm_label": "gamesresponse",
       "source_file": "src/types/api.ts",
       "source_location": "L28"
-    },
-    {
-      "id": "src_lib_cache_cacheentry",
-      "label": "CacheEntry",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "cacheentry",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L14"
-    },
-    {
-      "id": "src_lib_cache_smartcache",
-      "label": "smartCache",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "smartcache",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L160"
     },
     {
       "id": "src_app_team_id_page_teampageprops",
@@ -288,6 +223,19 @@
       "norm_label": "pageprops",
       "source_file": "src/app/news/[id]/page.tsx",
       "source_location": "L12"
+    },
+    {
+      "id": "src_app_news_page_newsarchivepageprops",
+      "label": "NewsArchivePageProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "newsarchivepageprops",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L19"
     },
     {
       "id": "src_app_standings_leagueid_page_routeparams",
@@ -327,6 +275,19 @@
       "norm_label": "standingsbracketsprops",
       "source_file": "src/components/StandingsBrackets.tsx",
       "source_location": "L8"
+    },
+    {
+      "id": "src_models_article_iarticle",
+      "label": "IArticle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "iarticle",
+      "source_file": "src/models/Article.ts",
+      "source_location": "L3"
     },
     {
       "id": "src_components_matchdetailsclient_matchdetailsclientprops",
@@ -392,6 +353,19 @@
       "norm_label": "currentstageresponse",
       "source_file": "src/types/api.ts",
       "source_location": "L217"
+    },
+    {
+      "id": "src_types_api_game",
+      "label": "Game",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "types/api.ts",
+      "file_type": "code",
+      "norm_label": "game",
+      "source_file": "src/types/api.ts",
+      "source_location": "L16"
     },
     {
       "id": "src_types_api_gamedetails",
@@ -716,18 +690,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_app_api_news_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "src/app/api/news/route.ts",
-      "source_location": "L7"
-    },
-    {
       "id": "src_app_api_refresh_url_route_post",
       "label": "POST()",
       "_callable": true,
@@ -953,7 +915,7 @@
       "file_type": "code",
       "norm_label": "getgamedetails()",
       "source_file": "src/services/api.ts",
-      "source_location": "L87"
+      "source_location": "L71"
     },
     {
       "id": "src_app_about_page_aboutpage",
@@ -1157,91 +1119,7 @@
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L92"
-    },
-    {
-      "id": "src_app_api_games_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "src/app/api/games/route.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_lib_cache_smartcache_clear",
-      "label": ".clear()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": ".clear()",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L140"
-    },
-    {
-      "id": "src_lib_cache_smartcache_get",
-      "label": ".get()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": ".get()",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L131"
-    },
-    {
-      "id": "src_lib_cache_smartcache_getorfetch",
-      "label": ".getOrFetch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": ".getorfetch()",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L46"
-    },
-    {
-      "id": "src_lib_cache_smartcache_getstats",
-      "label": ".getStats()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": ".getstats()",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L148"
-    },
-    {
-      "id": "src_lib_cache_smartcache_getttlfordate",
-      "label": ".getTtlForDate()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": ".getttlfordate()",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L30"
-    },
-    {
-      "id": "src_services_api_getgameslist",
-      "label": "getGamesList()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "getgameslist()",
-      "source_file": "src/services/api.ts",
-      "source_location": "L61"
+      "source_location": "L90"
     },
     {
       "id": "src_proxy_proxy",
@@ -1266,6 +1144,18 @@
       "norm_label": "get()",
       "source_file": "src/app/api/competitor-stats/route.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "src_app_api_games_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "services/api.ts",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "src/app/api/games/route.ts",
+      "source_location": "L11"
     },
     {
       "id": "src_app_api_match_id_h2h_route_get",
@@ -1325,7 +1215,7 @@
       "file_type": "code",
       "norm_label": "fetchfrom365scores()",
       "source_file": "src/services/api.ts",
-      "source_location": "L23"
+      "source_location": "L22"
     },
     {
       "id": "src_services_api_getcompetitionbrackets",
@@ -1337,7 +1227,7 @@
       "file_type": "code",
       "norm_label": "getcompetitionbrackets()",
       "source_file": "src/services/api.ts",
-      "source_location": "L365"
+      "source_location": "L349"
     },
     {
       "id": "src_services_api_getcompetitorfixtures",
@@ -1349,7 +1239,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorfixtures()",
       "source_file": "src/services/api.ts",
-      "source_location": "L268"
+      "source_location": "L252"
     },
     {
       "id": "src_services_api_getcompetitorprofile",
@@ -1361,7 +1251,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorprofile()",
       "source_file": "src/services/api.ts",
-      "source_location": "L235"
+      "source_location": "L219"
     },
     {
       "id": "src_services_api_getcompetitorrelatedentities",
@@ -1373,7 +1263,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorrelatedentities()",
       "source_file": "src/services/api.ts",
-      "source_location": "L333"
+      "source_location": "L317"
     },
     {
       "id": "src_services_api_getcompetitorresults",
@@ -1385,7 +1275,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorresults()",
       "source_file": "src/services/api.ts",
-      "source_location": "L283"
+      "source_location": "L267"
     },
     {
       "id": "src_services_api_getcompetitorseo",
@@ -1397,7 +1287,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorseo()",
       "source_file": "src/services/api.ts",
-      "source_location": "L344"
+      "source_location": "L328"
     },
     {
       "id": "src_services_api_getcompetitorsquad",
@@ -1409,7 +1299,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorsquad()",
       "source_file": "src/services/api.ts",
-      "source_location": "L246"
+      "source_location": "L230"
     },
     {
       "id": "src_services_api_getcompetitorstandingstable",
@@ -1421,7 +1311,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorstandingstable()",
       "source_file": "src/services/api.ts",
-      "source_location": "L300"
+      "source_location": "L284"
     },
     {
       "id": "src_services_api_getcompetitorstats",
@@ -1433,7 +1323,7 @@
       "file_type": "code",
       "norm_label": "getcompetitorstats()",
       "source_file": "src/services/api.ts",
-      "source_location": "L315"
+      "source_location": "L299"
     },
     {
       "id": "src_services_api_getcompetitortransfers",
@@ -1445,7 +1335,7 @@
       "file_type": "code",
       "norm_label": "getcompetitortransfers()",
       "source_file": "src/services/api.ts",
-      "source_location": "L257"
+      "source_location": "L241"
     },
     {
       "id": "src_services_api_getcurrentstage",
@@ -1457,7 +1347,19 @@
       "file_type": "code",
       "norm_label": "getcurrentstage()",
       "source_file": "src/services/api.ts",
-      "source_location": "L128"
+      "source_location": "L112"
+    },
+    {
+      "id": "src_services_api_getgameslist",
+      "label": "getGamesList()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "services/api.ts",
+      "file_type": "code",
+      "norm_label": "getgameslist()",
+      "source_file": "src/services/api.ts",
+      "source_location": "L55"
     },
     {
       "id": "src_services_api_getgamestats",
@@ -1469,7 +1371,7 @@
       "file_type": "code",
       "norm_label": "getgamestats()",
       "source_file": "src/services/api.ts",
-      "source_location": "L99"
+      "source_location": "L83"
     },
     {
       "id": "src_services_api_getheadtohead",
@@ -1481,7 +1383,7 @@
       "file_type": "code",
       "norm_label": "getheadtohead()",
       "source_file": "src/services/api.ts",
-      "source_location": "L112"
+      "source_location": "L96"
     },
     {
       "id": "src_app_standings_page_standingsindexpage",
@@ -1637,7 +1539,7 @@
       "file_type": "code",
       "norm_label": "getcompetitiongames()",
       "source_file": "src/services/api.ts",
-      "source_location": "L179"
+      "source_location": "L163"
     },
     {
       "id": "src_services_api_getcompetitionscorers",
@@ -1649,7 +1551,7 @@
       "file_type": "code",
       "norm_label": "getcompetitionscorers()",
       "source_file": "src/services/api.ts",
-      "source_location": "L200"
+      "source_location": "L184"
     },
     {
       "id": "src_services_api_getcompetitionstandings",
@@ -1661,7 +1563,7 @@
       "file_type": "code",
       "norm_label": "getcompetitionstandings()",
       "source_file": "src/services/api.ts",
-      "source_location": "L144"
+      "source_location": "L128"
     },
     {
       "id": "src_components_matchdetailsclient_getassignedcommentator",
@@ -1808,6 +1710,18 @@
       "source_location": "L10"
     },
     {
+      "id": "src_app_api_news_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "indexing.ts",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "src/app/api/news/route.ts",
+      "source_location": "L7"
+    },
+    {
       "id": "src_app_api_news_route_post",
       "label": "POST()",
       "_callable": true,
@@ -1817,7 +1731,7 @@
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "src/app/api/news/route.ts",
-      "source_location": "L89"
+      "source_location": "L74"
     },
     {
       "id": "src_lib_indexing_getgoogleaccesstoken",
@@ -1935,28 +1849,6 @@
       "source_location": "L4"
     },
     {
-      "id": "src_app_api_news_route",
-      "label": "news/route.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "news/route.ts",
-      "source_file": "src/app/api/news/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_news_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/news/route.ts",
-      "source_location": "L5"
-    },
-    {
       "id": "src_app_api_refresh_url_route",
       "label": "refresh-url/route.ts",
       "_origin": "ast",
@@ -2067,39 +1959,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_app_news_page",
-      "label": "news/page.tsx",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "news/page.tsx",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_news_page_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_app_news_page_metadata",
-      "label": "metadata",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "metadata",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L11"
-    },
-    {
       "id": "src_app_sitemap",
       "label": "sitemap.ts",
       "_origin": "ast",
@@ -2186,28 +2045,6 @@
       "norm_label": "team_translations",
       "source_file": "src/lib/matchSlug.ts",
       "source_location": "L9"
-    },
-    {
-      "id": "src_models_article",
-      "label": "Article.ts",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "article.ts",
-      "source_file": "src/models/Article.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_article_articleschema",
-      "label": "ArticleSchema",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "dbConnect",
-      "file_type": "code",
-      "norm_label": "articleschema",
-      "source_file": "src/models/Article.ts",
-      "source_location": "L21"
     },
     {
       "id": "src_models_highlight",
@@ -2927,7 +2764,7 @@
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L5"
+      "source_location": "L3"
     },
     {
       "id": "src_app_api_games_featured_route_major_competition_ids",
@@ -2938,7 +2775,7 @@
       "file_type": "code",
       "norm_label": "major_competition_ids",
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L8"
+      "source_location": "L6"
     },
     {
       "id": "src_app_api_games_featured_route_top_teams_ids",
@@ -2949,51 +2786,7 @@
       "file_type": "code",
       "norm_label": "top_teams_ids",
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L31"
-    },
-    {
-      "id": "src_app_api_games_route",
-      "label": "games/route.ts",
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "games/route.ts",
-      "source_file": "src/app/api/games/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_games_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/games/route.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_lib_cache",
-      "label": "cache.ts",
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "cache.ts",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_cache_globalforcache",
-      "label": "globalForCache",
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "games/featured/route.ts",
-      "file_type": "code",
-      "norm_label": "globalforcache",
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L158"
+      "source_location": "L29"
     },
     {
       "id": "src_proxy",
@@ -3108,6 +2901,28 @@
       "source_location": "L4"
     },
     {
+      "id": "src_app_api_games_route",
+      "label": "games/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "services/api.ts",
+      "file_type": "code",
+      "norm_label": "games/route.ts",
+      "source_file": "src/app/api/games/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_games_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "services/api.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/games/route.ts",
+      "source_location": "L6"
+    },
+    {
       "id": "src_app_api_match_id_h2h_route",
       "label": "h2h/route.ts",
       "_origin": "ast",
@@ -3193,7 +3008,7 @@
       "file_type": "code",
       "norm_label": "common_params",
       "source_file": "src/services/api.ts",
-      "source_location": "L13"
+      "source_location": "L12"
     },
     {
       "id": "public_sw",
@@ -3285,6 +3100,39 @@
       "source_location": "L10"
     },
     {
+      "id": "src_app_news_page",
+      "label": "news/page.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "news/page.tsx",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_news_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_app_news_page_metadata",
+      "label": "metadata",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "metadata",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L11"
+    },
+    {
       "id": "src_app_privacy_page",
       "label": "privacy/page.tsx",
       "_origin": "ast",
@@ -3351,6 +3199,28 @@
       "source_location": "L1"
     },
     {
+      "id": "src_models_article",
+      "label": "Article.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "article.ts",
+      "source_file": "src/models/Article.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_article_articleschema",
+      "label": "ArticleSchema",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "articleschema",
+      "source_file": "src/models/Article.ts",
+      "source_location": "L20"
+    },
+    {
       "id": "package",
       "label": "package.json",
       "_origin": "ast",
@@ -3360,127 +3230,6 @@
       "norm_label": "package.json",
       "source_file": "package.json",
       "source_location": "L1"
-    },
-    {
-      "id": "package_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "package.json",
-      "source_location": "L11"
-    },
-    {
-      "id": "package_dependencies_clsx",
-      "label": "clsx",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "clsx",
-      "source_file": "package.json",
-      "source_location": "L13"
-    },
-    {
-      "id": "package_dependencies_hls_js",
-      "label": "hls.js",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "hls.js",
-      "source_file": "package.json",
-      "source_location": "L14"
-    },
-    {
-      "id": "package_dependencies_lucide_react",
-      "label": "lucide-react",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "lucide-react",
-      "source_file": "package.json",
-      "source_location": "L15"
-    },
-    {
-      "id": "package_dependencies_mongodb",
-      "label": "mongodb",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "mongodb",
-      "source_file": "package.json",
-      "source_location": "L16"
-    },
-    {
-      "id": "package_dependencies_mongoose",
-      "label": "mongoose",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "mongoose",
-      "source_file": "package.json",
-      "source_location": "L17"
-    },
-    {
-      "id": "package_dependencies_next",
-      "label": "next",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "next",
-      "source_file": "package.json",
-      "source_location": "L18"
-    },
-    {
-      "id": "package_dependencies_react",
-      "label": "react",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "react",
-      "source_file": "package.json",
-      "source_location": "L19"
-    },
-    {
-      "id": "package_dependencies_react_dom",
-      "label": "react-dom",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "react-dom",
-      "source_file": "package.json",
-      "source_location": "L20"
-    },
-    {
-      "id": "package_dependencies_tailwind_merge",
-      "label": "tailwind-merge",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "tailwind-merge",
-      "source_file": "package.json",
-      "source_location": "L21"
-    },
-    {
-      "id": "package_dependencies_tanstack_react_query",
-      "label": "@tanstack/react-query",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "package.json",
-      "file_type": "code",
-      "norm_label": "@tanstack/react-query",
-      "source_file": "package.json",
-      "source_location": "L12"
     },
     {
       "id": "package_devdependencies",
@@ -4187,6 +3936,28 @@
       "source_location": "L4"
     },
     {
+      "id": "src_app_api_news_route",
+      "label": "news/route.ts",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "indexing.ts",
+      "file_type": "code",
+      "norm_label": "news/route.ts",
+      "source_file": "src/app/api/news/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_news_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "indexing.ts",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/news/route.ts",
+      "source_location": "L5"
+    },
+    {
       "id": "src_lib_indexing",
       "label": "indexing.ts",
       "_origin": "ast",
@@ -4196,6 +3967,127 @@
       "norm_label": "indexing.ts",
       "source_file": "src/lib/indexing.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "package_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "package.json",
+      "source_location": "L11"
+    },
+    {
+      "id": "package_dependencies_clsx",
+      "label": "clsx",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "clsx",
+      "source_file": "package.json",
+      "source_location": "L13"
+    },
+    {
+      "id": "package_dependencies_hls_js",
+      "label": "hls.js",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "hls.js",
+      "source_file": "package.json",
+      "source_location": "L14"
+    },
+    {
+      "id": "package_dependencies_lucide_react",
+      "label": "lucide-react",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "lucide-react",
+      "source_file": "package.json",
+      "source_location": "L15"
+    },
+    {
+      "id": "package_dependencies_mongodb",
+      "label": "mongodb",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "mongodb",
+      "source_file": "package.json",
+      "source_location": "L16"
+    },
+    {
+      "id": "package_dependencies_mongoose",
+      "label": "mongoose",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "mongoose",
+      "source_file": "package.json",
+      "source_location": "L17"
+    },
+    {
+      "id": "package_dependencies_next",
+      "label": "next",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "next",
+      "source_file": "package.json",
+      "source_location": "L18"
+    },
+    {
+      "id": "package_dependencies_react",
+      "label": "react",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "react",
+      "source_file": "package.json",
+      "source_location": "L19"
+    },
+    {
+      "id": "package_dependencies_react_dom",
+      "label": "react-dom",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "react-dom",
+      "source_file": "package.json",
+      "source_location": "L20"
+    },
+    {
+      "id": "package_dependencies_tailwind_merge",
+      "label": "tailwind-merge",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "tailwind-merge",
+      "source_file": "package.json",
+      "source_location": "L21"
+    },
+    {
+      "id": "package_dependencies_tanstack_react_query",
+      "label": "@tanstack/react-query",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "@tanstack/react-query",
+      "source_file": "package.json",
+      "source_location": "L12"
     }
   ],
   "links": [
@@ -4209,18 +4101,6 @@
       "context": "call",
       "source_file": "src/app/api/competitor-stats/route.ts",
       "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_games_featured_route_get",
-      "target": "src_services_api_getgameslist",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -5108,7 +4988,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L366",
+      "source_location": "L350",
       "weight": 1.0
     },
     {
@@ -5120,7 +5000,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L147",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -5132,7 +5012,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L164",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -5144,7 +5024,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L269",
+      "source_location": "L253",
       "weight": 1.0
     },
     {
@@ -5156,7 +5036,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L236",
+      "source_location": "L220",
       "weight": 1.0
     },
     {
@@ -5168,7 +5048,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L334",
+      "source_location": "L318",
       "weight": 1.0
     },
     {
@@ -5180,7 +5060,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L284",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -5192,7 +5072,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L247",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -5204,7 +5084,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L301",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -5216,7 +5096,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L319",
+      "source_location": "L303",
       "weight": 1.0
     },
     {
@@ -5228,7 +5108,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L258",
+      "source_location": "L242",
       "weight": 1.0
     },
     {
@@ -5240,7 +5120,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L129",
+      "source_location": "L113",
       "weight": 1.0
     },
     {
@@ -5252,7 +5132,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L88",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -5264,7 +5144,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L68",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -5276,7 +5156,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L100",
+      "source_location": "L84",
       "weight": 1.0
     },
     {
@@ -5288,7 +5168,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/services/api.ts",
-      "source_location": "L117",
+      "source_location": "L101",
       "weight": 1.0
     },
     {
@@ -5361,7 +5241,7 @@
       "context": "import",
       "deferred": true,
       "source_file": "src/app/api/news/route.ts",
-      "source_location": "L121",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -5590,30 +5470,6 @@
       "context": "import",
       "source_file": "src/app/api/competitor-stats/route.ts",
       "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_games_featured_route",
-      "target": "src_services_api_getgameslist",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_games_featured_route",
-      "target": "src_lib_cache_smartcache",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -6853,18 +6709,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_services_api",
-      "target": "src_lib_cache_smartcache",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/services/api.ts",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
       "source": "next_config",
       "target": "ref_next",
       "relation": "imports_from",
@@ -6923,30 +6767,6 @@
       "context": "import",
       "source_file": "src/app/api/competitor-stats/route.ts",
       "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_games_featured_route",
-      "target": "src_services_api",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_games_featured_route",
-      "target": "src_lib_cache",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -8799,18 +8619,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_services_api",
-      "target": "src_lib_cache",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/services/api.ts",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
       "source": "agents",
       "target": "agents_this_is_not_the_next_js_you_know",
       "relation": "contains",
@@ -9390,7 +9198,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L31",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -9401,7 +9209,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L5",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -9412,7 +9220,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L8",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -9423,7 +9231,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/games/featured/route.ts",
-      "source_location": "L92",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -9599,7 +9407,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/news/route.ts",
-      "source_location": "L89",
+      "source_location": "L74",
       "weight": 1.0
     },
     {
@@ -10626,39 +10434,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_lib_cache",
-      "target": "src_lib_cache_cacheentry",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L14",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_cache",
-      "target": "src_lib_cache_globalforcache",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L158",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_cache",
-      "target": "src_lib_cache_smartcache",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L160",
-      "weight": 1.0
-    },
-    {
       "source": "src_lib_crypto",
       "target": "src_lib_crypto_generatestreamtoken",
       "relation": "contains",
@@ -10853,7 +10628,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/models/Article.ts",
-      "source_location": "L21",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -10946,7 +10721,7 @@
     },
     {
       "source": "src_services_api",
-      "target": "src_services_api_getheadtohead",
+      "target": "src_services_api_getcurrentstage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -10957,24 +10732,13 @@
     },
     {
       "source": "src_services_api",
-      "target": "src_services_api_getcurrentstage",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/api.ts",
-      "source_location": "L128",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_api",
       "target": "src_services_api_common_params",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -10985,7 +10749,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L144",
+      "source_location": "L128",
       "weight": 1.0
     },
     {
@@ -10996,7 +10760,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L179",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -11007,18 +10771,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L200",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_api",
-      "target": "src_services_api_fetchfrom365scores",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/api.ts",
-      "source_location": "L23",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -11029,7 +10782,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L235",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_api",
+      "target": "src_services_api_fetchfrom365scores",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/services/api.ts",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -11040,7 +10804,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L246",
+      "source_location": "L230",
       "weight": 1.0
     },
     {
@@ -11051,7 +10815,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L257",
+      "source_location": "L241",
       "weight": 1.0
     },
     {
@@ -11062,7 +10826,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L268",
+      "source_location": "L252",
       "weight": 1.0
     },
     {
@@ -11073,7 +10837,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L283",
+      "source_location": "L267",
       "weight": 1.0
     },
     {
@@ -11084,7 +10848,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L300",
+      "source_location": "L284",
       "weight": 1.0
     },
     {
@@ -11095,7 +10859,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L315",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -11106,7 +10870,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L333",
+      "source_location": "L317",
       "weight": 1.0
     },
     {
@@ -11117,7 +10881,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L344",
+      "source_location": "L328",
       "weight": 1.0
     },
     {
@@ -11128,7 +10892,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L365",
+      "source_location": "L349",
       "weight": 1.0
     },
     {
@@ -11139,7 +10903,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L61",
+      "source_location": "L55",
       "weight": 1.0
     },
     {
@@ -11150,7 +10914,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L87",
+      "source_location": "L71",
       "weight": 1.0
     },
     {
@@ -11161,7 +10925,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/services/api.ts",
-      "source_location": "L99",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "src_services_api",
+      "target": "src_services_api_getheadtohead",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/services/api.ts",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -11735,61 +11510,6 @@
       "source_file": "src/app/api/news/route.ts"
     },
     {
-      "source": "src_lib_cache_smartcache",
-      "target": "src_lib_cache_smartcache_get",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L131",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_cache_smartcache",
-      "target": "src_lib_cache_smartcache_clear",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L140",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_cache_smartcache",
-      "target": "src_lib_cache_smartcache_getstats",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L148",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_cache_smartcache",
-      "target": "src_lib_cache_smartcache_getttlfordate",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L30",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_cache_smartcache",
-      "target": "src_lib_cache_smartcache_getorfetch",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/cache.ts",
-      "source_location": "L46",
-      "weight": 1.0
-    },
-    {
       "source": "src_app_page_homepage",
       "target": "src_app_page_fetchfeaturedgames",
       "relation": "indirect_call",
@@ -11803,5 +11523,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2631cf60e5fb8efc75da43c2af0779a629dced61"
+  "built_at_commit": "77ca3dbbc29040908992b618d71c063b4d62674f"
 }

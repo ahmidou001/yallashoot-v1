@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getGamesList } from "@/services/api";
+import { smartCache } from "@/lib/cache";
 
 export const dynamic = "force-dynamic";
 
@@ -95,20 +97,29 @@ export async function GET(request: NextRequest) {
     const yyyy = today.getFullYear();
     const dateStr = `${dd}/${mm}/${yyyy}`;
 
-    // 1. Fetch both upstream featured games and today's full match feed
+    // 1. Fetch both upstream featured games and today's full match feed using smartCache
     const [featRes, allScoresRes] = await Promise.all([
-      fetch(
-        "https://webws.365scores.com/web/games/featured/?appTypeId=5&langId=27&timezoneName=Africa/Casablanca&userCountryId=127&sports=1&showOdds=true&numberOfGames=15&context=1",
-        { cache: "no-store" }
-      )
-        .then((r) => (r.ok ? r.json() : {}))
-        .catch(() => ({})),
-      fetch(
-        `https://webws.365scores.com/web/games/allscores/?appTypeId=5&langId=27&timezoneName=Africa/Casablanca&userCountryId=127&sports=1&startDate=${dateStr}&endDate=${dateStr}`,
-        { cache: "no-store" }
-      )
-        .then((r) => (r.ok ? r.json() : {}))
-        .catch(() => ({})),
+      smartCache.getOrFetch<any>(
+        "games:featured:upstream",
+        async () => {
+          const res = await fetch(
+            "https://webws.365scores.com/web/games/featured/?appTypeId=5&langId=27&timezoneName=Africa/Casablanca&userCountryId=127&sports=1&showOdds=true&numberOfGames=15&context=1",
+            {
+              headers: {
+                Accept: "application/json",
+                "User-Agent":
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+              },
+            }
+          );
+          if (!res.ok) return {};
+          const text = await res.text();
+          if (!text || text.trim().startsWith("<")) return {};
+          return JSON.parse(text);
+        },
+        60 * 1000 // 60 seconds cache for featured
+      ).catch(() => ({})),
+      getGamesList(dateStr).catch(() => ({ games: [], competitions: [] })),
     ]);
 
     const allCompetitions: any[] = [
@@ -182,10 +193,17 @@ export async function GET(request: NextRequest) {
     // Pick the top 5 featured matches
     const finalFeaturedGames = scoredMatches.slice(0, 5).map((s) => s.game);
 
-    return NextResponse.json({
-      success: true,
-      data: finalFeaturedGames,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: finalFeaturedGames,
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        },
+      }
+    );
   } catch (err: any) {
     console.error("Featured game API error:", err);
     return NextResponse.json({ success: false, error: err.message, data: [] });

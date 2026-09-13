@@ -6,6 +6,7 @@ import {
   StandingsResponse,
   CurrentStageResponse,
 } from "@/types/api";
+import { smartCache } from "@/lib/cache";
 
 const BASE_URL = "https://webws.365scores.com/web";
 
@@ -41,7 +42,12 @@ async function fetchFrom365Scores<T>(endpoint: string, queryParams: Record<strin
       throw new Error(`Failed to fetch from 365Scores upstream: ${res.statusText} (${res.status})`);
     }
 
-    return (await res.json()) as T;
+    const text = await res.text();
+    if (!text || text.trim().startsWith("<")) {
+      throw new Error(`Invalid response from 365Scores upstream (HTML returned instead of JSON)`);
+    }
+
+    return JSON.parse(text) as T;
   } catch (error) {
     console.error(`Error in 365Scores fetch to ${endpoint}:`, error);
     throw error;
@@ -53,14 +59,24 @@ async function fetchFrom365Scores<T>(endpoint: string, queryParams: Record<strin
  * @param date formatted as DD/MM/YYYY
  */
 export async function getGamesList(date: string): Promise<GamesResponse> {
-  return fetchFrom365Scores<GamesResponse>(
-    "/games/allscores/",
+  const ttlMs = smartCache.getTtlForDate(date);
+  const cacheKey = `games:allscores:${date}`;
+
+  return smartCache.getOrFetch<GamesResponse>(
+    cacheKey,
+    () =>
+      fetchFrom365Scores<GamesResponse>(
+        "/games/allscores/",
+        {
+          sports: "1", // Football
+          startDate: date,
+          endDate: date,
+        }
+      ),
+    ttlMs,
     {
-      sports: "1", // Football
-      startDate: date,
-      endDate: date,
-    },
-    { next: { revalidate: 15 } } // Revalidate games list every 15 seconds
+      getItemCount: (data) => data?.games?.length || 0,
+    }
   );
 }
 
