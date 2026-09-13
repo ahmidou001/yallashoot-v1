@@ -129,7 +129,9 @@ export default function MatchDetailsClient({
         iframeHtml: json.data.iframeHtml || null,
       };
     },
-    refetchInterval: isLive ? 30000 : false,
+    refetchInterval: (typeof document !== "undefined" && document.hidden) ? false : (isLive ? 60000 : false),
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
   });
 
   const activeStreamData = fetchedStreamData || streamData || {
@@ -147,7 +149,9 @@ export default function MatchDetailsClient({
       return json.data;
     },
     initialData: initialDetails,
-    refetchInterval: isLive ? 30000 : false, // Poll every 30s only if Live
+    refetchInterval: (typeof document !== "undefined" && document.hidden) ? false : (isLive ? 35000 : false),
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
   });
 
   const { game, competitions = [] } = detailsData;
@@ -165,7 +169,9 @@ export default function MatchDetailsClient({
       return json.data;
     },
     enabled: activeTab === "stats",
-    refetchInterval: isLive ? 30000 : false,
+    refetchInterval: (typeof document !== "undefined" && document.hidden) ? false : (isLive ? 45000 : false),
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
   });
 
   // 3. Query for Head-to-Head (H2H)

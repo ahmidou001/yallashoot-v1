@@ -36,7 +36,14 @@ export async function GET(request: Request) {
 
     const highlights = await queryExec.lean();
 
-    return NextResponse.json({ success: true, data: highlights });
+    return NextResponse.json(
+      { success: true, data: highlights },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("Error fetching public highlights:", error);
     return NextResponse.json(

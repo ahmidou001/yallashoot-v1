@@ -93,7 +93,7 @@ export default function HomePage() {
   const [openCountry, setOpenCountry] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
 
-  // Fetch real sports news from MongoDB API
+  // Fetch real sports news from MongoDB API (Cached, no aggressive 60s polling)
   const { data: newsArticles, isLoading: isNewsLoading } = useQuery({
     queryKey: ["latestNewsFeed"],
     queryFn: async () => {
@@ -102,7 +102,9 @@ export default function HomePage() {
       const json = await res.json();
       return json.data || [];
     },
-    refetchInterval: 60000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    staleTime: 10 * 60 * 1000, // 10 minutes cache
   });
 
   // Custom Calendar state
@@ -138,21 +140,28 @@ export default function HomePage() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [isCalendarOpen]);
 
-  // 1. Query for games feed
+  // 1. Query for games feed (Pauses when tab is hidden, polls every 35s only if live matches exist)
   const { data, isLoading, error } = useQuery<GamesResponse>({
     queryKey: ["games", selectedDate],
     queryFn: () => fetchGames(selectedDate),
     refetchInterval: (query) => {
+      if (typeof document !== "undefined" && document.hidden) return false;
       const games = query.state.data?.games;
       const hasLive = games?.some((g) => g.statusGroup === 3);
-      return hasLive ? 30000 : false;
+      return hasLive ? 35000 : false;
     },
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    staleTime: 20 * 1000,
   });
 
-  // 2. Query for featured games list
+  // 2. Query for featured games list (Cached, no polling)
   const { data: featuredGames, isLoading: isFeaturedLoading } = useQuery({
     queryKey: ["featuredGames"],
     queryFn: fetchFeaturedGames,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
   });
 
   // 3. Query for 24/7 Main Live Stream
@@ -164,7 +173,9 @@ export default function HomePage() {
       const json = await res.json();
       return json.success ? json.data : null;
     },
-    refetchInterval: 60000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
   });
 
   // 4. Query for 4 Latest Summaries
@@ -176,7 +187,9 @@ export default function HomePage() {
       const json = await res.json();
       return json.success ? json.data : [];
     },
-    refetchInterval: 60000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    staleTime: 10 * 60 * 1000,
   });
 
   // Navigate Date Handler

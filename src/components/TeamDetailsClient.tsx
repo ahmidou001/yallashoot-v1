@@ -443,7 +443,9 @@ export default function TeamDetailsClient({
       return json.data || [];
     },
     enabled: activeTab === "news",
-    refetchInterval: 60000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    staleTime: 10 * 60 * 1000,
   });
 
   return (

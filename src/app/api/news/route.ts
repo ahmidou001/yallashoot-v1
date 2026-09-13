@@ -62,7 +62,14 @@ export async function GET(request: Request) {
           .lean();
       }
 
-      return NextResponse.json({ success: true, data: teamArticles });
+      return NextResponse.json(
+        { success: true, data: teamArticles },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        }
+      );
     }
 
     const articles = await Article.find({
@@ -73,7 +80,14 @@ export async function GET(request: Request) {
       .limit(limit)
       .lean();
 
-    return NextResponse.json({ success: true, data: articles });
+    return NextResponse.json(
+      { success: true, data: articles },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("Error fetching news in yallashoot API:", error);
     return NextResponse.json(
