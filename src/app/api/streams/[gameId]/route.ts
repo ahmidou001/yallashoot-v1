@@ -60,6 +60,29 @@ export async function GET(
 
     // Find the specific match details
     const match = doc.matches.find((m: any) => String(m.id) === String(gameId));
+
+    // Anti-Bot / Anti-DMCA check: Lock stream until 30 minutes before kickoff
+    const matchStartTimeStr = match?.startTime;
+    if (matchStartTimeStr) {
+      const matchTime = new Date(matchStartTimeStr).getTime();
+      const now = Date.now();
+      const UNLOCK_WINDOW_MS = 30 * 60 * 1000;
+      const isFinished = match?.status === "finished" || match?.statusGroup === 4;
+      const isLive = match?.status === "live" || match?.statusGroup === 3;
+
+      if (!isLive && !isFinished && !isNaN(matchTime) && matchTime - now > UNLOCK_WINDOW_MS) {
+        const remainingSeconds = Math.max(0, Math.floor((matchTime - UNLOCK_WINDOW_MS - now) / 1000));
+        return NextResponse.json({
+          success: false,
+          locked: true,
+          message: "البث المباشر سيبدأ قبل 30 دقيقة من انطلاق المباراة",
+          unlocksInSeconds: remainingSeconds,
+          unlockTime: new Date(matchTime - UNLOCK_WINDOW_MS).toISOString(),
+          startTime: matchStartTimeStr,
+        });
+      }
+    }
+
     const streamUrlRaw = match?.streamUrl;
 
     if (!streamUrlRaw || streamUrlRaw === "غير محدد" || streamUrlRaw.trim() === "") {

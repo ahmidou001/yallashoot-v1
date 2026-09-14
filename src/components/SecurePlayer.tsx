@@ -21,6 +21,14 @@ interface SecurePlayerProps {
   isFinished?: boolean;
   highlightUrl?: string | null;
   matchTime?: string;
+  matchStartTime?: string | number;
+  homeTeamName?: string;
+  awayTeamName?: string;
+  homeTeamLogo?: string;
+  awayTeamLogo?: string;
+  channelName?: string;
+  commentatorName?: string;
+  competitionName?: string;
   serverCount?: number;
   iframeHtml?: string | null;
   servers?: ServerItem[];
@@ -35,6 +43,14 @@ export default function SecurePlayer({
   isFinished = false,
   highlightUrl,
   matchTime,
+  matchStartTime,
+  homeTeamName,
+  awayTeamName,
+  homeTeamLogo,
+  awayTeamLogo,
+  channelName,
+  commentatorName,
+  competitionName,
   serverCount = 1,
   iframeHtml,
   servers = [],
@@ -51,6 +67,14 @@ export default function SecurePlayer({
         iframeHtml={iframeHtml || (streamType === "iframe" ? streamUrl : undefined)}
         matchStatus={matchStatus}
         matchTime={matchTime}
+        matchStartTime={matchStartTime}
+        homeTeamName={homeTeamName}
+        awayTeamName={awayTeamName}
+        homeTeamLogo={homeTeamLogo}
+        awayTeamLogo={awayTeamLogo}
+        channelName={channelName}
+        commentatorName={commentatorName}
+        competitionName={competitionName}
       />
     </div>
   );

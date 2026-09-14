@@ -283,6 +283,14 @@ export default function MatchDetailsClient({
             isFinished={isFinished}
             highlightUrl={highlightUrl}
             matchTime={formatTime(game.startTime)}
+            matchStartTime={game.startTime}
+            homeTeamName={homeCompetitor.name}
+            awayTeamName={awayCompetitor.name}
+            homeTeamLogo={homeCompetitor.id ? `https://imagecache.365scores.com/image/upload/f_auto,w_120,h_120,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${homeCompetitor.id}` : undefined}
+            awayTeamLogo={awayCompetitor.id ? `https://imagecache.365scores.com/image/upload/f_auto,w_120,h_120,c_limit,q_auto:eco,d_competitors:default1.png/v1/competitors/${awayCompetitor.id}` : undefined}
+            channelName={activeStreamData.channel || (game as any).channel || "beIN Sports"}
+            commentatorName={getAssignedCommentator(activeStreamData.commentator, game.id)}
+            competitionName={leagueName}
             serverCount={activeStreamData.serverCount || 1}
             iframeHtml={activeStreamData.iframeHtml}
             servers={activeStreamData.servers?.length ? activeStreamData.servers : servers}

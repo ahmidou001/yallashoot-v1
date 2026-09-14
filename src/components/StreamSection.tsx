@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { RefreshCw, Radio, Play, Zap } from "lucide-react";
 import VideoPlayer from "./VideoPlayer";
+import StreamCountdown from "./StreamCountdown";
 
 interface StreamSectionProps {
   slug: string;
@@ -11,6 +12,14 @@ interface StreamSectionProps {
   serverCount?: number;
   matchStatus?: string;
   matchTime?: string;
+  matchStartTime?: string | number;
+  homeTeamName?: string;
+  awayTeamName?: string;
+  homeTeamLogo?: string;
+  awayTeamLogo?: string;
+  channelName?: string;
+  commentatorName?: string;
+  competitionName?: string;
 }
 
 export default function StreamSection({
@@ -20,6 +29,14 @@ export default function StreamSection({
   serverCount = 1,
   matchStatus = "",
   matchTime = "",
+  matchStartTime,
+  homeTeamName = "",
+  awayTeamName = "",
+  homeTeamLogo,
+  awayTeamLogo,
+  channelName,
+  commentatorName,
+  competitionName,
 }: StreamSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -34,6 +51,10 @@ export default function StreamSection({
   const [signedUrl, setSignedUrl] = useState<string | null>(null);
   const [isFetchingUrl, setIsFetchingUrl] = useState(false);
   const [fetchError, setFetchError] = useState(false);
+
+  const [isApiLocked, setIsApiLocked] = useState(false);
+  const [discoveredStartTime, setDiscoveredStartTime] = useState<string | number | null>(null);
+  const [isUnlockedManual, setIsUnlockedManual] = useState(false);
 
   // Auto-fetch stream on mount or slug change
   useEffect(() => {
@@ -54,11 +75,17 @@ export default function StreamSection({
       const res = await fetch("/api/refresh-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug, serverIndex }),
+        body: JSON.stringify({ slug, serverIndex, startTime: matchStartTime }),
       });
       if (!res.ok) throw new Error("fetch failed");
       const data = await res.json();
+      if (data.locked) {
+        setIsApiLocked(true);
+        if (data.startTime) setDiscoveredStartTime(data.startTime);
+        return;
+      }
       if (!data.url) throw new Error("no url");
+      setIsApiLocked(false);
       setSignedUrl(data.url);
       if (data.serverCount && data.serverCount > 0) {
         setDynamicServerCount(data.serverCount);
@@ -70,10 +97,16 @@ export default function StreamSection({
         const res2 = await fetch(`/api/streams/${gameId}`);
         if (!res2.ok) throw new Error("fallback failed");
         const json2 = await res2.json();
+        if (json2.locked) {
+          setIsApiLocked(true);
+          if (json2.startTime) setDiscoveredStartTime(json2.startTime);
+          return;
+        }
         if (json2.success && json2.data) {
           const sUrl =
             json2.data.servers?.[serverIndex]?.signedUrl || json2.data.streamUrl;
           if (sUrl) {
+            setIsApiLocked(false);
             setSignedUrl(sUrl);
             if (json2.data.serverCount && json2.data.serverCount > 0) {
               setDynamicServerCount(json2.data.serverCount);
@@ -122,9 +155,47 @@ export default function StreamSection({
   const isFinished = matchStatus === "finished" || matchStatus === "ended";
   const isLive =
     !isFinished &&
-    (matchStatus === "live" ||
-      matchStatus === "inprogress" ||
-      totalServers > 0);
+    (matchStatus === "live" || matchStatus === "inprogress");
+
+  // Determine if stream is locked awaiting 30-min window before kick-off
+  const effectiveStartTime = matchStartTime || discoveredStartTime;
+  const kickOffMs = effectiveStartTime ? new Date(effectiveStartTime).getTime() : null;
+  const UNLOCK_WINDOW_MS = 30 * 60 * 1000;
+  const isTimeLocked =
+    !isLive &&
+    !isFinished &&
+    !isUnlockedManual &&
+    kickOffMs !== null &&
+    !isNaN(kickOffMs) &&
+    kickOffMs - Date.now() > UNLOCK_WINDOW_MS;
+
+  const showCountdown =
+    !isLive &&
+    !isFinished &&
+    !isUnlockedManual &&
+    (isTimeLocked || isApiLocked) &&
+    !!effectiveStartTime;
+
+  if (showCountdown && effectiveStartTime) {
+    return (
+      <StreamCountdown
+        startTime={effectiveStartTime}
+        unlockMinutesBefore={30}
+        homeTeamName={homeTeamName}
+        awayTeamName={awayTeamName}
+        homeTeamLogo={homeTeamLogo}
+        awayTeamLogo={awayTeamLogo}
+        channelName={channelName}
+        commentatorName={commentatorName}
+        competitionName={competitionName}
+        onUnlock={() => {
+          setIsUnlockedManual(true);
+          setIsApiLocked(false);
+          fetchSignedUrl(0);
+        }}
+      />
+    );
+  }
 
   return (
     <div>

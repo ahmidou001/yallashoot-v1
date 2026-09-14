@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { slug, serverIndex = 0 } = body || {};
+    const { slug, serverIndex = 0, startTime } = body || {};
 
     if (!slug || typeof slug !== "string") {
       return NextResponse.json({ error: "Missing slug" }, { status: 400 });
@@ -88,6 +88,36 @@ export async function POST(request: NextRequest) {
     const match = liveMatchDoc ? (liveMatchDoc as any).matches.find(
       (m: any) => m.slug === slug || String(m.id) === String(id) || String(m.id) === String(slug)
     ) : null;
+
+    // Anti-Bot / Anti-DMCA check: Lock stream until 30 minutes before kickoff
+    const matchStartTimeStr = match?.startTime || startTime;
+    if (matchStartTimeStr) {
+      const matchTime = new Date(matchStartTimeStr).getTime();
+      const now = Date.now();
+      const UNLOCK_WINDOW_MS = 30 * 60 * 1000;
+      const isFinished = match?.status === "finished" || match?.statusGroup === 4;
+      const isLive = match?.status === "live" || match?.statusGroup === 3;
+
+      if (!isLive && !isFinished && !isNaN(matchTime) && matchTime - now > UNLOCK_WINDOW_MS) {
+        const remainingSeconds = Math.max(0, Math.floor((matchTime - UNLOCK_WINDOW_MS - now) / 1000));
+        return NextResponse.json(
+          {
+            locked: true,
+            message: "البث المباشر سيبدأ قبل 30 دقيقة من انطلاق المباراة",
+            unlocksInSeconds: remainingSeconds,
+            unlockTime: new Date(matchTime - UNLOCK_WINDOW_MS).toISOString(),
+            startTime: matchStartTimeStr,
+          },
+          {
+            status: 200,
+            headers: {
+              "Cache-Control": "no-store, no-cache, must-revalidate",
+              Pragma: "no-cache",
+            },
+          }
+        );
+      }
+    }
 
     // Get all available stream URLs (primary + alternates)
     const allUrls: string[] = [];
