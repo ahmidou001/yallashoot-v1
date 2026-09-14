@@ -11,6 +11,9 @@ import {
 import SidebarLeagues from "@/components/SidebarLeagues";
 import CompetitionTeamsHeaderBar from "@/components/CompetitionTeamsHeaderBar";
 import VideoPlayer from "@/components/VideoPlayer";
+import AdsterraBanner from "@/components/ads/AdsterraBanner";
+import AdsterraNative from "@/components/ads/AdsterraNative";
+import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
 import { GamesResponse, Game, Competition } from "@/types/api";
 import { useSettings, toLatinNumerals } from "@/components/providers";
 import { generateMatchSlug } from "@/lib/matchSlug";
@@ -334,6 +337,9 @@ export default function HomePage() {
       
       {/* Top Competition & Teams Header Bar (beIN Sports Style) */}
       <CompetitionTeamsHeaderBar />
+
+      {/* Top Responsive Leaderboard (728x90 Desktop / 320x50 Mobile) */}
+      <ResponsiveAdBanner className="my-2" />
 
       {/* 2-Column Responsive Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -919,6 +925,8 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* Sidebar Medium Rectangle Banner (300x250) */}
+            <AdsterraBanner size="300x250" className="my-4" />
           </div>
         </div>
 
@@ -1068,6 +1076,9 @@ export default function HomePage() {
               <div className="text-center py-8 text-zinc-400 text-xs">لا تتوفر ملخصات حديثة حالياً.</div>
             )}
           </div>
+
+          {/* Native Sponsor / Recommended Football Articles Banner */}
+          <AdsterraNative className="my-6" />
 
           {/* 3. General Football News Feed Grid (Dynamic from MongoDB) */}
           <div className="space-y-4">

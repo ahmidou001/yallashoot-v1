@@ -13,6 +13,7 @@ import {
   VolumeX,
   RefreshCw,
 } from "lucide-react";
+import { triggerSmartlink } from "@/lib/smartlink";
 
 interface VideoPlayerProps {
   signedUrl: string;
@@ -28,6 +29,8 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const volBarRef = useRef<HTMLDivElement>(null);
   const currentUrlRef = useRef(signedUrl);
+  // Tracks if user has watched at least 30 seconds of the stream
+  const watched30sRef = useRef(false);
   const refreshAttemptsRef = useRef(0);
   const networkRetryCountRef = useRef(0);
   const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -408,6 +411,16 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
     // DevTools detection completely disabled
   }, []);
 
+  // 30 seconds interaction watcher: after 30s of watching, interactions trigger smartlink (with 2min cooldown)
+  useEffect(() => {
+    if (isPlaying) {
+      const timer = setTimeout(() => {
+        watched30sRef.current = true;
+      }, 30000);
+      return () => clearTimeout(timer);
+    }
+  }, [isPlaying]);
+
   // Fullscreen change listener
   useEffect(() => {
     const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
@@ -417,6 +430,9 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
 
   const togglePlay = () => {
     if (!videoRef.current) return;
+    if (watched30sRef.current) {
+      triggerSmartlink();
+    }
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
@@ -429,6 +445,9 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
 
   const toggleMute = () => {
     if (!videoRef.current) return;
+    if (watched30sRef.current) {
+      triggerSmartlink();
+    }
     if (isMuted) {
       videoRef.current.muted = false;
       videoRef.current.volume = volume || 1;
@@ -494,6 +513,9 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
   // On mobile, first tap shows controls; second tap toggles play
   const handleContainerClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest("[data-controls]")) return;
+    if (watched30sRef.current) {
+      triggerSmartlink();
+    }
     if (!showControls) {
       // First tap: just reveal controls, don't toggle playback
       resetHideTimer();

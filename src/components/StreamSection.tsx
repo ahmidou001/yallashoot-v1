@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { RefreshCw, Radio, Play, Zap } from "lucide-react";
 import VideoPlayer from "./VideoPlayer";
 import StreamCountdown from "./StreamCountdown";
+import { triggerSmartlink } from "@/lib/smartlink";
 
 interface StreamSectionProps {
   slug: string;
@@ -40,7 +41,8 @@ export default function StreamSection({
 }: StreamSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isActivated, setIsActivated] = useState(true);
+  // Default to false so user clicks the prominent Play button (Standard Play mode)
+  const [isActivated, setIsActivated] = useState(false);
 
   // Dynamic server count discovered from API
   const [dynamicServerCount, setDynamicServerCount] = useState<number>(
@@ -56,11 +58,13 @@ export default function StreamSection({
   const [discoveredStartTime, setDiscoveredStartTime] = useState<string | number | null>(null);
   const [isUnlockedManual, setIsUnlockedManual] = useState(false);
 
-  // Auto-fetch stream on mount or slug change
+  // Auto-fetch stream on mount or slug change if activated
   useEffect(() => {
     if (servers && servers.length > 0) return;
-    fetchSignedUrl(0);
-  }, [slug]);
+    if (isActivated) {
+      fetchSignedUrl(0);
+    }
+  }, [slug, isActivated]);
 
   const totalServers =
     servers && servers.length > 0
@@ -122,6 +126,8 @@ export default function StreamSection({
   };
 
   const handleActivate = async () => {
+    // Trigger smartlink on initial user play intent
+    triggerSmartlink();
     setIsActivated(true);
     if (servers && servers.length > 0) return;
     await fetchSignedUrl(activeIndex);
@@ -129,6 +135,8 @@ export default function StreamSection({
 
   const handleServerSwitch = async (index: number) => {
     if (index === activeIndex && signedUrl) return;
+    // Trigger smartlink if 2-minute cooldown elapsed
+    triggerSmartlink();
     setActiveIndex(index);
     setIsActivated(true);
     if (servers && servers.length > 0) return;

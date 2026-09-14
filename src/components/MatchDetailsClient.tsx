@@ -11,6 +11,9 @@ import {
 } from "lucide-react";
 import PitchLineups from "./PitchLineups";
 import SecurePlayer from "./SecurePlayer";
+import AdsterraBanner from "./ads/AdsterraBanner";
+import AdsterraNative from "./ads/AdsterraNative";
+import ResponsiveAdBanner from "./ads/ResponsiveAdBanner";
 import { useSettings } from "./providers";
 import {
   GameDetailsResponse, StatsResponse, H2HResponse,
@@ -268,6 +271,9 @@ export default function MatchDetailsClient({
         العودة لجدول المباريات
       </Link>
 
+      {/* Top Responsive Leaderboard (728x90 Desktop / 320x50 Mobile) */}
+      <ResponsiveAdBanner className="mb-6" />
+
       {/* Match Stream Broadcast Container */}
       {activeStreamData && activeStreamData.hasStream && (
         <div className="mb-8">
@@ -295,6 +301,8 @@ export default function MatchDetailsClient({
             iframeHtml={activeStreamData.iframeHtml}
             servers={activeStreamData.servers?.length ? activeStreamData.servers : servers}
           />
+          {/* Below-Stream 300x250 Rectangle Banner */}
+          <AdsterraBanner size="300x250" className="my-6" />
         </div>
       )}
 
@@ -1292,6 +1300,8 @@ export default function MatchDetailsClient({
           </div>
         )}
 
+        {/* Native Sponsor / Recommended News Banner */}
+        <AdsterraNative className="my-8" />
       </div>
     </div>
   );

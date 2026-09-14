@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import PwaInstallPrompt from "@/components/PwaInstallPrompt";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import Script from "next/script";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -175,6 +176,12 @@ export default function RootLayout({
           <MobileBottomNav />
           <PwaInstallPrompt />
         </Providers>
+
+        {/* Adsterra Social Bar (High converting non-intrusive notification) */}
+        <Script
+          src="https://pl31338258.profitableratecpmnetwork.com/32/d6/3e/32d63e7c3cc8446018d588cf66a14b0d.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );
