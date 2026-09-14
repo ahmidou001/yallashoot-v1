@@ -3,6 +3,7 @@ import { dbConnect } from "@/lib/db";
 import LiveMatch from "@/models/LiveMatch";
 import { getGameDetails } from "@/services/api";
 import { generateMatchSlug } from "@/lib/matchSlug";
+import { notifyIndexNow } from "@/lib/indexing";
 
 export const dynamic = "force-dynamic";
 
@@ -128,6 +129,18 @@ export async function POST(request: Request) {
     liveMatchDoc.matches = matchesList;
     liveMatchDoc.updatedAt = new Date();
     await liveMatchDoc.save();
+
+    // Auto-notify IndexNow (Bing) so search engines index newly published/updated match streams immediately
+    try {
+      const urlsToNotify = [
+        "https://www.yallahsoot.com/live",
+        "https://www.yallahsoot.com/",
+      ];
+      if (matchSlug) {
+        urlsToNotify.push(`https://www.yallahsoot.com/match/${matchSlug}`);
+      }
+      notifyIndexNow(urlsToNotify).catch((e) => console.warn("[IndexNow] Background notify failed:", e));
+    } catch {}
 
     return NextResponse.json({ success: true, data: matchPayload });
   } catch (error: any) {

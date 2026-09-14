@@ -17,6 +17,32 @@
       "source_location": "L12"
     },
     {
+      "id": "src_app_news_page_newsarchivepageprops",
+      "label": "NewsArchivePageProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "newsarchivepageprops",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "src_components_teamdetailsclient_teamdetailsclientprops",
+      "label": "TeamDetailsClientProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "teamdetailsclientprops",
+      "source_file": "src/components/TeamDetailsClient.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "src_lib_db_globalmongoose",
       "label": "GlobalMongoose",
       "_callable": true,
@@ -28,6 +54,19 @@
       "norm_label": "globalmongoose",
       "source_file": "src/lib/db.ts",
       "source_location": "L14"
+    },
+    {
+      "id": "src_models_article_iarticle",
+      "label": "IArticle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "iarticle",
+      "source_file": "src/models/Article.ts",
+      "source_location": "L3"
     },
     {
       "id": "src_models_highlight_ihighlight",
@@ -62,24 +101,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "featuredmatchheroprops",
       "source_file": "src/app/page.tsx",
-      "source_location": "L1316"
-    },
-    {
-      "id": "src_components_ads_adsterranative_adsterranativeprops",
-      "label": "AdsterraNativeProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "adsterranativeprops",
-      "source_file": "src/components/ads/AdsterraNative.tsx",
-      "source_location": "L5"
+      "source_location": "L1288"
     },
     {
       "id": "src_components_competitionteamsheaderbar_competitionitem",
@@ -88,7 +114,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "competitionitem",
       "source_file": "src/components/CompetitionTeamsHeaderBar.tsx",
@@ -101,7 +127,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "teamitem",
       "source_file": "src/components/CompetitionTeamsHeaderBar.tsx",
@@ -114,11 +140,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "highlightitem",
       "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L12"
+      "source_location": "L9"
     },
     {
       "id": "src_components_secureplayer_secureplayerprops",
@@ -127,22 +153,9 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "secureplayerprops",
-      "source_file": "src/components/SecurePlayer.tsx",
-      "source_location": "L12"
-    },
-    {
-      "id": "src_components_secureplayer_serveritem",
-      "label": "ServerItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "serveritem",
       "source_file": "src/components/SecurePlayer.tsx",
       "source_location": "L6"
     },
@@ -153,37 +166,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "leagueitem",
       "source_file": "src/components/SidebarLeagues.tsx",
       "source_location": "L8"
-    },
-    {
-      "id": "src_components_streamcountdown_streamcountdownprops",
-      "label": "StreamCountdownProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "streamcountdownprops",
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L7"
-    },
-    {
-      "id": "src_components_streamcountdown_timeleft",
-      "label": "TimeLeft",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "timeleft",
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L22"
     },
     {
       "id": "src_components_streamsection_streamsectionprops",
@@ -192,11 +179,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "streamsectionprops",
       "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L9"
+      "source_location": "L7"
     },
     {
       "id": "src_components_videoplayer_videoplayerprops",
@@ -205,11 +192,50 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "videoplayerprops",
       "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L18"
+      "source_location": "L17"
+    },
+    {
+      "id": "src_types_api_competition",
+      "label": "Competition",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "competition",
+      "source_file": "src/types/api.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_types_api_game",
+      "label": "Game",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "game",
+      "source_file": "src/types/api.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_types_api_gamesresponse",
+      "label": "GamesResponse",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "gamesresponse",
+      "source_file": "src/types/api.ts",
+      "source_location": "L28"
     },
     {
       "id": "src_lib_cache_cacheentry",
@@ -238,19 +264,6 @@
       "source_location": "L160"
     },
     {
-      "id": "src_app_standings_leagueid_page_routeparams",
-      "label": "RouteParams",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "routeparams",
-      "source_file": "src/app/standings/[leagueId]/page.tsx",
-      "source_location": "L11"
-    },
-    {
       "id": "src_app_team_id_page_teampageprops",
       "label": "TeamPageProps",
       "_callable": true,
@@ -270,76 +283,24 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "pageprops",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_app_news_page_newsarchivepageprops",
-      "label": "NewsArchivePageProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "newsarchivepageprops",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L21"
-    },
-    {
-      "id": "src_components_ads_adsterrabanner_adsterrabannerprops",
-      "label": "AdsterraBannerProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "adsterrabannerprops",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L46"
-    },
-    {
-      "id": "src_components_ads_adsterrabanner_adsterrabannersize",
-      "label": "AdsterraBannerSize",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "adsterrabannersize",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L5"
-    },
-    {
-      "id": "src_components_ads_adsterrabanner_bannerconfig",
-      "label": "BannerConfig",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "bannerconfig",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
       "source_location": "L12"
     },
     {
-      "id": "src_components_ads_responsiveadbanner_responsiveadbannerprops",
-      "label": "ResponsiveAdBannerProps",
+      "id": "src_app_standings_leagueid_page_routeparams",
+      "label": "RouteParams",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
-      "norm_label": "responsiveadbannerprops",
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L6"
+      "norm_label": "routeparams",
+      "source_file": "src/app/standings/[leagueId]/page.tsx",
+      "source_location": "L11"
     },
     {
       "id": "src_components_newsimage_newsimageprops",
@@ -348,7 +309,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "newsimageprops",
       "source_file": "src/components/NewsImage.tsx",
@@ -361,37 +322,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "standingsbracketsprops",
       "source_file": "src/components/StandingsBrackets.tsx",
       "source_location": "L8"
-    },
-    {
-      "id": "src_components_teamdetailsclient_teamdetailsclientprops",
-      "label": "TeamDetailsClientProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "teamdetailsclientprops",
-      "source_file": "src/components/TeamDetailsClient.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_models_article_iarticle",
-      "label": "IArticle",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "iarticle",
-      "source_file": "src/models/Article.ts",
-      "source_location": "L3"
     },
     {
       "id": "src_components_matchdetailsclient_matchdetailsclientprops",
@@ -400,24 +335,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "matchdetailsclientprops",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L48"
-    },
-    {
-      "id": "src_components_matchdetailsclient_serveritem",
-      "label": "ServerItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
-      "file_type": "code",
-      "norm_label": "serveritem",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L42"
+      "source_location": "L39"
     },
     {
       "id": "src_components_pitchlineups_pitchlineupsprops",
@@ -426,24 +348,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "pitchlineupsprops",
       "source_file": "src/components/PitchLineups.tsx",
       "source_location": "L7"
-    },
-    {
-      "id": "src_types_api_competition",
-      "label": "Competition",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
-      "file_type": "code",
-      "norm_label": "competition",
-      "source_file": "src/types/api.ts",
-      "source_location": "L9"
     },
     {
       "id": "src_types_api_competitor",
@@ -452,7 +361,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "competitor",
       "source_file": "src/types/api.ts",
@@ -465,7 +374,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "currentstagegame",
       "source_file": "src/types/api.ts",
@@ -478,24 +387,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "currentstageresponse",
       "source_file": "src/types/api.ts",
       "source_location": "L217"
-    },
-    {
-      "id": "src_types_api_game",
-      "label": "Game",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
-      "file_type": "code",
-      "norm_label": "game",
-      "source_file": "src/types/api.ts",
-      "source_location": "L16"
     },
     {
       "id": "src_types_api_gamedetails",
@@ -504,7 +400,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "gamedetails",
       "source_file": "src/types/api.ts",
@@ -517,24 +413,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "gamedetailsresponse",
       "source_file": "src/types/api.ts",
       "source_location": "L121"
-    },
-    {
-      "id": "src_types_api_gamesresponse",
-      "label": "GamesResponse",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
-      "file_type": "code",
-      "norm_label": "gamesresponse",
-      "source_file": "src/types/api.ts",
-      "source_location": "L28"
     },
     {
       "id": "src_types_api_h2hresponse",
@@ -543,7 +426,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "h2hresponse",
       "source_file": "src/types/api.ts",
@@ -556,7 +439,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "historicalgame",
       "source_file": "src/types/api.ts",
@@ -569,7 +452,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "lineup",
       "source_file": "src/types/api.ts",
@@ -582,7 +465,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "lineupmember",
       "source_file": "src/types/api.ts",
@@ -595,7 +478,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "matchevent",
       "source_file": "src/types/api.ts",
@@ -608,7 +491,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "member",
       "source_file": "src/types/api.ts",
@@ -621,7 +504,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "period",
       "source_file": "src/types/api.ts",
@@ -634,7 +517,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "playerposition",
       "source_file": "src/types/api.ts",
@@ -647,7 +530,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "standingdestination",
       "source_file": "src/types/api.ts",
@@ -660,7 +543,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "standingrow",
       "source_file": "src/types/api.ts",
@@ -673,7 +556,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "standingsresponse",
       "source_file": "src/types/api.ts",
@@ -686,7 +569,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "standingtable",
       "source_file": "src/types/api.ts",
@@ -699,7 +582,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "statmetric",
       "source_file": "src/types/api.ts",
@@ -712,7 +595,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "statsresponse",
       "source_file": "src/types/api.ts",
@@ -725,7 +608,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "yardformation",
       "source_file": "src/types/api.ts",
@@ -833,6 +716,18 @@
       "source_location": "L9"
     },
     {
+      "id": "src_app_api_news_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "src/app/api/news/route.ts",
+      "source_location": "L7"
+    },
+    {
       "id": "src_app_api_refresh_url_route_post",
       "label": "POST()",
       "_callable": true,
@@ -866,7 +761,7 @@
       "file_type": "code",
       "norm_label": "delete()",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L158"
+      "source_location": "L145"
     },
     {
       "id": "src_app_api_streams_route_get",
@@ -878,7 +773,7 @@
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L13"
+      "source_location": "L12"
     },
     {
       "id": "src_app_api_streams_route_post",
@@ -890,7 +785,7 @@
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L64"
+      "source_location": "L63"
     },
     {
       "id": "src_app_live_page_livematchespage",
@@ -938,7 +833,7 @@
       "file_type": "code",
       "norm_label": "featuredmatchhero()",
       "source_file": "src/app/page.tsx",
-      "source_location": "L1321"
+      "source_location": "L1293"
     },
     {
       "id": "src_app_sitemap_sitemap",
@@ -951,6 +846,18 @@
       "norm_label": "sitemap()",
       "source_file": "src/app/sitemap.ts",
       "source_location": "L10"
+    },
+    {
+      "id": "src_components_teamdetailsclient_teamdetailsclient",
+      "label": "TeamDetailsClient()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "teamdetailsclient()",
+      "source_file": "src/components/TeamDetailsClient.tsx",
+      "source_location": "L27"
     },
     {
       "id": "src_lib_crypto_generatestreamtoken",
@@ -1054,7 +961,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "aboutpage()",
       "source_file": "src/app/about/page.tsx",
@@ -1066,7 +973,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "contactpage()",
       "source_file": "src/app/contact/page.tsx",
@@ -1078,7 +985,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "highlightspage()",
       "source_file": "src/app/highlights/page.tsx",
@@ -1090,11 +997,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "fetchfeaturedgames()",
       "source_file": "src/app/page.tsx",
-      "source_location": "L33"
+      "source_location": "L29"
     },
     {
       "id": "src_app_page_fetchgames",
@@ -1102,11 +1009,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "fetchgames()",
       "source_file": "src/app/page.tsx",
-      "source_location": "L23"
+      "source_location": "L19"
     },
     {
       "id": "src_app_page_fetchscorers",
@@ -1114,11 +1021,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "fetchscorers()",
       "source_file": "src/app/page.tsx",
-      "source_location": "L43"
+      "source_location": "L39"
     },
     {
       "id": "src_app_page_homepage",
@@ -1126,11 +1033,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "homepage()",
       "source_file": "src/app/page.tsx",
-      "source_location": "L82"
+      "source_location": "L78"
     },
     {
       "id": "src_app_terms_page_termspage",
@@ -1138,22 +1045,10 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "termspage()",
       "source_file": "src/app/terms/page.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_components_ads_adsterranative_adsterranative",
-      "label": "AdsterraNative()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "adsterranative()",
-      "source_file": "src/components/ads/AdsterraNative.tsx",
       "source_location": "L15"
     },
     {
@@ -1162,7 +1057,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "competitionteamsheaderbar()",
       "source_file": "src/components/CompetitionTeamsHeaderBar.tsx",
@@ -1174,7 +1069,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "contactform()",
       "source_file": "src/components/ContactForm.tsx",
@@ -1186,11 +1081,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "highlightsclient()",
       "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L26"
+      "source_location": "L23"
     },
     {
       "id": "src_components_sidebarleagues_sidebarleagues",
@@ -1198,23 +1093,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "sidebarleagues()",
       "source_file": "src/components/SidebarLeagues.tsx",
       "source_location": "L33"
-    },
-    {
-      "id": "src_components_streamcountdown_streamcountdown",
-      "label": "StreamCountdown()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "streamcountdown()",
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L31"
     },
     {
       "id": "src_components_streamsection_streamsection",
@@ -1222,11 +1105,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "streamsection()",
       "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L26"
+      "source_location": "L18"
     },
     {
       "id": "src_components_videoplayer_videoplayer",
@@ -1234,11 +1117,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "videoplayer()",
       "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L24"
+      "source_location": "L23"
     },
     {
       "id": "src_components_videoplayer_videoplayer_initstream",
@@ -1246,35 +1129,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "initstream()",
       "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L158"
-    },
-    {
-      "id": "src_lib_smartlink_cantriggersmartlink",
-      "label": "canTriggerSmartlink()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "cantriggersmartlink()",
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_lib_smartlink_triggersmartlink",
-      "label": "triggerSmartlink()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "triggersmartlink()",
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L34"
+      "source_location": "L155"
     },
     {
       "id": "src_app_api_competitions_featured_route_get",
@@ -1433,42 +1292,6 @@
       "source_location": "L9"
     },
     {
-      "id": "src_app_api_standings_leagueid_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "src/app/api/standings/[leagueId]/route.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "src_app_standings_leagueid_page_generatemetadata",
-      "label": "generateMetadata()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "generatemetadata()",
-      "source_file": "src/app/standings/[leagueId]/page.tsx",
-      "source_location": "L19"
-    },
-    {
-      "id": "src_app_standings_leagueid_page_standingspage",
-      "label": "StandingsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "standingspage()",
-      "source_file": "src/app/standings/[leagueId]/page.tsx",
-      "source_location": "L68"
-    },
-    {
       "id": "src_app_team_id_page_generatemetadata",
       "label": "generateMetadata()",
       "_callable": true,
@@ -1515,42 +1338,6 @@
       "norm_label": "getcompetitionbrackets()",
       "source_file": "src/services/api.ts",
       "source_location": "L365"
-    },
-    {
-      "id": "src_services_api_getcompetitiongames",
-      "label": "getCompetitionGames()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "getcompetitiongames()",
-      "source_file": "src/services/api.ts",
-      "source_location": "L179"
-    },
-    {
-      "id": "src_services_api_getcompetitionscorers",
-      "label": "getCompetitionScorers()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "getcompetitionscorers()",
-      "source_file": "src/services/api.ts",
-      "source_location": "L200"
-    },
-    {
-      "id": "src_services_api_getcompetitionstandings",
-      "label": "getCompetitionStandings()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "getcompetitionstandings()",
-      "source_file": "src/services/api.ts",
-      "source_location": "L144"
     },
     {
       "id": "src_services_api_getcompetitorfixtures",
@@ -1709,16 +1496,28 @@
       "source_location": "L3"
     },
     {
+      "id": "src_app_api_standings_leagueid_route_get",
+      "label": "GET()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "get()",
+      "source_file": "src/app/api/standings/[leagueId]/route.ts",
+      "source_location": "L9"
+    },
+    {
       "id": "src_app_news_id_page_generatemetadata",
       "label": "generateMetadata()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "generatemetadata()",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L19"
+      "source_location": "L16"
     },
     {
       "id": "src_app_news_id_page_mongooseid",
@@ -1726,11 +1525,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "mongooseid()",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L49"
+      "source_location": "L46"
     },
     {
       "id": "src_app_news_id_page_newsarticlepage",
@@ -1738,11 +1537,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "newsarticlepage()",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L53"
+      "source_location": "L50"
     },
     {
       "id": "src_app_news_page_newsarchivepage",
@@ -1750,11 +1549,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "newsarchivepage()",
       "source_file": "src/app/news/page.tsx",
-      "source_location": "L25"
+      "source_location": "L23"
     },
     {
       "id": "src_app_privacy_page_privacypage",
@@ -1762,35 +1561,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "privacypage()",
       "source_file": "src/app/privacy/page.tsx",
       "source_location": "L16"
     },
     {
-      "id": "src_components_ads_adsterrabanner_adsterrabanner",
-      "label": "AdsterraBanner()",
+      "id": "src_app_standings_leagueid_page_generatemetadata",
+      "label": "generateMetadata()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
-      "norm_label": "adsterrabanner()",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L59"
+      "norm_label": "generatemetadata()",
+      "source_file": "src/app/standings/[leagueId]/page.tsx",
+      "source_location": "L19"
     },
     {
-      "id": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "label": "ResponsiveAdBanner()",
+      "id": "src_app_standings_leagueid_page_standingspage",
+      "label": "StandingsPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
-      "norm_label": "responsiveadbanner()",
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L17"
+      "norm_label": "standingspage()",
+      "source_file": "src/app/standings/[leagueId]/page.tsx",
+      "source_location": "L68"
     },
     {
       "id": "src_components_newsimage_newsimage",
@@ -1798,7 +1597,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "newsimage()",
       "source_file": "src/components/NewsImage.tsx",
@@ -1810,23 +1609,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "standingsbrackets()",
       "source_file": "src/components/StandingsBrackets.tsx",
       "source_location": "L13"
-    },
-    {
-      "id": "src_components_teamdetailsclient_teamdetailsclient",
-      "label": "TeamDetailsClient()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "teamdetailsclient()",
-      "source_file": "src/components/TeamDetailsClient.tsx",
-      "source_location": "L27"
     },
     {
       "id": "src_lib_utils_tolatinnumerals",
@@ -1834,11 +1621,47 @@
       "_callable": true,
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "tolatinnumerals()",
       "source_file": "src/lib/utils.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "src_services_api_getcompetitiongames",
+      "label": "getCompetitionGames()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "getcompetitiongames()",
+      "source_file": "src/services/api.ts",
+      "source_location": "L179"
+    },
+    {
+      "id": "src_services_api_getcompetitionscorers",
+      "label": "getCompetitionScorers()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "getcompetitionscorers()",
+      "source_file": "src/services/api.ts",
+      "source_location": "L200"
+    },
+    {
+      "id": "src_services_api_getcompetitionstandings",
+      "label": "getCompetitionStandings()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "getcompetitionstandings()",
+      "source_file": "src/services/api.ts",
+      "source_location": "L144"
     },
     {
       "id": "src_components_matchdetailsclient_getassignedcommentator",
@@ -1846,11 +1669,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "getassignedcommentator()",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L34"
+      "source_location": "L31"
     },
     {
       "id": "src_components_matchdetailsclient_matchdetailsclient",
@@ -1858,11 +1681,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "matchdetailsclient()",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L69"
+      "source_location": "L59"
     },
     {
       "id": "src_components_pitchlineups_pitchlineups",
@@ -1870,7 +1693,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "pitchlineups()",
       "source_file": "src/components/PitchLineups.tsx",
@@ -1882,11 +1705,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "secureplayer()",
       "source_file": "src/components/SecurePlayer.tsx",
-      "source_location": "L37"
+      "source_location": "L23"
     },
     {
       "id": "src_app_layout_rootlayout",
@@ -1898,7 +1721,7 @@
       "file_type": "code",
       "norm_label": "rootlayout()",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L103"
+      "source_location": "L102"
     },
     {
       "id": "src_components_googleanalytics_googleanalytics",
@@ -1985,18 +1808,6 @@
       "source_location": "L10"
     },
     {
-      "id": "src_app_api_news_route_get",
-      "label": "GET()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "indexing.ts",
-      "file_type": "code",
-      "norm_label": "get()",
-      "source_file": "src/app/api/news/route.ts",
-      "source_location": "L7"
-    },
-    {
       "id": "src_app_api_news_route_post",
       "label": "POST()",
       "_callable": true,
@@ -2006,7 +1817,7 @@
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "src/app/api/news/route.ts",
-      "source_location": "L98"
+      "source_location": "L89"
     },
     {
       "id": "src_lib_indexing_getgoogleaccesstoken",
@@ -2124,6 +1935,28 @@
       "source_location": "L4"
     },
     {
+      "id": "src_app_api_news_route",
+      "label": "news/route.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "news/route.ts",
+      "source_file": "src/app/api/news/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_news_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/news/route.ts",
+      "source_location": "L5"
+    },
+    {
       "id": "src_app_api_refresh_url_route",
       "label": "refresh-url/route.ts",
       "_origin": "ast",
@@ -2187,7 +2020,7 @@
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L8"
+      "source_location": "L7"
     },
     {
       "id": "src_app_live_page",
@@ -2234,6 +2067,39 @@
       "source_location": "L1"
     },
     {
+      "id": "src_app_news_page",
+      "label": "news/page.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "news/page.tsx",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_news_page_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_app_news_page_metadata",
+      "label": "metadata",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "metadata",
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L11"
+    },
+    {
       "id": "src_app_sitemap",
       "label": "sitemap.ts",
       "_origin": "ast",
@@ -2254,6 +2120,17 @@
       "norm_label": "revalidate",
       "source_file": "src/app/sitemap.ts",
       "source_location": "L8"
+    },
+    {
+      "id": "src_components_teamdetailsclient",
+      "label": "TeamDetailsClient.tsx",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "teamdetailsclient.tsx",
+      "source_file": "src/components/TeamDetailsClient.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_lib_crypto",
@@ -2309,6 +2186,28 @@
       "norm_label": "team_translations",
       "source_file": "src/lib/matchSlug.ts",
       "source_location": "L9"
+    },
+    {
+      "id": "src_models_article",
+      "label": "Article.ts",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "article.ts",
+      "source_file": "src/models/Article.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_models_article_articleschema",
+      "label": "ArticleSchema",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "dbConnect",
+      "file_type": "code",
+      "norm_label": "articleschema",
+      "source_file": "src/models/Article.ts",
+      "source_location": "L21"
     },
     {
       "id": "src_models_highlight",
@@ -2392,7 +2291,7 @@
       "label": "next.config.ts",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "next.config.ts",
       "source_file": "next.config.ts",
@@ -2403,7 +2302,7 @@
       "label": "nextConfig",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "nextconfig",
       "source_file": "next.config.ts",
@@ -2414,7 +2313,7 @@
       "label": "about/page.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "about/page.tsx",
       "source_file": "src/app/about/page.tsx",
@@ -2425,7 +2324,7 @@
       "label": "metadata",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "metadata",
       "source_file": "src/app/about/page.tsx",
@@ -2436,7 +2335,7 @@
       "label": "contact/page.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "contact/page.tsx",
       "source_file": "src/app/contact/page.tsx",
@@ -2447,7 +2346,7 @@
       "label": "metadata",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "metadata",
       "source_file": "src/app/contact/page.tsx",
@@ -2458,7 +2357,7 @@
       "label": "highlights/page.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "highlights/page.tsx",
       "source_file": "src/app/highlights/page.tsx",
@@ -2469,7 +2368,7 @@
       "label": "metadata",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "metadata",
       "source_file": "src/app/highlights/page.tsx",
@@ -2480,7 +2379,7 @@
       "label": "app/page.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "app/page.tsx",
       "source_file": "src/app/page.tsx",
@@ -2491,18 +2390,18 @@
       "label": "PRIORITY_LEAGUE_IDS",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "priority_league_ids",
       "source_file": "src/app/page.tsx",
-      "source_location": "L53"
+      "source_location": "L49"
     },
     {
       "id": "src_app_terms_page",
       "label": "terms/page.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "terms/page.tsx",
       "source_file": "src/app/terms/page.tsx",
@@ -2513,29 +2412,18 @@
       "label": "metadata",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "metadata",
       "source_file": "src/app/terms/page.tsx",
       "source_location": "L6"
     },
     {
-      "id": "src_components_ads_adsterranative",
-      "label": "AdsterraNative.tsx",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "adsterranative.tsx",
-      "source_file": "src/components/ads/AdsterraNative.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_competitionteamsheaderbar",
       "label": "CompetitionTeamsHeaderBar.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "competitionteamsheaderbar.tsx",
       "source_file": "src/components/CompetitionTeamsHeaderBar.tsx",
@@ -2546,7 +2434,7 @@
       "label": "FEATURED_COMPETITIONS",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "featured_competitions",
       "source_file": "src/components/CompetitionTeamsHeaderBar.tsx",
@@ -2557,7 +2445,7 @@
       "label": "ContactForm.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "contactform.tsx",
       "source_file": "src/components/ContactForm.tsx",
@@ -2568,7 +2456,7 @@
       "label": "HighlightsClient.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "highlightsclient.tsx",
       "source_file": "src/components/HighlightsClient.tsx",
@@ -2579,7 +2467,7 @@
       "label": "SecurePlayer.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "secureplayer.tsx",
       "source_file": "src/components/SecurePlayer.tsx",
@@ -2590,7 +2478,7 @@
       "label": "SidebarLeagues.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "sidebarleagues.tsx",
       "source_file": "src/components/SidebarLeagues.tsx",
@@ -2601,29 +2489,18 @@
       "label": "POPULAR_LEAGUES",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "popular_leagues",
       "source_file": "src/components/SidebarLeagues.tsx",
       "source_location": "L15"
     },
     {
-      "id": "src_components_streamcountdown",
-      "label": "StreamCountdown.tsx",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "streamcountdown.tsx",
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_streamsection",
       "label": "StreamSection.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "streamsection.tsx",
       "source_file": "src/components/StreamSection.tsx",
@@ -2634,51 +2511,18 @@
       "label": "VideoPlayer.tsx",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "code",
       "norm_label": "videoplayer.tsx",
       "source_file": "src/components/VideoPlayer.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_lib_smartlink",
-      "label": "smartlink.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "smartlink.ts",
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_lib_smartlink_smartlink_cooldown_ms",
-      "label": "SMARTLINK_COOLDOWN_MS",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "smartlink_cooldown_ms",
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "src_lib_smartlink_smartlink_url",
-      "label": "SMARTLINK_URL",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "app/page.tsx",
-      "file_type": "code",
-      "norm_label": "smartlink_url",
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L6"
-    },
-    {
       "id": "ref_hls_js",
       "label": "hls.js",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "concept",
       "norm_label": "hls.js",
       "source_file": "package.json",
@@ -2689,7 +2533,7 @@
       "label": "lucide-react",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "concept",
       "norm_label": "lucide-react",
       "source_file": "package.json",
@@ -2700,7 +2544,7 @@
       "label": "next",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "concept",
       "norm_label": "next",
       "source_file": "package.json",
@@ -2711,7 +2555,7 @@
       "label": "react",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "concept",
       "norm_label": "react",
       "source_file": "package.json",
@@ -2722,7 +2566,7 @@
       "label": "@tanstack/react-query",
       "_origin": "ast",
       "community": 1,
-      "community_name": "app/page.tsx",
+      "community_name": "react",
       "file_type": "concept",
       "norm_label": "@tanstack/react-query",
       "source_file": "package.json",
@@ -3308,39 +3152,6 @@
       "source_location": "L4"
     },
     {
-      "id": "src_app_api_standings_leagueid_route",
-      "label": "[leagueId]/route.ts",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "[leagueid]/route.ts",
-      "source_file": "src/app/api/standings/[leagueId]/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_standings_leagueid_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/standings/[leagueId]/route.ts",
-      "source_location": "L4"
-    },
-    {
-      "id": "src_app_standings_leagueid_page",
-      "label": "[leagueId]/page.tsx",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "services/api.ts",
-      "file_type": "code",
-      "norm_label": "[leagueid]/page.tsx",
-      "source_file": "src/app/standings/[leagueId]/page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_app_team_id_page",
       "label": "team/[id]/page.tsx",
       "_origin": "ast",
@@ -3430,11 +3241,33 @@
       "source_location": "L1"
     },
     {
+      "id": "src_app_api_standings_leagueid_route",
+      "label": "[leagueId]/route.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "[leagueid]/route.ts",
+      "source_file": "src/app/api/standings/[leagueId]/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_api_standings_leagueid_route_dynamic",
+      "label": "dynamic",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "toLatinNumerals",
+      "file_type": "code",
+      "norm_label": "dynamic",
+      "source_file": "src/app/api/standings/[leagueId]/route.ts",
+      "source_location": "L4"
+    },
+    {
       "id": "src_app_news_id_page",
       "label": "news/[id]/page.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "news/[id]/page.tsx",
       "source_file": "src/app/news/[id]/page.tsx",
@@ -3445,51 +3278,18 @@
       "label": "dynamic",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "dynamic",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L13"
-    },
-    {
-      "id": "src_app_news_page",
-      "label": "news/page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "news/page.tsx",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_news_page_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L11"
-    },
-    {
-      "id": "src_app_news_page_metadata",
-      "label": "metadata",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "metadata",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L13"
+      "source_location": "L10"
     },
     {
       "id": "src_app_privacy_page",
       "label": "privacy/page.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "privacy/page.tsx",
       "source_file": "src/app/privacy/page.tsx",
@@ -3500,43 +3300,21 @@
       "label": "metadata",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "metadata",
       "source_file": "src/app/privacy/page.tsx",
       "source_location": "L7"
     },
     {
-      "id": "src_components_ads_adsterrabanner",
-      "label": "AdsterraBanner.tsx",
+      "id": "src_app_standings_leagueid_page",
+      "label": "[leagueId]/page.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
-      "norm_label": "adsterrabanner.tsx",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_ads_adsterrabanner_banner_configs",
-      "label": "BANNER_CONFIGS",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "banner_configs",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L18"
-    },
-    {
-      "id": "src_components_ads_responsiveadbanner",
-      "label": "ResponsiveAdBanner.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "responsiveadbanner.tsx",
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
+      "norm_label": "[leagueid]/page.tsx",
+      "source_file": "src/app/standings/[leagueId]/page.tsx",
       "source_location": "L1"
     },
     {
@@ -3544,7 +3322,7 @@
       "label": "NewsImage.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "newsimage.tsx",
       "source_file": "src/components/NewsImage.tsx",
@@ -3555,21 +3333,10 @@
       "label": "StandingsBrackets.tsx",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "standingsbrackets.tsx",
       "source_file": "src/components/StandingsBrackets.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_teamdetailsclient",
-      "label": "TeamDetailsClient.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "teamdetailsclient.tsx",
-      "source_file": "src/components/TeamDetailsClient.tsx",
       "source_location": "L1"
     },
     {
@@ -3577,33 +3344,11 @@
       "label": "utils.ts",
       "_origin": "ast",
       "community": 3,
-      "community_name": "news/[id]/page.tsx",
+      "community_name": "toLatinNumerals",
       "file_type": "code",
       "norm_label": "utils.ts",
       "source_file": "src/lib/utils.ts",
       "source_location": "L1"
-    },
-    {
-      "id": "src_models_article",
-      "label": "Article.ts",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "article.ts",
-      "source_file": "src/models/Article.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_models_article_articleschema",
-      "label": "ArticleSchema",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "news/[id]/page.tsx",
-      "file_type": "code",
-      "norm_label": "articleschema",
-      "source_file": "src/models/Article.ts",
-      "source_location": "L21"
     },
     {
       "id": "package",
@@ -4061,7 +3806,7 @@
       "label": "MatchDetailsClient.tsx",
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "matchdetailsclient.tsx",
       "source_file": "src/components/MatchDetailsClient.tsx",
@@ -4072,18 +3817,18 @@
       "label": "COMMENTATORS",
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "commentators",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L23"
+      "source_location": "L20"
     },
     {
       "id": "src_components_pitchlineups",
       "label": "PitchLineups.tsx",
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "pitchlineups.tsx",
       "source_file": "src/components/PitchLineups.tsx",
@@ -4094,7 +3839,7 @@
       "label": "types/api.ts",
       "_origin": "ast",
       "community": 5,
-      "community_name": "MatchDetailsClient.tsx",
+      "community_name": "types/api.ts",
       "file_type": "code",
       "norm_label": "types/api.ts",
       "source_file": "src/types/api.ts",
@@ -4120,7 +3865,7 @@
       "file_type": "code",
       "norm_label": "cairo",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L11"
+      "source_location": "L10"
     },
     {
       "id": "src_app_layout_metadata",
@@ -4131,7 +3876,7 @@
       "file_type": "code",
       "norm_label": "metadata",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L18"
+      "source_location": "L17"
     },
     {
       "id": "src_app_layout_viewport",
@@ -4142,7 +3887,7 @@
       "file_type": "code",
       "norm_label": "viewport",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L97"
+      "source_location": "L96"
     },
     {
       "id": "src_components_googleanalytics",
@@ -4442,28 +4187,6 @@
       "source_location": "L4"
     },
     {
-      "id": "src_app_api_news_route",
-      "label": "news/route.ts",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "indexing.ts",
-      "file_type": "code",
-      "norm_label": "news/route.ts",
-      "source_file": "src/app/api/news/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_app_api_news_route_dynamic",
-      "label": "dynamic",
-      "_origin": "ast",
-      "community": 8,
-      "community_name": "indexing.ts",
-      "file_type": "code",
-      "norm_label": "dynamic",
-      "source_file": "src/app/api/news/route.ts",
-      "source_location": "L5"
-    },
-    {
       "id": "src_lib_indexing",
       "label": "indexing.ts",
       "_origin": "ast",
@@ -4670,18 +4393,6 @@
     },
     {
       "source": "src_app_api_streams_gameid_route_get",
-      "target": "src_lib_crypto_verifystreamtoken",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/streams/[gameId]/route.ts",
-      "source_location": "L112",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_streams_gameid_route_get",
       "target": "src_lib_db_dbconnect",
       "relation": "calls",
       "_origin": "ast",
@@ -4705,6 +4416,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_app_api_streams_gameid_route_get",
+      "target": "src_lib_crypto_verifystreamtoken",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/app/api/streams/[gameId]/route.ts",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_api_streams_route_delete",
       "target": "src_lib_db_dbconnect",
       "relation": "calls",
@@ -4713,7 +4436,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L160",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -4725,7 +4448,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -4737,19 +4460,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L101",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_api_streams_route_post",
-      "target": "src_lib_indexing_notifyindexnow",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L142",
+      "source_location": "L100",
       "weight": 1.0
     },
     {
@@ -4761,7 +4472,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L66",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -4773,7 +4484,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L79",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -4785,7 +4496,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/live/page.tsx",
-      "source_location": "L204",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -4797,7 +4508,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/live/page.tsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -4809,7 +4520,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/live/page.tsx",
-      "source_location": "L57",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -4869,7 +4580,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L23",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -4881,7 +4592,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L63",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -4893,7 +4604,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L79",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -4905,7 +4616,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/news/page.tsx",
-      "source_location": "L120",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -4917,7 +4628,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L1403",
+      "source_location": "L1375",
       "weight": 1.0
     },
     {
@@ -4929,19 +4640,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L1438",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page_homepage",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L1030",
+      "source_location": "L1410",
       "weight": 1.0
     },
     {
@@ -4953,7 +4652,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L150",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -4965,7 +4664,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L392",
+      "source_location": "L372",
       "weight": 1.0
     },
     {
@@ -4977,7 +4676,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L609",
+      "source_location": "L589",
       "weight": 1.0
     },
     {
@@ -4989,7 +4688,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/page.tsx",
-      "source_location": "L83",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
@@ -5013,7 +4712,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/sitemap.ts",
-      "source_location": "L146",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -5025,7 +4724,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/app/sitemap.ts",
-      "source_location": "L94",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -5253,31 +4952,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L225",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient_highlightsclient",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L32",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient_matchdetailsclient",
-      "target": "src_components_matchdetailsclient_getassignedcommentator",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L298",
+      "source_location": "L213",
       "weight": 1.0
     },
     {
@@ -5289,7 +4964,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L79",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_matchdetailsclient_matchdetailsclient",
+      "target": "src_components_matchdetailsclient_getassignedcommentator",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/MatchDetailsClient.tsx",
+      "source_location": "L951",
       "weight": 1.0
     },
     {
@@ -5329,18 +5016,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_streamsection_streamsection",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L127",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_teamdetailsclient_teamdetailsclient",
       "target": "src_lib_utils_tolatinnumerals",
       "relation": "calls",
@@ -5349,7 +5024,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/TeamDetailsClient.tsx",
-      "source_location": "L588",
+      "source_location": "L586",
       "weight": 1.0
     },
     {
@@ -5361,19 +5036,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/TeamDetailsClient.tsx",
-      "source_location": "L711",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_videoplayer_videoplayer",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L434",
+      "source_location": "L709",
       "weight": 1.0
     },
     {
@@ -5434,18 +5097,6 @@
       "context": "call",
       "source_file": "src/lib/matchSlug.ts",
       "source_location": "L199",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_smartlink_triggersmartlink",
-      "target": "src_lib_smartlink_cantriggersmartlink",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -5649,7 +5300,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L158",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -5673,7 +5324,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L49",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -5710,7 +5361,7 @@
       "context": "import",
       "deferred": true,
       "source_file": "src/app/api/news/route.ts",
-      "source_location": "L130",
+      "source_location": "L121",
       "weight": 1.0
     },
     {
@@ -6218,18 +5869,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_api_streams_route",
-      "target": "src_lib_indexing_notifyindexnow",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
       "source": "src_app_contact_page",
       "target": "src_components_contactform_contactform",
       "relation": "imports",
@@ -6411,30 +6050,6 @@
     },
     {
       "source": "src_app_news_id_page",
-      "target": "src_components_ads_adsterrabanner_adsterrabanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_id_page",
-      "target": "src_components_ads_adsterranative_adsterranative",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_id_page",
       "target": "src_lib_db_dbconnect",
       "relation": "imports",
       "_origin": "ast",
@@ -6467,18 +6082,6 @@
       "context": "import",
       "source_file": "src/app/news/[id]/page.tsx",
       "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_id_page",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -6515,30 +6118,6 @@
       "context": "import",
       "source_file": "src/app/news/page.tsx",
       "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_page",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_page",
-      "target": "src_components_ads_adsterranative_adsterranative",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -6579,7 +6158,7 @@
     },
     {
       "source": "src_app_page",
-      "target": "src_components_ads_adsterrabanner_adsterrabanner",
+      "target": "src_types_api_competition",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6591,54 +6170,6 @@
     },
     {
       "source": "src_app_page",
-      "target": "src_components_ads_adsterranative_adsterranative",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L15",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
-      "target": "src_types_api_competition",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L18",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
       "target": "src_types_api_game",
       "relation": "imports",
       "_origin": "ast",
@@ -6646,7 +6177,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/page.tsx",
-      "source_location": "L18",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -6658,7 +6189,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/page.tsx",
-      "source_location": "L18",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -6670,7 +6201,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/page.tsx",
-      "source_location": "L19",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -6682,7 +6213,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/page.tsx",
-      "source_location": "L19",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -6694,7 +6225,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/page.tsx",
-      "source_location": "L20",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -6950,18 +6481,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_ads_responsiveadbanner",
-      "target": "src_components_ads_adsterrabanner_adsterrabanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L4",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_header",
       "target": "src_components_providers_themeoption",
       "relation": "imports",
@@ -7011,18 +6530,6 @@
     },
     {
       "source": "src_components_highlightsclient",
-      "target": "src_components_ads_adsterranative_adsterranative",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient",
       "target": "src_lib_utils_tolatinnumerals",
       "relation": "imports",
       "_origin": "ast",
@@ -7031,30 +6538,6 @@
       "context": "import",
       "source_file": "src/components/HighlightsClient.tsx",
       "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -7083,7 +6566,7 @@
     },
     {
       "source": "src_components_matchdetailsclient",
-      "target": "src_components_ads_adsterrabanner_adsterrabanner",
+      "target": "src_components_providers_usesettings",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7095,7 +6578,7 @@
     },
     {
       "source": "src_components_matchdetailsclient",
-      "target": "src_components_ads_adsterranative_adsterranative",
+      "target": "src_types_api_gamedetailsresponse",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -7107,42 +6590,6 @@
     },
     {
       "source": "src_components_matchdetailsclient",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
-      "target": "src_components_providers_usesettings",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
-      "target": "src_types_api_gamedetailsresponse",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
       "target": "src_types_api_h2hresponse",
       "relation": "imports",
       "_origin": "ast",
@@ -7150,7 +6597,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7162,7 +6609,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7174,7 +6621,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7186,7 +6633,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7198,7 +6645,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7210,7 +6657,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -7310,30 +6757,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_streamsection",
-      "target": "src_components_streamcountdown_streamcountdown",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_streamsection",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_teamdetailsclient",
       "target": "src_lib_matchslug_generatematchslug",
       "relation": "imports",
@@ -7355,18 +6778,6 @@
       "context": "import",
       "source_file": "src/components/TeamDetailsClient.tsx",
       "source_location": "L13",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_videoplayer",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -7875,18 +7286,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_api_streams_route",
-      "target": "src_lib_indexing",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
       "source": "src_app_contact_page",
       "target": "ref_react",
       "relation": "imports_from",
@@ -8225,30 +7624,6 @@
     },
     {
       "source": "src_app_news_id_page",
-      "target": "src_components_ads_adsterrabanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_id_page",
-      "target": "src_components_ads_adsterranative",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_id_page",
       "target": "ref_lucide_react",
       "relation": "imports_from",
       "_origin": "ast",
@@ -8317,18 +7692,6 @@
       "context": "import",
       "source_file": "src/app/news/[id]/page.tsx",
       "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_id_page",
-      "target": "src_components_ads_responsiveadbanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -8404,30 +7767,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_app_news_page",
-      "target": "src_components_ads_responsiveadbanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_page",
-      "target": "src_components_ads_adsterranative",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
       "source": "src_app_page",
       "target": "src_components_sidebarleagues",
       "relation": "imports_from",
@@ -8465,7 +7804,7 @@
     },
     {
       "source": "src_app_page",
-      "target": "src_components_ads_adsterrabanner",
+      "target": "src_types_api",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -8477,7 +7816,7 @@
     },
     {
       "source": "src_app_page",
-      "target": "src_components_ads_adsterranative",
+      "target": "src_components_providers",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -8489,54 +7828,6 @@
     },
     {
       "source": "src_app_page",
-      "target": "src_components_ads_responsiveadbanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
-      "target": "src_lib_smartlink",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
-      "target": "src_types_api",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L18",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
-      "target": "src_components_providers",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/app/page.tsx",
-      "source_location": "L19",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_page",
       "target": "src_lib_matchslug",
       "relation": "imports_from",
       "_origin": "ast",
@@ -8544,7 +7835,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/app/page.tsx",
-      "source_location": "L20",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -8872,54 +8163,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_ads_adsterrabanner",
-      "target": "ref_react",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterranative",
-      "target": "ref_react",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/ads/AdsterraNative.tsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_responsiveadbanner",
-      "target": "ref_react",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_responsiveadbanner",
-      "target": "src_components_ads_adsterrabanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L4",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_competitionteamsheaderbar",
       "target": "ref_react",
       "relation": "imports_from",
@@ -9005,18 +8248,6 @@
     },
     {
       "source": "src_components_highlightsclient",
-      "target": "src_components_ads_adsterranative",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient",
       "target": "ref_react",
       "relation": "imports_from",
       "_origin": "ast",
@@ -9064,30 +8295,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_highlightsclient",
-      "target": "src_lib_smartlink",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient",
-      "target": "src_components_ads_responsiveadbanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_matchdetailsclient",
       "target": "src_components_pitchlineups",
       "relation": "imports_from",
@@ -9113,7 +8320,7 @@
     },
     {
       "source": "src_components_matchdetailsclient",
-      "target": "src_components_ads_adsterrabanner",
+      "target": "src_components_providers",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9125,42 +8332,6 @@
     },
     {
       "source": "src_components_matchdetailsclient",
-      "target": "src_components_ads_adsterranative",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L15",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
-      "target": "src_components_ads_responsiveadbanner",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L16",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
-      "target": "src_components_providers",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
       "target": "src_types_api",
       "relation": "imports_from",
       "_origin": "ast",
@@ -9168,7 +8339,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L18",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -9424,30 +8595,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_streamcountdown",
-      "target": "ref_react",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_streamcountdown",
-      "target": "ref_lucide_react",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_streamsection",
       "target": "ref_react",
       "relation": "imports_from",
@@ -9481,30 +8628,6 @@
       "context": "import",
       "source_file": "src/components/StreamSection.tsx",
       "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_streamsection",
-      "target": "src_components_streamcountdown",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_streamsection",
-      "target": "src_lib_smartlink",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -9565,18 +8688,6 @@
       "context": "import",
       "source_file": "src/components/TeamDetailsClient.tsx",
       "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_videoplayer",
-      "target": "src_lib_smartlink",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -10488,7 +9599,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/news/route.ts",
-      "source_location": "L98",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -10565,7 +9676,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -10576,7 +9687,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L158",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -10587,7 +9698,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L64",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -10598,7 +9709,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/api/streams/route.ts",
-      "source_location": "L8",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -10647,24 +9758,24 @@
     },
     {
       "source": "src_app_layout",
-      "target": "src_app_layout_rootlayout",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/layout.tsx",
-      "source_location": "L103",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_layout",
       "target": "src_app_layout_cairo",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/layout.tsx",
-      "source_location": "L11",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout",
+      "target": "src_app_layout_rootlayout",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L102",
       "weight": 1.0
     },
     {
@@ -10675,7 +9786,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/layout.tsx",
-      "source_location": "L18",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -10686,7 +9797,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/layout.tsx",
-      "source_location": "L97",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -10763,7 +9874,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L13",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -10774,7 +9885,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L15",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -10785,7 +9896,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L19",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -10796,7 +9907,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L49",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -10807,18 +9918,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/[id]/page.tsx",
-      "source_location": "L53",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_news_page",
-      "target": "src_app_news_page_dynamic",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/app/news/page.tsx",
-      "source_location": "L11",
+      "source_location": "L50",
       "weight": 1.0
     },
     {
@@ -10829,7 +9929,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/page.tsx",
-      "source_location": "L13",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -10840,7 +9940,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/page.tsx",
-      "source_location": "L21",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -10851,7 +9951,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/news/page.tsx",
-      "source_location": "L25",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_news_page",
+      "target": "src_app_news_page_dynamic",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/news/page.tsx",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -10862,7 +9973,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L1316",
+      "source_location": "L1288",
       "weight": 1.0
     },
     {
@@ -10873,7 +9984,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L1321",
+      "source_location": "L1293",
       "weight": 1.0
     },
     {
@@ -10884,7 +9995,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L23",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -10895,7 +10006,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L33",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -10906,7 +10017,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L43",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -10917,7 +10028,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L53",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -10928,7 +10039,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/page.tsx",
-      "source_location": "L82",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -11086,105 +10197,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_ads_adsterrabanner",
-      "target": "src_components_ads_adsterrabanner_bannerconfig",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L12",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterrabanner",
-      "target": "src_components_ads_adsterrabanner_banner_configs",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L18",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterrabanner",
-      "target": "src_components_ads_adsterrabanner_adsterrabannerprops",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L46",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterrabanner",
-      "target": "src_components_ads_adsterrabanner_adsterrabannersize",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterrabanner",
-      "target": "src_components_ads_adsterrabanner_adsterrabanner",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraBanner.tsx",
-      "source_location": "L59",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterranative",
-      "target": "src_components_ads_adsterranative_adsterranative",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraNative.tsx",
-      "source_location": "L15",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_adsterranative",
-      "target": "src_components_ads_adsterranative_adsterranativeprops",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/AdsterraNative.tsx",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_responsiveadbanner",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbanner",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_ads_responsiveadbanner",
-      "target": "src_components_ads_responsiveadbanner_responsiveadbannerprops",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/ads/ResponsiveAdBanner.tsx",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_competitionteamsheaderbar",
       "target": "src_components_competitionteamsheaderbar_competitionitem",
       "relation": "contains",
@@ -11263,24 +10275,24 @@
     },
     {
       "source": "src_components_highlightsclient",
-      "target": "src_components_highlightsclient_highlightitem",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L12",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_highlightsclient",
       "target": "src_components_highlightsclient_highlightsclient",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/HighlightsClient.tsx",
-      "source_location": "L26",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_highlightsclient",
+      "target": "src_components_highlightsclient_highlightitem",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/HighlightsClient.tsx",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
@@ -11291,7 +10303,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L23",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -11302,18 +10314,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L34",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_matchdetailsclient",
-      "target": "src_components_matchdetailsclient_serveritem",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L42",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -11324,7 +10325,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L48",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -11335,7 +10336,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/MatchDetailsClient.tsx",
-      "source_location": "L69",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -11483,29 +10484,18 @@
     },
     {
       "source": "src_components_secureplayer",
-      "target": "src_components_secureplayer_secureplayerprops",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/SecurePlayer.tsx",
-      "source_location": "L12",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_secureplayer",
       "target": "src_components_secureplayer_secureplayer",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/SecurePlayer.tsx",
-      "source_location": "L37",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
       "source": "src_components_secureplayer",
-      "target": "src_components_secureplayer_serveritem",
+      "target": "src_components_secureplayer_secureplayerprops",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -11570,39 +10560,6 @@
       "weight": 1.0
     },
     {
-      "source": "src_components_streamcountdown",
-      "target": "src_components_streamcountdown_timeleft",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L22",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_streamcountdown",
-      "target": "src_components_streamcountdown_streamcountdown",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L31",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_streamcountdown",
-      "target": "src_components_streamcountdown_streamcountdownprops",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/StreamCountdown.tsx",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
       "source": "src_components_streamsection",
       "target": "src_components_streamsection_streamsection",
       "relation": "contains",
@@ -11610,7 +10567,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L26",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -11621,7 +10578,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/StreamSection.tsx",
-      "source_location": "L9",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -11654,7 +10611,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L18",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -11665,7 +10622,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/VideoPlayer.tsx",
-      "source_location": "L24",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -11875,50 +10832,6 @@
       "confidence_score": 1.0,
       "source_file": "src/lib/matchSlug.ts",
       "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_smartlink",
-      "target": "src_lib_smartlink_smartlink_cooldown_ms",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_smartlink",
-      "target": "src_lib_smartlink_cantriggersmartlink",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_smartlink",
-      "target": "src_lib_smartlink_triggersmartlink",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L34",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_smartlink",
-      "target": "src_lib_smartlink_smartlink_url",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/smartlink.ts",
-      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -12885,10 +11798,10 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "src/app/page.tsx",
-      "source_location": "L165",
+      "source_location": "L155",
       "weight": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6d5fded6eb66e9b100d737b7dfc9046bbfd2a4da"
+  "built_at_commit": "2631cf60e5fb8efc75da43c2af0779a629dced61"
 }
