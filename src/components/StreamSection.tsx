@@ -41,8 +41,7 @@ export default function StreamSection({
 }: StreamSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  // Default to false so user clicks the prominent Play button (Standard Play mode)
-  const [isActivated, setIsActivated] = useState(false);
+  const [isActivated, setIsActivated] = useState(true);
 
   // Dynamic server count discovered from API
   const [dynamicServerCount, setDynamicServerCount] = useState<number>(
@@ -58,13 +57,11 @@ export default function StreamSection({
   const [discoveredStartTime, setDiscoveredStartTime] = useState<string | number | null>(null);
   const [isUnlockedManual, setIsUnlockedManual] = useState(false);
 
-  // Auto-fetch stream on mount or slug change if activated
+  // Auto-fetch stream on mount or slug change
   useEffect(() => {
     if (servers && servers.length > 0) return;
-    if (isActivated) {
-      fetchSignedUrl(0);
-    }
-  }, [slug, isActivated]);
+    fetchSignedUrl(0);
+  }, [slug]);
 
   const totalServers =
     servers && servers.length > 0
@@ -208,7 +205,7 @@ export default function StreamSection({
   return (
     <div>
       {/* ── Modern Multi-Server Switcher Bar (Matching Image 2) ── */}
-      {isLive && (
+      {!isFinished && (
         <div className="flex items-center justify-between px-3.5 py-2.5 sm:px-5 border-b border-zinc-800/80 bg-zinc-900/90 backdrop-blur-md">
           {/* Right side: Title & Live Pulse */}
           <div className="flex items-center gap-2">
@@ -279,41 +276,6 @@ export default function StreamSection({
             <p className="text-xs text-white/40 font-medium">
               البث المباشر غير متوفر حالياً بعد نهاية المباراة.
             </p>
-          </div>
-        ) : !isLive ? (
-          /* ── Coming soon match placeholder ── */
-          <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-3.5 bg-[#080a0f] text-center px-4">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(10,166,116,0.04)_0%,transparent_70%)] pointer-events-none" />
-
-            <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/5 bg-white/3 shadow-[0_4px_20px_rgba(0,0,0,0.3)] text-primary">
-              <svg
-                className="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-            </div>
-            <div className="relative space-y-1">
-              <h3 className="text-sm font-bold text-white">
-                المباراة لم تبدأ بعد
-              </h3>
-              <p className="text-xs text-white/50">
-                ستبدأ المباراة عند الساعة{" "}
-                <span className="font-bold text-primary font-mono">
-                  {matchTime || "—"}
-                </span>
-              </p>
-              <p className="text-[11px] text-white/35 max-w-[280px] mx-auto leading-normal">
-                سيتوفر البث المباشر والقنوات الناقلة تلقائياً فور اقتراب موعد
-                المباراة.
-              </p>
-            </div>
           </div>
         ) : !isActivated ? (
           /* ── Click-to-Play Activation Overlay ── */
