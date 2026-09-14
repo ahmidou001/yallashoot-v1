@@ -92,7 +92,7 @@ export default function StreamCountdown({
     if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
       try {
         Notification.requestPermission();
-      } catch {}
+      } catch { }
     }
   };
 
@@ -109,7 +109,7 @@ export default function StreamCountdown({
       {/* ─── Ambient Glow & Stadium Atmosphere ─── */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(16,185,129,0.18)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_120%,rgba(59,130,246,0.12)_0%,transparent_70%)] pointer-events-none" />
-      
+
       {/* Subtle Pitch Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
@@ -119,7 +119,7 @@ export default function StreamCountdown({
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 shadow-lg shadow-emerald-500/5 backdrop-blur-md">
           <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
           <span className="text-[11px] sm:text-xs font-bold text-emerald-300">
-            حماية البث المباشر • يفتح قبل {unlockMinutesBefore} دقيقة
+            يفتح قبل {unlockMinutesBefore} دقيقة
           </span>
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -255,11 +255,10 @@ export default function StreamCountdown({
         <button
           onClick={handleReminderClick}
           disabled={reminded}
-          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shadow-md ${
-            reminded
+          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shadow-md ${reminded
               ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
               : "bg-zinc-800/90 hover:bg-zinc-700 text-white border border-zinc-700 hover:border-emerald-500/40 hover:scale-[1.02] active:scale-95"
-          }`}
+            }`}
         >
           {reminded ? (
             <>
