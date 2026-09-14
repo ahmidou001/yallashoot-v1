@@ -6,6 +6,9 @@ import Article from "@/models/Article";
 import { Metadata } from "next";
 import NewsImage from "@/components/NewsImage";
 import { toLatinNumerals } from "@/lib/utils";
+import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
+import AdsterraBanner from "@/components/ads/AdsterraBanner";
+import AdsterraNative from "@/components/ads/AdsterraNative";
 
 export const dynamic = "force-dynamic";
 
@@ -134,6 +137,9 @@ export default async function NewsArticlePage({ params }: PageProps) {
         </span>
       </div>
 
+      {/* Top Responsive Leaderboard (728x90 Desktop / 320x50 Mobile) */}
+      <ResponsiveAdBanner className="mb-6" />
+
       {/* Main Article Container */}
       <article className="overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl">
         {/* Cover Image */}
@@ -184,8 +190,14 @@ export default async function NewsArticlePage({ params }: PageProps) {
           <div className="prose prose-invert max-w-none text-zinc-200 text-base sm:text-lg leading-relaxed whitespace-pre-line space-y-4">
             {article.body_ar}
           </div>
+
+          {/* In-Article Medium Rectangle Banner (300x250) */}
+          <AdsterraBanner size="300x250" className="my-6" />
         </div>
       </article>
+
+      {/* Native Sponsor / Recommended Football Articles Banner */}
+      <AdsterraNative className="my-8" />
 
       {/* Related News Section */}
       {relatedArticles.length > 0 && (

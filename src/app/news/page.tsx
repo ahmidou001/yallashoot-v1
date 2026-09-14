@@ -5,6 +5,8 @@ import Article from "@/models/Article";
 import { Metadata } from "next";
 import NewsImage from "@/components/NewsImage";
 import { toLatinNumerals } from "@/lib/utils";
+import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
+import AdsterraNative from "@/components/ads/AdsterraNative";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +82,9 @@ export default async function NewsArchivePage({ searchParams }: NewsArchivePageP
         </Link>
       </div>
 
+      {/* Top Responsive Leaderboard (728x90 Desktop / 320x50 Mobile) */}
+      <ResponsiveAdBanner className="my-4" />
+
       {/* Articles Grid */}
       {articles.length > 0 ? (
         <>
@@ -123,6 +128,9 @@ export default async function NewsArchivePage({ searchParams }: NewsArchivePageP
               </Link>
             ))}
           </div>
+
+          {/* Native Sponsor / Recommended Football Articles Banner */}
+          <AdsterraNative className="my-8" />
 
           {/* Pagination Controls */}
           {totalPages > 1 && (

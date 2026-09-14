@@ -14,6 +14,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import AdsterraBanner from "@/components/ads/AdsterraBanner";
 import AdsterraNative from "@/components/ads/AdsterraNative";
 import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
+import { triggerSmartlink } from "@/lib/smartlink";
 import { GamesResponse, Game, Competition } from "@/types/api";
 import { useSettings, toLatinNumerals } from "@/components/providers";
 import { generateMatchSlug } from "@/lib/matchSlug";
@@ -1025,7 +1026,10 @@ export default function HomePage() {
                 {latestSummaries.map((summary: any) => (
                   <div
                     key={summary._id}
-                    onClick={() => setActiveSummaryModal(summary)}
+                    onClick={() => {
+                      triggerSmartlink();
+                      setActiveSummaryModal(summary);
+                    }}
                     className="group cursor-pointer bg-zinc-950 border border-zinc-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 flex flex-col justify-between"
                   >
                     {/* Thumbnail */}

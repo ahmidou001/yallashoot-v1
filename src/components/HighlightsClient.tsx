@@ -5,6 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Play, Search, Film, X, Trophy, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { toLatinNumerals } from "@/components/providers";
+import { triggerSmartlink } from "@/lib/smartlink";
+import ResponsiveAdBanner from "./ads/ResponsiveAdBanner";
+import AdsterraNative from "./ads/AdsterraNative";
 
 interface HighlightItem {
   _id: string;
@@ -23,6 +26,12 @@ interface HighlightItem {
 export default function HighlightsClient() {
   const [search, setSearch] = useState("");
   const [activePlayer, setActivePlayer] = useState<HighlightItem | null>(null);
+
+  const handlePlayHighlight = (item: HighlightItem) => {
+    // Trigger smartlink (respects 30s cooldown)
+    triggerSmartlink();
+    setActivePlayer(item);
+  };
 
   const { data: highlights = [], isLoading } = useQuery<HighlightItem[]>({
     queryKey: ["publicHighlights"],
@@ -81,6 +90,9 @@ export default function HighlightsClient() {
         </div>
       </div>
 
+      {/* Responsive Leaderboard Banner (728x90 Desktop / 320x50 Mobile) */}
+      <ResponsiveAdBanner className="my-4" />
+
       {/* Featured Video Highlight Banner (If Available & No Search) */}
       {!search && featuredHighlight && (
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-950 border border-emerald-500/20 p-6 sm:p-8 shadow-2xl">
@@ -88,7 +100,7 @@ export default function HighlightsClient() {
             {/* Left: Thumbnail Player Trigger */}
             <div
               className="lg:col-span-7 relative aspect-video bg-zinc-950 rounded-2xl overflow-hidden group border border-zinc-800 shadow-xl cursor-pointer"
-              onClick={() => setActivePlayer(featuredHighlight)}
+              onClick={() => handlePlayHighlight(featuredHighlight)}
             >
               {featuredHighlight.thumbnailUrl ? (
                 <img
@@ -134,7 +146,7 @@ export default function HighlightsClient() {
 
               <div className="pt-2">
                 <button
-                  onClick={() => setActivePlayer(featuredHighlight)}
+                  onClick={() => handlePlayHighlight(featuredHighlight)}
                   className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black px-6 py-3 rounded-2xl text-sm transition duration-200 shadow-lg shadow-emerald-500/20 cursor-pointer"
                 >
                   <Play className="w-4 h-4 fill-current" />
@@ -169,7 +181,7 @@ export default function HighlightsClient() {
             {filteredHighlights.map((item) => (
               <div
                 key={item._id}
-                onClick={() => setActivePlayer(item)}
+                onClick={() => handlePlayHighlight(item)}
                 className="group cursor-pointer bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Thumbnail */}
@@ -233,6 +245,9 @@ export default function HighlightsClient() {
           </div>
         )}
       </div>
+      
+      {/* Native Sponsor / Highlights Ad */}
+      <AdsterraNative className="my-8" />
 
       {/* Video Player Modal */}
       {activePlayer && (
@@ -266,30 +281,6 @@ export default function HighlightsClient() {
                 allowFullScreen
                 title={activePlayer.title}
               />
-            </div>
-
-            {/* Modal Footer with Direct Link Fallback */}
-            <div className="p-4 bg-zinc-950 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-              <span className="text-zinc-400">
-                إذا ظهرت لك رسالة حظر من المصدر، يمكنك الفتح مباشرة:
-              </span>
-              {(() => {
-                let directUrl = activePlayer.iframeUrl;
-                const ytMatch = directUrl.match(/\/embed\/([a-zA-Z0-9_-]+)/);
-                if (ytMatch && ytMatch[1]) {
-                  directUrl = `https://www.youtube.com/watch?v=${ytMatch[1]}`;
-                }
-                return (
-                  <a
-                    href={directUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition shadow-md shrink-0"
-                  >
-                    <span>مشاهدة الفيديو مباشرة على المصدر ↗</span>
-                  </a>
-                );
-              })()}
             </div>
           </div>
         </div>

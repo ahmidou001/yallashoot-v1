@@ -6,13 +6,13 @@
 export const SMARTLINK_URL =
   "https://www.profitableratecpmnetwork.com/mxx1c3hxf3?key=fe0231fcd6853fb60907928ad31283aa";
 
-// 2 minutes cooldown between ad triggers
-export const SMARTLINK_COOLDOWN_MS = 2 * 60 * 1000; // 120,000 ms
+// 30 seconds cooldown between ad triggers
+export const SMARTLINK_COOLDOWN_MS = 30 * 1000; // 30,000 ms
 
 const STORAGE_KEY = "yalla_smartlink_last_ts";
 
 /**
- * Check if the 2-minute cooldown period has passed.
+ * Check if the 30-second cooldown period has passed.
  */
 export function canTriggerSmartlink(): boolean {
   if (typeof window === "undefined") return false;
