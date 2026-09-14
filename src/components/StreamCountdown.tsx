@@ -101,9 +101,31 @@ export default function StreamCountdown({
     ? kickOffDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })
     : "";
 
+  const initialTotalSecondsRef = React.useRef<number | null>(null);
+
+  // Initialize total duration on first calculation so ring starts full and drains down
+  useEffect(() => {
+    if (initialTotalSecondsRef.current === null && timeLeft.totalSeconds > 0) {
+      initialTotalSecondsRef.current = timeLeft.totalSeconds;
+    }
+  }, [timeLeft.totalSeconds]);
+
+  // SVG circular geometry
+  const radius = 82;
+  const strokeWidth = 7;
+  const circumference = 2 * Math.PI * radius; // ~515.22
+
+  const total = initialTotalSecondsRef.current && initialTotalSecondsRef.current > 0 
+    ? initialTotalSecondsRef.current 
+    : Math.max(timeLeft.totalSeconds, 1);
+  
+  // Progress fraction from 1.0 (full) to 0.0 (empty)
+  const progress = Math.max(0, Math.min(1, timeLeft.totalSeconds / total));
+  const strokeDashoffset = circumference * (1 - progress);
+
   return (
     <div
-      className="relative w-full aspect-video min-h-[340px] sm:min-h-[400px] md:min-h-[440px] bg-[#07090e] rounded-2xl overflow-hidden flex flex-col items-center justify-between p-4 sm:p-6 text-center select-none shadow-2xl border border-zinc-800/80"
+      className="relative w-full aspect-video min-h-[380px] sm:min-h-[440px] md:min-h-[480px] bg-[#07090e] rounded-2xl overflow-hidden flex flex-col items-center justify-between p-3.5 sm:p-6 text-center select-none shadow-2xl border border-zinc-800/80"
       dir="rtl"
     >
       {/* ─── Ambient Glow & Stadium Atmosphere ─── */}
@@ -114,7 +136,7 @@ export default function StreamCountdown({
       <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 
       {/* ─── Header: Security Shield Capsule ─── */}
-      <div className="relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-2.5 px-1 sm:px-2">
+      <div className="relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-2 px-1 sm:px-2">
         {/* Anti-Bot Security Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 shadow-lg shadow-emerald-500/5 backdrop-blur-md">
           <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -142,22 +164,22 @@ export default function StreamCountdown({
         )}
       </div>
 
-      {/* ─── Center: Match Info & Countdown Cards ─── */}
-      <div className="relative z-10 w-full max-w-xl my-auto flex flex-col items-center gap-3.5 sm:gap-5">
+      {/* ─── Center: Match Info & Circular Progress Countdown ─── */}
+      <div className="relative z-10 w-full max-w-xl my-auto flex flex-col items-center justify-center gap-2.5 sm:gap-4">
         {/* Teams Matchup Header */}
         <div className="flex items-center justify-center gap-3 sm:gap-6 w-full">
           {/* Home Team */}
           <div className="flex items-center gap-2 sm:gap-3 flex-1 justify-end min-w-0">
-            <span className="text-xs sm:text-base font-black text-white truncate drop-shadow-sm">
+            <span className="text-xs sm:text-sm md:text-base font-black text-white truncate drop-shadow-sm">
               {homeTeamName}
             </span>
             {homeTeamLogo ? (
-              <div className="relative w-8 h-8 sm:w-11 sm:h-11 rounded-full p-1 bg-white/5 border border-white/10 shrink-0 shadow-md">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full p-1 bg-white/5 border border-white/10 shrink-0 shadow-md">
                 <Image
                   src={homeTeamLogo}
                   alt={homeTeamName}
                   fill
-                  sizes="44px"
+                  sizes="40px"
                   className="object-contain p-0.5"
                   unoptimized
                 />
@@ -173,18 +195,18 @@ export default function StreamCountdown({
           {/* Away Team */}
           <div className="flex items-center gap-2 sm:gap-3 flex-1 justify-start min-w-0">
             {awayTeamLogo ? (
-              <div className="relative w-8 h-8 sm:w-11 sm:h-11 rounded-full p-1 bg-white/5 border border-white/10 shrink-0 shadow-md">
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full p-1 bg-white/5 border border-white/10 shrink-0 shadow-md">
                 <Image
                   src={awayTeamLogo}
                   alt={awayTeamName}
                   fill
-                  sizes="44px"
+                  sizes="40px"
                   className="object-contain p-0.5"
                   unoptimized
                 />
               </div>
             ) : null}
-            <span className="text-xs sm:text-base font-black text-white truncate drop-shadow-sm">
+            <span className="text-xs sm:text-sm md:text-base font-black text-white truncate drop-shadow-sm">
               {awayTeamName}
             </span>
           </div>
@@ -192,50 +214,94 @@ export default function StreamCountdown({
 
         {/* Kickoff timing subtitle */}
         {formattedKickOffTime && (
-          <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-medium">
+          <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-zinc-400 font-medium">
             <Clock className="w-3.5 h-3.5 text-amber-400" />
             <span>موعد انطلاق المباراة: {formattedKickOffTime}</span>
           </div>
         )}
 
-        {/* ─── Digital Neon Countdown Boxes ─── */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3.5 w-full max-w-md pt-1">
-          {timeLeft.days > 0 && (
-            <div className="flex flex-col items-center justify-center p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 shadow-lg backdrop-blur-xl group hover:border-emerald-500/40 transition-all">
-              <span className="font-mono text-2xl sm:text-4xl font-extrabold text-white tracking-wider tabular-nums drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
-                {String(timeLeft.days).padStart(2, "0")}
-              </span>
-              <span className="text-[10px] sm:text-xs font-bold text-zinc-400 mt-1">
-                يوم
-              </span>
+        {/* ─── Circular Glowing Progress Ring & Centered Timer ─── */}
+        <div className="relative flex items-center justify-center my-1 sm:my-2">
+          {/* Outer Ambient Glow Circle */}
+          <div className="absolute inset-0 rounded-full bg-emerald-500/10 blur-xl scale-95 pointer-events-none" />
+
+          {/* SVG Progress Circle */}
+          <div className="relative w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center">
+            <svg
+              className="w-full h-full -rotate-90 transform drop-shadow-[0_0_15px_rgba(16,185,129,0.35)]"
+              viewBox="0 0 190 190"
+            >
+              <defs>
+                <linearGradient id="streamTimerGradCom" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="60%" stopColor="#06b6d4" />
+                  <stop offset="100%" stopColor="#3b82f6" />
+                </linearGradient>
+              </defs>
+
+              {/* Background Track */}
+              <circle
+                cx="95"
+                cy="95"
+                r={radius}
+                stroke="currentColor"
+                strokeWidth={strokeWidth}
+                className="text-white/10 fill-transparent"
+              />
+
+              {/* Animated Progress Stroke */}
+              <circle
+                cx="95"
+                cy="95"
+                r={radius}
+                stroke="url(#streamTimerGradCom)"
+                strokeWidth={strokeWidth}
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                strokeLinecap="round"
+                className="fill-transparent transition-[stroke-dashoffset] duration-1000 ease-linear"
+              />
+            </svg>
+
+            {/* Inner Content (Mathematically Centered) */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
+              {/* Optional Day Badge if > 0 */}
+              {timeLeft.days > 0 && (
+                <div className="mb-1 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] sm:text-[11px] font-bold text-emerald-300">
+                  {timeLeft.days} {timeLeft.days === 1 ? "يوم" : "أيام"} متبقية
+                </div>
+              )}
+
+              {/* Digits HH : MM : SS */}
+              <div
+                className="font-mono text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-widest tabular-nums drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]"
+                dir="ltr"
+              >
+                <span>{String(timeLeft.hours).padStart(2, "0")}</span>
+                <span className="text-emerald-400 animate-pulse mx-0.5">:</span>
+                <span>{String(timeLeft.minutes).padStart(2, "0")}</span>
+                <span className="text-cyan-400 animate-pulse mx-0.5">:</span>
+                <span className="text-cyan-300">{String(timeLeft.seconds).padStart(2, "0")}</span>
+              </div>
+
+              {/* Arabic Subtitles for Units */}
+              <div
+                className="flex items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-xs font-semibold text-zinc-400 mt-1"
+                dir="ltr"
+              >
+                <span className="w-7 text-center">ساعة</span>
+                <span className="text-zinc-600">•</span>
+                <span className="w-7 text-center">دقيقة</span>
+                <span className="text-zinc-600">•</span>
+                <span className="w-7 text-center text-cyan-400">ثانية</span>
+              </div>
+
+              {/* Status indicator below counter */}
+              <div className="flex items-center gap-1.5 mt-2 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] sm:text-[10px] text-zinc-300 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span>العد التنازلي للبث</span>
+              </div>
             </div>
-          )}
-
-          <div className="flex flex-col items-center justify-center p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 shadow-lg backdrop-blur-xl group hover:border-emerald-500/40 transition-all">
-            <span className="font-mono text-2xl sm:text-4xl font-extrabold text-emerald-400 tracking-wider tabular-nums drop-shadow-[0_0_18px_rgba(16,185,129,0.5)]">
-              {String(timeLeft.hours).padStart(2, "0")}
-            </span>
-            <span className="text-[10px] sm:text-xs font-bold text-zinc-400 mt-1">
-              ساعة
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center justify-center p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 shadow-lg backdrop-blur-xl group hover:border-emerald-500/40 transition-all">
-            <span className="font-mono text-2xl sm:text-4xl font-extrabold text-emerald-400 tracking-wider tabular-nums drop-shadow-[0_0_18px_rgba(16,185,129,0.5)]">
-              {String(timeLeft.minutes).padStart(2, "0")}
-            </span>
-            <span className="text-[10px] sm:text-xs font-bold text-zinc-400 mt-1">
-              دقيقة
-            </span>
-          </div>
-
-          <div className="flex flex-col items-center justify-center p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 shadow-lg backdrop-blur-xl group hover:border-emerald-500/40 transition-all">
-            <span className="font-mono text-2xl sm:text-4xl font-extrabold text-cyan-400 tracking-wider tabular-nums drop-shadow-[0_0_18px_rgba(6,182,212,0.5)]">
-              {String(timeLeft.seconds).padStart(2, "0")}
-            </span>
-            <span className="text-[10px] sm:text-xs font-bold text-zinc-400 mt-1">
-              ثانية
-            </span>
           </div>
         </div>
 
@@ -246,19 +312,20 @@ export default function StreamCountdown({
       </div>
 
       {/* ─── Footer: Interactive Bell & Live Pulse ─── */}
-      <div className="relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-white/5 px-2">
+      <div className="relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2 border-t border-white/5 px-2">
         <div className="flex items-center gap-2 text-[11px] sm:text-xs text-zinc-400 font-medium">
-          <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20" />
+          <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20 shrink-0" />
           <span>الاستوديو التحليلي وسيرفرات البث قيد التجهيز</span>
         </div>
 
         <button
           onClick={handleReminderClick}
           disabled={reminded}
-          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shadow-md ${reminded
+          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shadow-md ${
+            reminded
               ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
               : "bg-zinc-800/90 hover:bg-zinc-700 text-white border border-zinc-700 hover:border-emerald-500/40 hover:scale-[1.02] active:scale-95"
-            }`}
+          }`}
         >
           {reminded ? (
             <>
