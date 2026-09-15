@@ -20,11 +20,14 @@ export async function submitToIndexNow(urlList: string[]): Promise<IndexNowRespo
     return { success: false, message: "urlList must be a non-empty array of strings" };
   }
 
-  // Format URLs to ensure full absolute URLs with exact host
+  // Format URLs to ensure full absolute URLs with exact verified host
   const formattedUrlList = urlList.map((url) => {
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-      return url;
-    }
+    try {
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        const parsed = new URL(url);
+        return `https://${INDEXNOW_HOST}${parsed.pathname}${parsed.search}`;
+      }
+    } catch {}
     const cleanPath = url.startsWith("/") ? url : `/${url}`;
     return `https://${INDEXNOW_HOST}${cleanPath}`;
   });
