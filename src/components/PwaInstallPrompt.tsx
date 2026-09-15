@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Download, X, Smartphone, ShieldCheck, Zap, Share, PlusSquare } from "lucide-react";
+import { Download, X, Smartphone, ShieldCheck, Zap, Share, PlusSquare, Send } from "lucide-react";
 
 export default function PwaInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -85,9 +85,26 @@ export default function PwaInstallPrompt() {
 
   return (
     <>
-      {/* Sleek, Non-Intrusive Bottom Floating Action Badge */}
-      {showWidget && (
-        <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 flex items-center animate-fadeIn select-none">
+      {/* Sleek, Non-Intrusive Bottom Floating Action Badges */}
+      <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 flex items-center gap-2.5 animate-fadeIn select-none">
+        {/* Telegram Channel Floating Button */}
+        <a
+          href="https://t.me/yalla_shooot"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-zinc-900/95 border border-[#229ED9]/50 text-[#229ED9] shadow-[0_0_20px_rgba(34,158,217,0.25)] hover:shadow-[0_0_30px_rgba(34,158,217,0.45)] hover:border-[#229ED9] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer backdrop-blur-md"
+          title="انضم لقناة التليجرام للبث المباشر"
+        >
+          <div className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#229ED9] text-white shadow-sm shrink-0">
+            <Send className="h-4 w-4" />
+          </div>
+          <span className="text-xs font-black text-zinc-150 hidden sm:inline">
+            قناة التليجرام ✈️
+          </span>
+        </a>
+
+        {/* PWA Install Button */}
+        {showWidget && (
           <div className="relative group">
             {/* Tiny Dismiss (x) button */}
             <button
@@ -113,8 +130,8 @@ export default function PwaInstallPrompt() {
               </span>
             </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Install Modal Dialog (Opened ONLY when user voluntarily clicks floating badge) */}
       {showModal && (

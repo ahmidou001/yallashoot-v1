@@ -1,16 +1,16 @@
-# Graph Report - yallashoot.com  (2026-09-15)
+# Graph Report - yallashoot.com  (2026-09-14)
 
 ## Corpus Check
-- 77 files · ~95,218 words
+- 77 files · ~94,320 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 387 nodes · 728 edges · 22 communities (14 shown, 6 thin omitted)
+- 384 nodes · 725 edges · 22 communities (14 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `671e2948`
+- Built from commit: `6d5fded6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,12 +21,12 @@
 - news/[id]/page.tsx
 - package.json
 - MatchDetailsClient.tsx
-- react
+- providers.tsx
 - compilerOptions
 - indexing.ts
 - manifest.json
 - Task List
-- Task List: Mock Player, Telegram & Media Generator
+- Task List: Match Page & UI Refinements
 - README.md
 - competitions/featured/route.ts
 - games/featured/route.ts
@@ -67,11 +67,11 @@
 
 ### Community 0 - "dbConnect"
 Cohesion: 0.08
-Nodes (39): mongoose, GET(), dynamic, GET(), dynamic, GET(), dynamic, POST() (+31 more)
+Nodes (38): mongoose, GET(), dynamic, GET(), dynamic, GET(), dynamic, POST() (+30 more)
 
 ### Community 1 - "app/page.tsx"
-Cohesion: 0.09
-Nodes (23): FeaturedMatchHeroProps, fetchFeaturedGames(), fetchGames(), HomePage(), PRIORITY_LEAGUE_IDS, CompetitionItem, CompetitionTeamsHeaderBar(), FEATURED_COMPETITIONS (+15 more)
+Cohesion: 0.06
+Nodes (40): nextConfig, hls.js, lucide-react, next, react, @tanstack/react-query, metadata, metadata (+32 more)
 
 ### Community 2 - "services/api.ts"
 Cohesion: 0.12
@@ -79,19 +79,19 @@ Nodes (33): dynamic, GET(), dynamic, GET(), dynamic, GET(), dynamic, GET() (+25 
 
 ### Community 3 - "news/[id]/page.tsx"
 Cohesion: 0.08
-Nodes (30): @tanstack/react-query, metadata, dynamic, generateMetadata(), mongooseId(), NewsArticlePage(), PageProps, dynamic (+22 more)
+Nodes (27): dynamic, generateMetadata(), mongooseId(), NewsArticlePage(), PageProps, dynamic, metadata, NewsArchivePage() (+19 more)
 
 ### Community 4 - "package.json"
 Cohesion: 0.05
-Nodes (41): dependencies, clsx, hls.js, lucide-react, mongodb, mongoose, next, react (+33 more)
+Nodes (40): dependencies, clsx, hls.js, lucide-react, mongodb, mongoose, next, react (+32 more)
 
 ### Community 5 - "MatchDetailsClient.tsx"
-Cohesion: 0.08
-Nodes (33): COMMENTATORS, getAssignedCommentator(), MatchDetailsClient(), MatchDetailsClientProps, ServerItem, PitchLineups(), PitchLineupsProps, SecurePlayer() (+25 more)
-
-### Community 6 - "react"
 Cohesion: 0.09
-Nodes (24): nextConfig, lucide-react, next, react, metadata, metadata, cairo, metadata (+16 more)
+Nodes (31): COMMENTATORS, getAssignedCommentator(), MatchDetailsClient(), MatchDetailsClientProps, ServerItem, PitchLineups(), PitchLineupsProps, SecurePlayer() (+23 more)
+
+### Community 6 - "providers.tsx"
+Cohesion: 0.16
+Nodes (14): cairo, metadata, viewport, GoogleAnalytics(), Header(), MobileBottomNav(), Providers(), SettingsContext (+6 more)
 
 ### Community 7 - "compilerOptions"
 Cohesion: 0.11
@@ -106,12 +106,12 @@ Cohesion: 0.18
 Nodes (10): background_color, description, display, icons, name, orientation, scope, short_name (+2 more)
 
 ### Community 11 - "Task List"
-Cohesion: 0.22
-Nodes (8): Architecture Decisions, Implementation Plan: Mock Player Monetization, Telegram Integration & Media Generator Update, Overview, Phase 1: Mock Player & First-Click Monetization (`yallashoot.com`), Phase 2: Floating Telegram Button (`yallashoot.com`), Phase 3: Media Generator Domain Migration (`dashboard-yallatir`), Phase 4: Verification, Task List
+Cohesion: 0.29
+Nodes (6): Implementation Plan: Match Page & UI Refinements, Overview, Phase 1: Core Logic & Dates, Phase 2: Navigation & Lineup 3D, Phase 3: Verification, Task List
 
-### Community 12 - "Task List: Mock Player, Telegram & Media Generator"
-Cohesion: 0.33
-Nodes (5): Phase 1: Mock Player & First-Click Monetization (`yallashoot.com`), Phase 2: Floating Telegram Button (`yallashoot.com`), Phase 3: Media Generator Domain Migration (`dashboard-yallatir`), Phase 4: Verification, Task List: Mock Player, Telegram & Media Generator
+### Community 12 - "Task List: Match Page & UI Refinements"
+Cohesion: 0.40
+Nodes (4): Phase 1: Core Logic & Dates, Phase 2: Navigation & Lineup 3D, Phase 3: Verification, Task List: Match Page & UI Refinements
 
 ### Community 13 - "README.md"
 Cohesion: 0.50
@@ -122,24 +122,24 @@ Cohesion: 0.13
 Nodes (10): dynamic, GET(), MAJOR_COMPETITION_IDS, TOP_TEAMS_IDS, dynamic, GET(), CacheEntry, globalForCache (+2 more)
 
 ## Knowledge Gaps
-- **172 isolated node(s):** `eslintConfig`, `nextConfig`, `name`, `version`, `private` (+167 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 197 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **169 isolated node(s):** `eslintConfig`, `nextConfig`, `name`, `version`, `private` (+164 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 194 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `dbConnect`, `app/page.tsx`, `services/api.ts`, `news/[id]/page.tsx`, `package.json`, `MatchDetailsClient.tsx`?**
-  _High betweenness centrality (0.140) - this node is a cross-community bridge._
-- **Why does `next` connect `react` to `dbConnect`, `services/api.ts`, `news/[id]/page.tsx`, `package.json`?**
-  _High betweenness centrality (0.082) - this node is a cross-community bridge._
-- **Why does `lucide-react` connect `react` to `dbConnect`, `app/page.tsx`, `services/api.ts`, `news/[id]/page.tsx`, `package.json`, `MatchDetailsClient.tsx`?**
-  _High betweenness centrality (0.078) - this node is a cross-community bridge._
+- **Why does `react` connect `app/page.tsx` to `dbConnect`, `services/api.ts`, `news/[id]/page.tsx`, `package.json`, `MatchDetailsClient.tsx`, `providers.tsx`?**
+  _High betweenness centrality (0.142) - this node is a cross-community bridge._
+- **Why does `next` connect `app/page.tsx` to `dbConnect`, `services/api.ts`, `news/[id]/page.tsx`, `package.json`, `providers.tsx`?**
+  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+- **Why does `lucide-react` connect `app/page.tsx` to `dbConnect`, `services/api.ts`, `news/[id]/page.tsx`, `package.json`, `MatchDetailsClient.tsx`, `providers.tsx`?**
+  _High betweenness centrality (0.079) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `nextConfig`, `name` to the rest of the system?**
-  _172 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _169 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dbConnect` be split into smaller, more focused modules?**
-  _Cohesion score 0.07792207792207792 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08106219426974144 - nodes in this community are weakly interconnected._
 - **Should `app/page.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.09475806451612903 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05764145954521417 - nodes in this community are weakly interconnected._
 - **Should `services/api.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.11666666666666667 - nodes in this community are weakly interconnected._

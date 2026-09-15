@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "src/components/PwaInstallPrompt.tsx": {
-    "mtime": 1789476318.3221734,
-    "seen": 1789477045.7256749,
-    "ast_hash": "1debb70aa23e41f2bc03323990973b48",
+    "mtime": 1789121533.0304112,
+    "seen": 1789299580.2775872,
+    "ast_hash": "8e490430a3c08234856452887e822509",
     "semantic_hash": ""
   },
   "src/components/SecurePlayer.tsx": {
@@ -294,9 +294,9 @@
     "semantic_hash": ""
   },
   "src/components/StreamSection.tsx": {
-    "mtime": 1789476227.6973279,
-    "seen": 1789477045.7257206,
-    "ast_hash": "9b49a4410a7a9f3813f74ae1f71cc32f",
+    "mtime": 1789412744.6609435,
+    "seen": 1789415435.2684262,
+    "ast_hash": "7c66c73aeb1330241628c489379011b3",
     "semantic_hash": ""
   },
   "src/components/TeamDetailsClient.tsx": {
@@ -330,9 +330,9 @@
     "semantic_hash": ""
   },
   "src/lib/indexing.ts": {
-    "mtime": 1789471643.2801597,
-    "seen": 1789477045.725807,
-    "ast_hash": "e140a66142ce4fa9e29b8cf5dfeef968",
+    "mtime": 1787922271.9747462,
+    "seen": 1789064238.409463,
+    "ast_hash": "4a8efe79363b4b38f60af8fcb64413b2",
     "semantic_hash": ""
   },
   "src/lib/matchSlug.ts": {
@@ -426,15 +426,15 @@
     "semantic_hash": ""
   },
   "tasks/plan.md": {
-    "mtime": 1789475810.0796418,
-    "seen": 1789477045.7259176,
-    "ast_hash": "bc0bc9b14ab19ff8a03fd3ae9baf55ac",
+    "mtime": 1789041798.410055,
+    "seen": 1789064238.4095113,
+    "ast_hash": "ae95d1e599271f0576a06e36a8175633",
     "semantic_hash": ""
   },
   "tasks/todo.md": {
-    "mtime": 1789475833.0085547,
-    "seen": 1789477045.7259228,
-    "ast_hash": "02b4c9cdbe922f792ff6a834a68da2a4",
+    "mtime": 1789042139.8605924,
+    "seen": 1789064238.409514,
+    "ast_hash": "d9c148225a020276a706046f471f2427",
     "semantic_hash": ""
   },
   "public/fav-icon.svg": {
@@ -504,9 +504,9 @@
     "semantic_hash": ""
   },
   "src/components/StreamCountdown.tsx": {
-    "mtime": 1789476043.5321608,
-    "seen": 1789477045.725711,
-    "ast_hash": "014899c9d4c23da3a1164caab5ca2a6f",
+    "mtime": 1789384168.7482023,
+    "seen": 1789415435.268419,
+    "ast_hash": "a40e0b5086c98356b29b4b485b59f514",
     "semantic_hash": ""
   },
   "src/components/ads/AdsterraBanner.tsx": {

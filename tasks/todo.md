@@ -1,13 +1,14 @@
-# Task List: Match Page & UI Refinements
+# Task List: Mock Player, Telegram & Media Generator
 
-## Phase 1: Core Logic & Dates
-- [x] Task 1: Fix `getDateLabel` in `src/app/page.tsx` (matches today show "اليوم")
-- [x] Task 2: Implement commentator fallback selector in `src/components/MatchDetailsClient.tsx`
+## Phase 1: Mock Player & First-Click Monetization (`yallashoot.com`)
+- [x] Task 1: Add Mock Player Overlay to `StreamSection.tsx` (Click-to-Play, triggerSmartlink, connection animation, reveal countdown)
+- [x] Task 2: Add Telegram call-to-action button to `StreamCountdown.tsx`
 
-## Phase 2: Navigation & Lineup 3D
-- [x] Task 3: Overhaul `src/components/PitchLineups.tsx` to match Image 2 (3D pitch, team toggles, formation, player cards, coach card)
-- [x] Task 4: Fix scroll-to-top jumping on tab change in `src/components/MatchDetailsClient.tsx`
-- [x] Task 5: Reorder tabs in `src/components/MatchDetailsClient.tsx` (التفاصيل، أحداث المباراة، ملخص المباراة، الإحصائيات، التشكيلة، المواجهات المباشرة، الترتيب)
+## Phase 2: Floating Telegram Button (`yallashoot.com`)
+- [x] Task 3: Add floating Telegram channel button beside PWA install in `PwaInstallPrompt.tsx`
 
-## Phase 3: Verification
-- [x] Task 6: Run `npm run build` and verify clean build
+## Phase 3: Media Generator Domain Migration (`dashboard-yallatir`)
+- [x] Task 4: Update `MatchPoster.tsx`, `SummaryPoster.tsx`, `SchedulePoster.tsx`, `PosterControls.tsx`, and `MediaGeneratorTabs.tsx` to `yallahsoot.com`
+
+## Phase 4: Verification
+- [x] Task 5: Verify build in `yallashoot.com`

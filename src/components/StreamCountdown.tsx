@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { ShieldCheck, Clock, Bell, Sparkles, Tv, Check, Flame } from "lucide-react";
+import { ShieldCheck, Clock, Bell, Sparkles, Tv, Check, Flame, Send } from "lucide-react";
 
 interface StreamCountdownProps {
   /** Target kick-off time in ISO string or timestamp */
@@ -318,27 +318,40 @@ export default function StreamCountdown({
           <span>الاستوديو التحليلي وسيرفرات البث قيد التجهيز</span>
         </div>
 
-        <button
-          onClick={handleReminderClick}
-          disabled={reminded}
-          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shadow-md ${
-            reminded
-              ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
-              : "bg-zinc-800/90 hover:bg-zinc-700 text-white border border-zinc-700 hover:border-emerald-500/40 hover:scale-[1.02] active:scale-95"
-          }`}
-        >
-          {reminded ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-emerald-400" />
-              <span>تم تفعيل التنبيه!</span>
-            </>
-          ) : (
-            <>
-              <Bell className="w-3.5 h-3.5 text-amber-400" />
-              <span>تنبيهي عند بدء البث</span>
-            </>
-          )}
-        </button>
+        <div className="flex items-center gap-2">
+          <a
+            href="https://t.me/yalla_shooot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#229ED9]/15 hover:bg-[#229ED9]/25 text-[#229ED9] border border-[#229ED9]/30 hover:border-[#229ED9]/50 transition-all duration-200 shadow-md shadow-[#229ED9]/10 cursor-pointer"
+            title="انضم لقناتنا على تليجرام"
+          >
+            <Send className="w-3.5 h-3.5" />
+            <span>قناة التليجرام للبث ✈️</span>
+          </a>
+
+          <button
+            onClick={handleReminderClick}
+            disabled={reminded}
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer shadow-md ${
+              reminded
+                ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
+                : "bg-zinc-800/90 hover:bg-zinc-700 text-white border border-zinc-700 hover:border-emerald-500/40 hover:scale-[1.02] active:scale-95"
+            }`}
+          >
+            {reminded ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span>تم تفعيل التنبيه!</span>
+              </>
+            ) : (
+              <>
+                <Bell className="w-3.5 h-3.5 text-amber-400" />
+                <span>تنبيهي عند بدء البث</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
