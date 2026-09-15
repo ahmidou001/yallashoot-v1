@@ -497,21 +497,6 @@ export default function StreamSection({
             <p className="text-sm text-white/30">البث غير متوفر حالياً</p>
           </div>
         )}
-
-        {/* ── Corner Refresh Button ── */}
-        {!iframeHtml && isActivated && !isRefreshing && !isFetchingUrl && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleRefresh();
-            }}
-            className="absolute top-3 left-3 z-30 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white/70 hover:text-white hover:bg-black/80 hover:scale-105 active:scale-95 transition-all shadow-lg cursor-pointer"
-            aria-label="تحديث البث"
-            title="تحديث سيرفر البث"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-          </button>
-        )}
       </div>
     </div>
   );
