@@ -7,6 +7,7 @@ import { getCompetitionStandings, getCompetitionGames, getCompetitionScorers, ge
 import SidebarLeagues from "@/components/SidebarLeagues";
 import StandingsBrackets from "@/components/StandingsBrackets";
 import { toLatinNumerals } from "@/lib/utils";
+import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
 
 type RouteParams = {
   params: Promise<{ leagueId: string }>;
@@ -579,7 +580,8 @@ export default async function StandingsPage({ params, searchParams }: RouteParam
               </div>
             )}
 
-
+            {/* Contextual In-Page Responsive Ad Banner */}
+            <ResponsiveAdBanner className="mt-6" />
           </div>
 
         </div>

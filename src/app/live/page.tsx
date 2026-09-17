@@ -6,6 +6,7 @@ import { dbConnect } from "@/lib/db";
 import LiveMatch from "@/models/LiveMatch";
 import { getGameDetails } from "@/services/api";
 import { generateMatchSlug } from "@/lib/matchSlug";
+import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -305,6 +306,9 @@ export default async function LiveMatchesPage() {
           })}
         </div>
       )}
+
+      {/* In-page contextual responsive ad banner */}
+      <ResponsiveAdBanner className="mt-8" />
     </div>
   );
 }

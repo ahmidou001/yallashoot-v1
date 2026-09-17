@@ -42,7 +42,7 @@ export default function StreamSection({
 }: StreamSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isActivated, setIsActivated] = useState(true);
+  const [isActivated, setIsActivated] = useState(false);
 
   // Dynamic server count discovered from API
   const [dynamicServerCount, setDynamicServerCount] = useState<number>(
@@ -434,28 +434,40 @@ export default function StreamSection({
             </p>
           </div>
         ) : !isActivated ? (
-          /* ── Click-to-Play Activation Overlay ── */
+          /* ── Click-to-Play Activation Overlay (Option 1) ── */
           <button
             onClick={handleActivate}
-            className="group absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-4 bg-[#080a0f] cursor-pointer"
-            aria-label="انقر لمشاهدة البث المباشر"
+            className="group absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-4 sm:gap-5 bg-[#080a0f] cursor-pointer p-4 text-center select-none"
+            aria-label="انقر لتشغيل البث المباشر والصوت"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(16,185,129,0.1)_0%,transparent_70%)]" />
+            {/* Ambient Lighting */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,rgba(16,185,129,0.18)_0%,transparent_70%)] pointer-events-none" />
 
-            <div className="relative flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-[11px] font-bold text-emerald-400 tracking-wider">
-                بث مباشر
+            {/* Live Indicator Pill */}
+            <div className="relative z-10 flex items-center gap-2 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-3.5 py-1.5 shadow-lg shadow-emerald-500/10 backdrop-blur-md">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              </span>
+              <span className="text-xs font-black text-emerald-300 tracking-wider">
+                بث مباشر الآن • جودة فائقة HD
               </span>
             </div>
 
-            <div className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-emerald-500 border-2 border-emerald-300/40 shadow-[0_0_40px_rgba(16,185,129,0.4)] group-hover:scale-105 transition-all duration-300">
-              <Play className="h-6 w-6 sm:h-8 sm:w-8 fill-zinc-950 text-zinc-950 translate-x-0.5" />
+            {/* Pulsing Play Button */}
+            <div className="relative z-10 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 border-2 border-emerald-300/60 shadow-[0_0_50px_rgba(16,185,129,0.45)] group-hover:scale-110 group-hover:shadow-[0_0_65px_rgba(16,185,129,0.65)] transition-all duration-300">
+              <Play className="h-8 w-8 sm:h-10 sm:w-10 fill-zinc-950 text-zinc-950 translate-x-0.5" />
             </div>
 
-            <p className="relative text-xs sm:text-sm text-zinc-400 group-hover:text-white transition-colors">
-              انقر هنا لبدء مشاهدة البث بجودة عالية
-            </p>
+            {/* Call to action text */}
+            <div className="relative z-10 flex flex-col items-center gap-1.5">
+              <h3 className="text-sm sm:text-base md:text-lg font-black text-white group-hover:text-emerald-300 transition-colors drop-shadow-md">
+                انقر هنا لتشغيل البث المباشر والصوت
+              </h3>
+              <p className="text-[11px] sm:text-xs text-zinc-400 font-medium">
+                🔊 تشغيل فوري بأعلى جودة مع صوت المعلق
+              </p>
+            </div>
           </button>
         ) : isFetchingUrl || isRefreshing ? (
           /* ── Fetching URL Loading Spinner ── */
@@ -490,6 +502,7 @@ export default function StreamSection({
             key={`${activeIndex}-${currentSignedUrl}`}
             signedUrl={currentSignedUrl}
             slug={slug}
+            startUnmuted={true}
           />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-3">

@@ -1,14 +1,15 @@
-# Task List: Mock Player, Telegram & Media Generator
+# Task List: Option 1 (Click to Play with Sound) & SEO Banners
 
-## Phase 1: Mock Player & First-Click Monetization (`yallashoot.com`)
-- [x] Task 1: Add Mock Player Overlay to `StreamSection.tsx` (Click-to-Play, triggerSmartlink, connection animation, reveal countdown)
-- [x] Task 2: Add Telegram call-to-action button to `StreamCountdown.tsx`
+## Phase 1: Clean Up Intrusive Ads
+- [x] Task 1: Remove `SocialBar` script from `yallashoot.com/src/app/layout.tsx`
 
-## Phase 2: Floating Telegram Button (`yallashoot.com`)
-- [x] Task 3: Add floating Telegram channel button beside PWA install in `PwaInstallPrompt.tsx`
+## Phase 2: Click to Play with Sound & Smartlink
+- [x] Task 2: Implement Click-to-Play with Sound in `StreamSection.tsx` & `VideoPlayer.tsx`
 
-## Phase 3: Media Generator Domain Migration (`dashboard-yallatir`)
-- [x] Task 4: Update `MatchPoster.tsx`, `SummaryPoster.tsx`, `SchedulePoster.tsx`, `PosterControls.tsx`, and `MediaGeneratorTabs.tsx` to `yallahsoot.com`
+## Phase 3: Zero-CLS Layout Banner & Missing Pages
+- [x] Task 3: Create `LayoutAdBanner.tsx` with Zero-CLS reservation
+- [x] Task 4: Integrate `LayoutAdBanner` into `src/app/layout.tsx`
+- [x] Task 5: Add responsive banners to `/live`, `/standings/[leagueId]`, and `/team/[id]`
 
-## Phase 4: Verification
-- [x] Task 5: Verify build in `yallashoot.com`
+## Phase 4: Verification & Build
+- [x] Task 6: Run build verification (`npm run build`)

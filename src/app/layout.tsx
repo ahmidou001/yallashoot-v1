@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import PwaInstallPrompt from "@/components/PwaInstallPrompt";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import Script from "next/script";
+import LayoutAdBanner from "@/components/ads/LayoutAdBanner";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -170,18 +170,13 @@ export default function RootLayout({
       <body className={`${cairo.className} bg-zinc-950 text-zinc-50 min-h-full flex flex-col selection:bg-emerald-500 selection:text-zinc-950`}>
         <Providers>
           <Header />
+          <LayoutAdBanner />
           <main className="flex-1 pb-16 md:pb-0">
             {children}
           </main>
           <MobileBottomNav />
           <PwaInstallPrompt />
         </Providers>
-
-        {/* Adsterra Social Bar (High converting non-intrusive notification) */}
-        <Script
-          src="https://pl31338258.profitableratecpmnetwork.com/32/d6/3e/32d63e7c3cc8446018d588cf66a14b0d.js"
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   );

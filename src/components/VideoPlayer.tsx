@@ -19,9 +19,15 @@ interface VideoPlayerProps {
   signedUrl: string;
   slug: string;
   poster?: string;
+  startUnmuted?: boolean;
 }
 
-export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProps) {
+export default function VideoPlayer({
+  signedUrl,
+  slug,
+  poster,
+  startUnmuted = false,
+}: VideoPlayerProps) {
   const pathname = usePathname();
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -50,9 +56,9 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
     setIsBuffering(val);
   }, []);
   const [volume, setVolume] = useState(1);
-  // Start muted by default to guarantee instant autoplay across all mobile and desktop browsers
-  const [isMuted, setIsMuted] = useState(true);
-  const [showUnmuteHint, setShowUnmuteHint] = useState(true);
+  // Start unmuted if triggered directly by user click-to-play gesture
+  const [isMuted, setIsMuted] = useState(!startUnmuted);
+  const [showUnmuteHint, setShowUnmuteHint] = useState(!startUnmuted);
   const [showSettings, setShowSettings] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [controlsLocked, setControlsLocked] = useState(false);
@@ -236,16 +242,38 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
             }));
             setQualities(availableQualities.reverse());
 
-            // Autoplay muted for instant, unblocked stream start
+            // Start unmuted if initiated by user click gesture, or fallback to muted
             if (video) {
-              video.muted = true;
-              video.play()
-                .then(() => {
-                  setIsPlaying(true);
-                })
-                .catch((err) => {
-                  console.log("[VideoPlayer] Autoplay fallback:", err);
-                });
+              if (startUnmuted) {
+                video.muted = false;
+                video.volume = 1;
+                video.play()
+                  .then(() => {
+                    setIsPlaying(true);
+                    setIsMuted(false);
+                    setShowUnmuteHint(false);
+                  })
+                  .catch((err) => {
+                    console.log("[VideoPlayer] Unmuted play blocked by browser, fallback to muted:", err);
+                    video.muted = true;
+                    video.play()
+                      .then(() => {
+                        setIsPlaying(true);
+                        setIsMuted(true);
+                        setShowUnmuteHint(true);
+                      })
+                      .catch(() => {});
+                  });
+              } else {
+                video.muted = true;
+                video.play()
+                  .then(() => {
+                    setIsPlaying(true);
+                  })
+                  .catch((err) => {
+                    console.log("[VideoPlayer] Autoplay fallback:", err);
+                  });
+              }
             }
           },
         );
@@ -327,7 +355,8 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
       } else if (video?.canPlayType("application/vnd.apple.mpegurl")) {
         // iOS Safari native HLS branch
         video.src = currentUrlRef.current;
-        video.muted = false;
+        video.muted = !startUnmuted;
+        video.volume = 1;
         video.addEventListener("loadedmetadata", () => {
           setBuffering(false);
           // Provide a fake quality entry so the UI doesn't show empty menu
@@ -337,9 +366,19 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
           video.play()
             .then(() => {
               setIsPlaying(true);
+              if (startUnmuted) {
+                setIsMuted(false);
+                setShowUnmuteHint(false);
+              }
             })
             .catch((err) => {
-              console.log("[VideoPlayer] iOS Autoplay blocked:", err);
+              console.log("[VideoPlayer] iOS Autoplay blocked, falling back to muted:", err);
+              video.muted = true;
+              video.play().then(() => {
+                setIsPlaying(true);
+                setIsMuted(true);
+                setShowUnmuteHint(true);
+              }).catch(() => {});
             });
         });
       }
@@ -430,9 +469,7 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
 
   const togglePlay = () => {
     if (!videoRef.current) return;
-    if (watched30sRef.current) {
-      triggerSmartlink();
-    }
+    triggerSmartlink();
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
@@ -445,9 +482,7 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
 
   const toggleMute = () => {
     if (!videoRef.current) return;
-    if (watched30sRef.current) {
-      triggerSmartlink();
-    }
+    triggerSmartlink();
     if (isMuted) {
       videoRef.current.muted = false;
       videoRef.current.volume = volume || 1;
@@ -618,16 +653,18 @@ export default function VideoPlayer({ signedUrl, slug, poster }: VideoPlayerProp
         </div>
       )}
 
-      {/* Unmute banner — shown after muted autoplay */}
-      {showUnmuteHint && isMuted && (
+      {/* Unmute banner — shown whenever stream is muted */}
+      {isMuted && isPlaying && (
         <button
-          data-controls
-          onClick={(e) => { e.stopPropagation(); toggleMute(); }}
-          className="absolute top-3 right-3 z-30 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 backdrop-blur-sm px-3 py-1.5 text-xs text-white/80 hover:text-white hover:bg-black/80 transition-all"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleMute();
+          }}
+          className="absolute top-3 right-3 z-30 flex items-center gap-2 rounded-full border border-emerald-500/50 bg-zinc-950/85 hover:bg-emerald-500 text-emerald-300 hover:text-zinc-950 font-black px-3.5 py-1.5 text-xs shadow-xl shadow-emerald-500/20 backdrop-blur-md transition-all cursor-pointer"
           aria-label="Unmute"
         >
-          <VolumeX className="w-3.5 h-3.5" />
-          <span>اضغط لتشغيل الصوت</span>
+          <VolumeX className="w-4 h-4" />
+          <span>انقر لتشغيل الصوت 🔊</span>
         </button>
       )}
 

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { generateMatchSlug } from "@/lib/matchSlug";
 import { toLatinNumerals } from "@/components/providers";
+import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
 
 interface TeamDetailsClientProps {
   team: any;
@@ -1493,6 +1494,9 @@ export default function TeamDetailsClient({
             </div>
           </div>
         )}
+
+        {/* Contextual In-Page Responsive Banner */}
+        <ResponsiveAdBanner className="mt-8" />
       </div>
     </div>
   );
