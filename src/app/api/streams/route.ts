@@ -139,6 +139,12 @@ export async function POST(request: Request) {
       if (matchSlug) {
         urlsToNotify.push(`https://www.yallahsoot.com/match/${matchSlug}`);
       }
+      // Also notify team pages for both competitors
+      const homeId = homeObj?.id;
+      const awayId = awayObj?.id;
+      if (homeId) urlsToNotify.push(`https://www.yallahsoot.com/team/${homeId}`);
+      if (awayId) urlsToNotify.push(`https://www.yallahsoot.com/team/${awayId}`);
+
       notifyIndexNow(urlsToNotify).catch((e) => console.warn("[IndexNow] Background notify failed:", e));
     } catch {}
 

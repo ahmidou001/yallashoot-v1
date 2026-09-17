@@ -39,7 +39,11 @@ export async function generateMetadata({ params }: RouteParams): Promise<Metadat
     const gameAny = data.game as any;
     const { homeCompetitor, awayCompetitor, competitionDisplayName, competitionName } = gameAny;
     const compName = competitionDisplayName || competitionName || "مباراة اليوم";
-    const titleText = `بث مباشر مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} اليوم | يلا شوت Yalla Shoot`;
+    // Keep title ≤70 chars — use short team names and minimal suffix
+    const truncate = (s: string, max: number) => s.length > max ? s.slice(0, max - 1) + "…" : s;
+    const shortHome = truncate(homeCompetitor.name, 18);
+    const shortAway = truncate(awayCompetitor.name, 18);
+    const titleText = `${shortHome} ضد ${shortAway} بث مباشر | يلا شوت`;
     const descText = `شاهد بث مباشر مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} اليوم في ${compName} بجودة عالية وبدون تقطيع عبر يلا شوت (Yalla Shoot). تفاصيل التشكيلة، القنوات الناقلة، والنتيجة لحظة بلحظة على yallashoot.`;
 
     return {
@@ -118,6 +122,7 @@ export default async function MatchPage({ params }: RouteParams) {
   const gameAny = detailsData.game as any;
   const { homeCompetitor, awayCompetitor, startTime, venue, competitionDisplayName, competitionName } = gameAny;
   const compName = competitionDisplayName || competitionName || "مباراة كرة قدم";
+  const h1Text = `مباراة ${homeCompetitor.name} ضد ${awayCompetitor.name} - بث مباشر`;
   const venueName = venue?.name || "الملعب الرئيسي";
   const venueCity = venue?.city || "غير محدد";
 
@@ -201,6 +206,18 @@ export default async function MatchPage({ params }: RouteParams) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(matchJsonLd) }}
       />
+      {/* SEO H1 — visible match header rendered server-side for Bingbot */}
+      <div className="max-w-7xl mx-auto px-4 pt-5 pb-1" dir="rtl">
+        <h1 className="text-lg sm:text-xl font-black text-zinc-100 leading-snug">
+          <span className="text-emerald-400">{homeCompetitor.name}</span>
+          <span className="mx-2 text-zinc-500">ضد</span>
+          <span className="text-emerald-400">{awayCompetitor.name}</span>
+          <span className="ml-2 text-sm font-semibold text-zinc-400">— بث مباشر</span>
+        </h1>
+        <p className="text-xs text-zinc-500 mt-1 font-medium">
+          {compName} • {new Date(startTime || Date.now()).toLocaleDateString("ar-EG", { weekday: "long", day: "numeric", month: "long" })}
+        </p>
+      </div>
       <MatchDetailsClient
         initialDetails={detailsData}
         gameId={id}
