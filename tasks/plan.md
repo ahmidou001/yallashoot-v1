@@ -1,33 +1,23 @@
-# Implementation Plan: Option 1 (Click to Play with Sound) & SEO-Safe Layout Banners
+# Implementation Plan: Native In-Feed Ad Cards & Layout Ad Balancing
 
 ## Overview
-Implement Option 1 for live match streaming:
-- Show a Click-to-Play poster overlay when a match is live.
-- User clicks -> triggers `triggerSmartlink()` and starts the stream with AUDIO unmuted!
-- Completely remove `SocialBar` from `layout.tsx`.
-- Add `LayoutAdBanner.tsx` with zero CLS in `layout.tsx` so all pages have clean, uniform banners.
-- Add contextual responsive banners in `/live`, `/standings/[leagueId]`, and `/team/[id]`.
+Based on user analysis and screenshots:
+1. Remove redundant top banner on `/` (keeping the approved one below leagues).
+2. Create Native In-Feed Match Ad Card inside the matches grid on `/live`.
+3. Remove duplicate top banner on `/highlights` and insert a Native Highlight Ad Card inside the highlights grid.
+4. Remove duplicate top banner on `/news` and insert a Native Article Ad Card inside the articles grid.
+5. In `/team/[id]`, move the ad down into the empty space below "آخر النتائج" in the left sidebar.
 
 ## Architecture Decisions
-1. **Click to Play with Sound**:
-   - Live stream starts with an activation state `isActivatedLive = false`.
-   - Renders a Click-to-Play poster with team logos, match status badge ("مباشر الآن"), and glowing Play button: "▶ تشغيل البث المباشر (مع الصوت)".
-   - On user click:
-     - Calls `triggerSmartlink()`.
-     - Sets `isActivatedLive = true` and passes `autoPlayUnmuted = true` to `VideoPlayer`.
-     - `VideoPlayer` starts playback with `isMuted = false` and `volume = 1` since it was directly initiated by a user gesture.
-2. **Remove SocialBar**:
-   - Remove the third-party script from `src/app/layout.tsx`.
-3. **Zero-CLS Layout Banner**:
-   - `LayoutAdBanner.tsx` encapsulates the Adsterra 728x90 (desktop) and 320x50 (mobile) with reserved dimension skeleton wrappers.
-   - Places it in `src/app/layout.tsx` directly below `<Header />`.
-4. **Contextual Banners**:
-   - In `/live`, `/standings/[leagueId]`, and `/team/[id]`.
+- Remove `<LayoutAdBanner />` from `src/app/layout.tsx` to stop duplicate banners on `/`, `/highlights`, `/news`, and `/team`.
+- Keep top `<ResponsiveAdBanner />` in `/live` as requested with the green checkmark.
+- Create reusable `src/components/ads/NativeFeedAdCard.tsx` or inject native ad cards with exact styling of parent grid items.
+- In `src/components/TeamDetailsClient.tsx`, insert a 300x250 ad widget inside the sidebar (`lg:col-span-1 space-y-6`) right under `resultsList`.
 
 ## Task List
-- [ ] Task 1: Remove `SocialBar` script from `yallashoot.com/src/app/layout.tsx`
-- [ ] Task 2: Implement Click-to-Play with Sound in `StreamSection.tsx` & `VideoPlayer.tsx`
-- [ ] Task 3: Create `LayoutAdBanner.tsx` with Zero-CLS reservation
-- [ ] Task 4: Integrate `LayoutAdBanner` into `src/app/layout.tsx`
-- [ ] Task 5: Add responsive banners to `/live`, `/standings/[leagueId]`, and `/team/[id]`
-- [ ] Task 6: Run build verification (`npm run build`)
+- [ ] Task 1: Remove `<LayoutAdBanner />` from `src/app/layout.tsx`
+- [ ] Task 2: Update `/live` page with top banner and Native Match Ad Card in the grid
+- [ ] Task 3: Update `/highlights` (`HighlightsClient.tsx`) with Native Highlight Ad Card in the grid
+- [ ] Task 4: Update `/news` (`news/page.tsx`) with Native Article Ad Card in the grid
+- [ ] Task 5: Move ad in `/team/[id]` (`TeamDetailsClient.tsx`) into the empty space below "آخر النتائج"
+- [ ] Task 6: Verify build (`npm run build`)

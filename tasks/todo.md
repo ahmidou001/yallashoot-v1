@@ -1,15 +1,8 @@
-# Task List: Option 1 (Click to Play with Sound) & SEO Banners
+# Task List: Native In-Feed Ad Cards & Layout Ad Balancing
 
-## Phase 1: Clean Up Intrusive Ads
-- [x] Task 1: Remove `SocialBar` script from `yallashoot.com/src/app/layout.tsx`
-
-## Phase 2: Click to Play with Sound & Smartlink
-- [x] Task 2: Implement Click-to-Play with Sound in `StreamSection.tsx` & `VideoPlayer.tsx`
-
-## Phase 3: Zero-CLS Layout Banner & Missing Pages
-- [x] Task 3: Create `LayoutAdBanner.tsx` with Zero-CLS reservation
-- [x] Task 4: Integrate `LayoutAdBanner` into `src/app/layout.tsx`
-- [x] Task 5: Add responsive banners to `/live`, `/standings/[leagueId]`, and `/team/[id]`
-
-## Phase 4: Verification & Build
-- [x] Task 6: Run build verification (`npm run build`)
+- [ ] Task 1: Remove `<LayoutAdBanner />` from `src/app/layout.tsx`
+- [ ] Task 2: Update `/live` page with top banner and Native Match Ad Card in the grid
+- [ ] Task 3: Update `/highlights` (`HighlightsClient.tsx`) with Native Highlight Ad Card in the grid
+- [ ] Task 4: Update `/news` (`news/page.tsx`) with Native Article Ad Card in the grid
+- [ ] Task 5: Move ad in `/team/[id]` (`TeamDetailsClient.tsx`) into the empty space below "آخر النتائج"
+- [ ] Task 6: Verify build (`npm run build`)

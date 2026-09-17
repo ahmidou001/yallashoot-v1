@@ -8,6 +8,7 @@ import { toLatinNumerals } from "@/components/providers";
 import { triggerSmartlink } from "@/lib/smartlink";
 import ResponsiveAdBanner from "./ads/ResponsiveAdBanner";
 import AdsterraNative from "./ads/AdsterraNative";
+import AdsterraBanner from "./ads/AdsterraBanner";
 
 interface HighlightItem {
   _id: string;
@@ -178,65 +179,94 @@ export default function HighlightsClient() {
           </div>
         ) : filteredHighlights.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredHighlights.map((item) => (
-              <div
-                key={item._id}
-                onClick={() => handlePlayHighlight(item)}
-                className="group cursor-pointer bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between"
-              >
-                {/* Thumbnail */}
-                <div className="relative aspect-video bg-black overflow-hidden">
-                  {item.thumbnailUrl ? (
-                    <img
-                      src={item.thumbnailUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-zinc-950 text-zinc-600">
-                      <Film className="w-12 h-12" />
-                    </div>
-                  )}
+            {filteredHighlights.map((item, index) => {
+              const showNativeAdHere = filteredHighlights.length >= 2 ? index === 1 : index === filteredHighlights.length - 1;
 
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/90 text-zinc-950 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-                      <Play className="w-6 h-6 fill-current ml-0.5" />
+              return (
+                <React.Fragment key={item._id}>
+                  <div
+                    onClick={() => handlePlayHighlight(item)}
+                    className="group cursor-pointer bg-zinc-900 border border-zinc-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  >
+                    {/* Thumbnail */}
+                    <div className="relative aspect-video bg-black overflow-hidden">
+                      {item.thumbnailUrl ? (
+                        <img
+                          src={item.thumbnailUrl}
+                          alt={item.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = "none";
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-950 text-zinc-600">
+                          <Film className="w-12 h-12" />
+                        </div>
+                      )}
+
+                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-emerald-500/90 text-zinc-950 flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                          <Play className="w-6 h-6 fill-current ml-0.5" />
+                        </div>
+                      </div>
+
+                      {item.competition && (
+                        <span className="absolute top-3 right-3 bg-zinc-950/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30 text-[10px] font-black px-2.5 py-1 rounded-full">
+                          {item.competition}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Info */}
+                    <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                      <h3 className="font-extrabold text-xs sm:text-sm text-zinc-150 group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug">
+                        {item.title}
+                      </h3>
+
+                      <div className="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-850">
+                        <span dir="ltr" className="font-mono">
+                          {toLatinNumerals(new Date(item.createdAt).toLocaleDateString("ar-EG-u-nu-latn"))}
+                        </span>
+                        {item.gameId && (
+                          <Link
+                            href={`/match/${item.gameId}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-emerald-400 hover:underline font-bold"
+                          >
+                            تفاصيل المباراة ↗
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  {item.competition && (
-                    <span className="absolute top-3 right-3 bg-zinc-950/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30 text-[10px] font-black px-2.5 py-1 rounded-full">
-                      {item.competition}
-                    </span>
+                  {/* Native In-Feed Highlight Ad Card (Matches Image 3 circled element) */}
+                  {showNativeAdHere && (
+                    <div
+                      key="highlights-native-ad"
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between p-4 text-center min-h-[340px]"
+                    >
+                      <div className="flex items-center justify-between text-[11px] text-zinc-500 pb-2.5 mb-2 border-b border-zinc-850">
+                        <span className="font-extrabold text-emerald-400">إعلان ممول</span>
+                        <span className="text-[10px] font-semibold text-zinc-400 bg-zinc-850 px-2 py-0.5 rounded border border-zinc-800">
+                          فيديو مقترح
+                        </span>
+                      </div>
+
+                      <div className="my-auto py-2 flex items-center justify-center w-full min-h-[250px]">
+                        <AdsterraBanner size="300x250" label="إعلان ممول" />
+                      </div>
+
+                      <div className="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-850">
+                        <span className="text-zinc-400 font-bold">أهداف وملخصات حصرية</span>
+                        <span className="text-emerald-400 font-bold">HD</span>
+                      </div>
+                    </div>
                   )}
-                </div>
-
-                {/* Info */}
-                <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
-                  <h3 className="font-extrabold text-xs sm:text-sm text-zinc-150 group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug">
-                    {item.title}
-                  </h3>
-
-                  <div className="flex items-center justify-between text-[11px] text-zinc-500 pt-2 border-t border-zinc-850">
-                    <span dir="ltr" className="font-mono">
-                      {toLatinNumerals(new Date(item.createdAt).toLocaleDateString("ar-EG-u-nu-latn"))}
-                    </span>
-                    {item.gameId && (
-                      <Link
-                        href={`/match/${item.gameId}`}
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-emerald-400 hover:underline font-bold"
-                      >
-                        تفاصيل المباراة ↗
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+                </React.Fragment>
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16 bg-zinc-900/40 border border-zinc-800 rounded-3xl">

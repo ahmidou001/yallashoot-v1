@@ -12,6 +12,7 @@ import {
 import { generateMatchSlug } from "@/lib/matchSlug";
 import { toLatinNumerals } from "@/components/providers";
 import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
+import AdsterraBanner from "@/components/ads/AdsterraBanner";
 
 interface TeamDetailsClientProps {
   team: any;
@@ -738,6 +739,17 @@ export default function TeamDetailsClient({
                   </div>
                 </div>
               )}
+
+              {/* Sidebar Sponsor Ad Widget - Fills the empty space below 'آخر النتائج' (Image 5) */}
+              <div className="bg-[#131722]/90 border border-gray-800/60 rounded-2xl p-4 flex flex-col items-center justify-center shadow-xl shadow-black/20">
+                <div className="w-full flex items-center justify-between text-[11px] text-gray-400 pb-2.5 mb-2 border-b border-gray-800/60 font-semibold">
+                  <span className="text-emerald-400 font-bold">إعلان ممول</span>
+                  <span className="text-gray-500 text-[10px]">رعاة النادي</span>
+                </div>
+                <div className="w-full flex items-center justify-center min-h-[250px] py-1">
+                  <AdsterraBanner size="300x250" label="إعلان ممول" />
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -1494,9 +1506,6 @@ export default function TeamDetailsClient({
             </div>
           </div>
         )}
-
-        {/* Contextual In-Page Responsive Banner */}
-        <ResponsiveAdBanner className="mt-8" />
       </div>
     </div>
   );

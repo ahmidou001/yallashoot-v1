@@ -7,6 +7,7 @@ import LiveMatch from "@/models/LiveMatch";
 import { getGameDetails } from "@/services/api";
 import { generateMatchSlug } from "@/lib/matchSlug";
 import ResponsiveAdBanner from "@/components/ads/ResponsiveAdBanner";
+import AdsterraBanner from "@/components/ads/AdsterraBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -81,7 +82,10 @@ export default async function LiveMatchesPage() {
   ).length;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" dir="rtl">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" dir="rtl">
+      {/* Top Responsive Leaderboard Banner (Approved in Image 2) */}
+      <ResponsiveAdBanner className="mb-6" />
+
       {/* Back Button */}
       <Link 
         href="/"
@@ -140,7 +144,7 @@ export default async function LiveMatchesPage() {
       ) : (
         /* Live Streams List */
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {detailedMatches.map((m) => {
+          {detailedMatches.map((m, index) => {
             const hasGameData = !!m.game;
             const isLive = hasGameData ? m.game.statusGroup === 3 : m.status === "LIVE";
             const isFinished = hasGameData ? m.game.statusGroup === 4 : m.status === "ENDED";
@@ -204,111 +208,137 @@ export default async function LiveMatchesPage() {
             const awayObj = hasGameData ? m.game.awayCompetitor : { id: awayId, name: awayName };
             const slug = generateMatchSlug(homeObj, awayObj, String(m.id));
 
+            // Native ad slot: 4th card position (index 3) or after 2nd card if only 2 matches exist
+            const showNativeAdHere = detailedMatches.length >= 4 ? index === 3 : index === detailedMatches.length - 1;
+
             return (
-              <div 
-                key={m.id}
-                className="group p-4 sm:p-5 rounded-2xl bg-zinc-900 border border-zinc-850 hover:bg-zinc-850/20 hover:border-zinc-800 hover:shadow-xl hover:shadow-emerald-950/5 transition flex flex-col justify-between"
-              >
-                <div>
-                  {/* Top Bar: League on right, Channel on left */}
-                  <div className="flex justify-between items-center text-[11px] text-zinc-500 mb-4 border-b border-zinc-850/80 pb-2.5">
-                    <span className="font-extrabold text-zinc-400">{m.competitionName}</span>
-                    <div className="flex items-center gap-2">
-                      {channel && (
-                        <span className="text-[10px] font-semibold text-zinc-300 bg-zinc-850 px-2 py-0.5 rounded border border-zinc-800">
-                          {channel}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Center Score Grid (Matching site2 structure) */}
-                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4 py-2 select-none">
-                    {/* Right side: Home Team */}
-                    <div className="flex flex-col items-center text-center min-w-0">
-                      <div className="w-13 h-13 sm:w-16 sm:h-16 flex items-center justify-center p-2 bg-zinc-850/60 rounded-2xl border border-zinc-800 group-hover:scale-105 transition-transform duration-200">
-                        <img
-                          src={homeLogo}
-                          alt={homeName}
-                          width={56}
-                          height={56}
-                          className="object-contain w-full h-full max-h-12"
-                          loading="lazy"
-                        />
-                      </div>
-                      <span className="text-xs sm:text-sm font-bold text-zinc-200 mt-2 line-clamp-1 group-hover:text-emerald-400 transition-colors">
-                        {homeName}
-                      </span>
-                    </div>
-
-                    {/* Center Column: Kickoff Time, Red Pulse Badge + Minute, Score (Exact Site 2 Structure) */}
-                    <div className="flex flex-col items-center justify-center shrink-0 px-2 sm:px-4 min-w-[110px] text-center">
-                      {/* Kickoff Time */}
-                      <span className="text-xs sm:text-sm font-black text-zinc-300 font-mono tracking-tight">
-                        {displayTime}
-                      </span>
-
-                      {/* Status Badge */}
-                      <div className="mt-1.5">
-                        {isLive ? (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-black bg-red-600 text-white animate-pulse shadow-sm tracking-wide">
-                            <span className="w-2 h-2 rounded-full bg-white"></span>
-                            {liveStatusLabel}
-                          </span>
-                        ) : isFinished ? (
-                          <span className="inline-block px-3 py-1 rounded-md text-xs font-bold bg-zinc-800 text-zinc-300">
-                            انتهت
-                          </span>
-                        ) : (
-                          <span className="inline-block px-3 py-1 rounded-md text-[11px] sm:text-xs font-bold bg-zinc-800 text-zinc-200 shadow-xs">
-                            لم تبدأ بعد
+              <React.Fragment key={m.id}>
+                <div 
+                  className="group p-4 sm:p-5 rounded-2xl bg-zinc-900 border border-zinc-850 hover:bg-zinc-850/20 hover:border-zinc-800 hover:shadow-xl hover:shadow-emerald-950/5 transition flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Top Bar: League on right, Channel on left */}
+                    <div className="flex justify-between items-center text-[11px] text-zinc-500 mb-4 border-b border-zinc-850/80 pb-2.5">
+                      <span className="font-extrabold text-zinc-400">{m.competitionName}</span>
+                      <div className="flex items-center gap-2">
+                        {channel && (
+                          <span className="text-[10px] font-semibold text-zinc-300 bg-zinc-850 px-2 py-0.5 rounded border border-zinc-800">
+                            {channel}
                           </span>
                         )}
                       </div>
-
-                      {/* Scores (if live or finished) */}
-                      {(isLive || isFinished) && (
-                        <div className="mt-1.5 text-sm sm:text-base font-black text-white font-mono tracking-wider">
-                          {homeScore} - {awayScore}
-                        </div>
-                      )}
                     </div>
 
-                    {/* Left side: Away Team */}
-                    <div className="flex flex-col items-center text-center min-w-0">
-                      <div className="w-13 h-13 sm:w-16 sm:h-16 flex items-center justify-center p-2 bg-zinc-850/60 rounded-2xl border border-zinc-800 group-hover:scale-105 transition-transform duration-200">
-                        <img
-                          src={awayLogo}
-                          alt={awayName}
-                          width={56}
-                          height={56}
-                          className="object-contain w-full h-full max-h-12"
-                          loading="lazy"
-                        />
+                    {/* Center Score Grid (Matching site2 structure) */}
+                    <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4 py-2 select-none">
+                      {/* Right side: Home Team */}
+                      <div className="flex flex-col items-center text-center min-w-0">
+                        <div className="w-13 h-13 sm:w-16 sm:h-16 flex items-center justify-center p-2 bg-zinc-850/60 rounded-2xl border border-zinc-800 group-hover:scale-105 transition-transform duration-200">
+                          <img
+                            src={homeLogo}
+                            alt={homeName}
+                            width={56}
+                            height={56}
+                            className="object-contain w-full h-full max-h-12"
+                            loading="lazy"
+                          />
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold text-zinc-200 mt-2 line-clamp-1 group-hover:text-emerald-400 transition-colors">
+                          {homeName}
+                        </span>
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-zinc-200 mt-2 line-clamp-1 group-hover:text-emerald-400 transition-colors">
-                        {awayName}
-                      </span>
+
+                      {/* Center Info: Score or Time */}
+                      <div className="flex flex-col items-center justify-center px-2">
+                        {isLive ? (
+                          <div className="flex flex-col items-center">
+                            <span className="text-xs font-black text-emerald-400 live-minute-badge mb-1 px-2 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30">
+                              {liveStatusLabel}
+                            </span>
+                            <div className="flex items-center gap-2 text-xl sm:text-2xl font-black text-white font-mono bg-zinc-950/80 px-4 py-1.5 rounded-xl border border-zinc-800/80 shadow-inner">
+                              <span>{awayScore}</span>
+                              <span className="text-zinc-600">:</span>
+                              <span>{homeScore}</span>
+                            </div>
+                          </div>
+                        ) : isFinished ? (
+                          <div className="flex flex-col items-center">
+                            <span className="text-[10px] font-bold text-zinc-500 mb-1">انتهت</span>
+                            <div className="flex items-center gap-2 text-lg sm:text-xl font-black text-zinc-300 font-mono bg-zinc-850/40 px-3 py-1 rounded-xl border border-zinc-800">
+                              <span>{awayScore}</span>
+                              <span className="text-zinc-600">:</span>
+                              <span>{homeScore}</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <div className="text-xs sm:text-sm font-black text-emerald-400 font-mono bg-emerald-950/30 border border-emerald-500/20 px-3.5 py-1.5 rounded-xl">
+                              {displayTime}
+                            </div>
+                            <span className="text-[10px] font-semibold text-zinc-400 mt-1.5 bg-zinc-850/80 px-2 py-0.5 rounded-md border border-zinc-800">
+                              لم تبدأ بعد
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Left side: Away Team */}
+                      <div className="flex flex-col items-center text-center min-w-0">
+                        <div className="w-13 h-13 sm:w-16 sm:h-16 flex items-center justify-center p-2 bg-zinc-850/60 rounded-2xl border border-zinc-800 group-hover:scale-105 transition-transform duration-200">
+                          <img
+                            src={awayLogo}
+                            alt={awayName}
+                            width={56}
+                            height={56}
+                            className="object-contain w-full h-full max-h-12"
+                            loading="lazy"
+                          />
+                        </div>
+                        <span className="text-xs sm:text-sm font-bold text-zinc-200 mt-2 line-clamp-1 group-hover:text-emerald-400 transition-colors">
+                          {awayName}
+                        </span>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Watch Stream Button */}
+                  <Link
+                    href={`/match/${slug}`}
+                    className="mt-5 w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-450 text-zinc-950 font-black text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-emerald-500/5 group-hover:shadow-emerald-500/10"
+                  >
+                    <Play className="h-3.5 w-3.5 text-zinc-950 fill-zinc-950" />
+                    <span>مشاهدة البث المباشر</span>
+                  </Link>
                 </div>
 
-                {/* Watch Stream Button */}
-                <Link
-                  href={`/match/${slug}`}
-                  className="mt-5 w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-450 text-zinc-950 font-black text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow-md shadow-emerald-500/5 group-hover:shadow-emerald-500/10"
-                >
-                  <Play className="h-3.5 w-3.5 text-zinc-950 fill-zinc-950" />
-                  <span>مشاهدة البث المباشر</span>
-                </Link>
-              </div>
+                {/* Native In-Feed Match Ad Card (Matches Image 2 circled element) */}
+                {showNativeAdHere && (
+                  <div 
+                    key="live-native-match-ad"
+                    className="group p-4 sm:p-5 rounded-2xl bg-zinc-900 border border-zinc-850 hover:border-zinc-800 flex flex-col justify-between items-center text-center shadow-md min-h-[300px]"
+                  >
+                    <div className="w-full flex justify-between items-center text-[11px] text-zinc-500 mb-2 border-b border-zinc-850/80 pb-2.5">
+                      <span className="font-extrabold text-emerald-400">إعلان ممول</span>
+                      <span className="text-[10px] font-semibold text-zinc-400 bg-zinc-850 px-2 py-0.5 rounded border border-zinc-800">
+                        شركاء البث
+                      </span>
+                    </div>
+
+                    <div className="my-auto py-2 flex items-center justify-center w-full min-h-[250px]">
+                      <AdsterraBanner size="300x250" label="إعلان ممول" />
+                    </div>
+
+                    <div className="w-full pt-3 mt-1 border-t border-zinc-850/80 text-[11px] text-zinc-500 font-medium flex items-center justify-between">
+                      <span className="text-zinc-400 font-bold">يلا شوت لايف</span>
+                      <span className="text-emerald-500/80 text-[10px]">جودة فائقة HD</span>
+                    </div>
+                  </div>
+                )}
+              </React.Fragment>
             );
           })}
         </div>
       )}
-
-      {/* In-page contextual responsive ad banner */}
-      <ResponsiveAdBanner className="mt-8" />
     </div>
   );
 }
