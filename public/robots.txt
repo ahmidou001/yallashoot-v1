@@ -1,22 +1,30 @@
-User-agent: Bingbot
-Crawl-delay: 1
-
 User-agent: *
 Allow: /
-Allow: /news
 Allow: /news/
-Allow: /standings
 Allow: /standings/
-Allow: /team
 Allow: /team/
-Allow: /match
 Allow: /match/
+Allow: /live
+Allow: /highlights
 
 # Disallow DMCA bots & search crawlers from indexing live stream APIs & players
 Disallow: /api/streams/
 Disallow: /api/refresh-url/
 Disallow: /live/player/
 Disallow: /embed/
+
+# Bingbot - explicitly allowed with crawl delay
+User-agent: Bingbot
+Allow: /
+Allow: /news/
+Allow: /standings/
+Allow: /team/
+Allow: /match/
+Allow: /live
+Allow: /highlights
+Disallow: /api/streams/
+Disallow: /api/refresh-url/
+Crawl-delay: 1
 
 # Block known aggressive DMCA scanning bots
 User-agent: MarkMonitor
